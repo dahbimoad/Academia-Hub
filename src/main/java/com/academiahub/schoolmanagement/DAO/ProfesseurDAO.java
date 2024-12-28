@@ -51,25 +51,26 @@ public class ProfesseurDAO {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            Module module = new Module();
-            module.setId(rs.getInt("id"));
-            module.setNomModule(rs.getString("nom_module"));
-            module.setCodeModule(rs.getString("code_module"));
-            // Fetch and set the number of students
-            int moduleId = module.getId();
-            List<Etudiant> students = getModuleStudents(moduleId);
-            module.setNbEtudiants(students.size());
-            modules.add(module);
+            while (rs.next()) {
+                Module module = new Module();
+                module.setId(rs.getInt("id"));
+                module.setNomModule(rs.getString("nom_module"));
+                module.setCodeModule(rs.getString("code_module"));
+
+                // Get number of students for this module
+                List<Etudiant> students = getModuleStudents(module.getId());
+                module.setNbEtudiants(students.size());
+
+                modules.add(module);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
         return modules;
     }
     public List<Etudiant> getModuleStudents(int moduleId) {
         List<Etudiant> students = new ArrayList<>();
-        String query = "SELECT e.* FROM etudiants e " +
+        String query = "SELECT DISTINCT e.* FROM etudiants e " +
                       "JOIN inscriptions i ON e.id = i.etudiant_id " +
                       "WHERE i.module_id = ?";
 
@@ -92,4 +93,8 @@ public class ProfesseurDAO {
         }
         return students;
     }
+
+
+
+
 }

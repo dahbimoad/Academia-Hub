@@ -52,7 +52,7 @@ public class LoginController {
             if (user != null) {
                 try {
                     // Load the dashboard FXML
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/Dashboard.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/ProfDashboard.fxml"));
                     Parent dashboardRoot = loader.load();
 
                     // Get the controller

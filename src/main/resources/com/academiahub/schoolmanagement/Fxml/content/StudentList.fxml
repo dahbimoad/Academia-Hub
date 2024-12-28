@@ -13,6 +13,15 @@
 
     <Label text="Liste des Étudiants" styleClass="section-title"/>
 
+    <!-- Search and Filter Section -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Rechercher..." HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="moduleFilter" promptText="Filtrer par module"/>
+        <ComboBox fx:id="promotionFilter" promptText="Filtrer par promotion"/>
+        <Button fx:id="exportButton" text="Exporter CSV"/>
+    </HBox>
+
+    <!-- Students Table -->
     <TableView fx:id="studentsTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="matriculeCol" text="Matricule"/>

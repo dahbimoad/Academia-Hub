@@ -13,6 +13,16 @@
 
     <Label text="Mes Modules" styleClass="section-title"/>
 
+    <!-- Search and Sort Section -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Rechercher..." HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="sortComboBox" promptText="Trier par"/>
+    </HBox>
+
+    <!-- Statistics Section -->
+    <Label fx:id="totalStudentsLabel" styleClass="statistics-label"/>
+
+    <!-- Modules Table -->
     <TableView fx:id="modulesTable" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="codeModuleCol" text="Code Module"/>
