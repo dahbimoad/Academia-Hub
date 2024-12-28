@@ -3,6 +3,7 @@ module com.academiahub.schoolmanagement {
     requires javafx.fxml;
 
     requires org.kordamp.bootstrapfx.core;
+    requires java.sql;
 
     opens com.academiahub.schoolmanagement to javafx.fxml;
     exports com.academiahub.schoolmanagement;
