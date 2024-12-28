@@ -26,7 +26,12 @@ public class MyModulesController {
     public void initialize() {
         try {
             professeurDAO = new ProfesseurDAO(DatabaseConnection.getConnection());
-            setupTable();
+
+            // Initialize columns
+            codeModuleCol.setCellValueFactory(new PropertyValueFactory<>("codeModule"));
+            nomModuleCol.setCellValueFactory(new PropertyValueFactory<>("nomModule"));
+            etudiantsCol.setCellValueFactory(new PropertyValueFactory<>("nbEtudiants"));
+
         } catch (Exception e) {
             e.printStackTrace();
             showError("Erreur lors de l'initialisation");
@@ -42,13 +47,17 @@ public class MyModulesController {
 
     public void loadProfesseurData(Utilisateur user) {
         try {
-            // First get the professor details
-            Professeur prof = professeurDAO.getProfesseurByUserId(user.getId());
-            if (prof != null) {
-                // Then get their modules
-                var modules = professeurDAO.getProfesseurModules(prof.getId());
-                modulesTable.setItems(FXCollections.observableArrayList(modules));
-            }
+            // Get professor's modules using username
+            var modules = professeurDAO.getProfesseurModules(user.getUsername());
+
+            // For each module, get the number of students
+            modules.forEach(module -> {
+                var students = professeurDAO.getModuleStudents(module.getId());
+                // You might want to add a transient property to Module class for this
+                // Or create a ModuleDTO class that includes this information
+            });
+
+            modulesTable.setItems(FXCollections.observableArrayList(modules));
         } catch (Exception e) {
             e.printStackTrace();
             showError("Erreur lors du chargement des modules");

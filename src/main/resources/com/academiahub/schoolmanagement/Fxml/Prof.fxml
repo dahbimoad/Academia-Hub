@@ -18,7 +18,7 @@
         <columns>
             <TableColumn fx:id="codeModuleCol" text="Code Module"/>
             <TableColumn fx:id="nomModuleCol" text="Nom Module"/>
-            <TableColumn fx:id="nbEtudiantsCol" text="Nombre d'étudiants"/>
+            <TableColumn fx:id="etudiantsCol" text="Nombre d'étudiants"/>
         </columns>
     </TableView>
 
