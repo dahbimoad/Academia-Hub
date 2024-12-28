@@ -37,3 +37,7 @@ CREATE TABLE utilisateurs (
     password VARCHAR(100) NOT NULL,
     role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'SECRETAIRE', 'PROFESSEUR'))
 );
+
+
+
+SELECT setval('utilisateurs_id_seq', (SELECT MAX(id) FROM utilisateurs) + 1);
