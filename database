@@ -1,4 +1,10 @@
 -- Create Tables
+CREATE TABLE utilisateurs (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'SECRETAIRE', 'PROFESSEUR'))
+);
 CREATE TABLE etudiants (
     id SERIAL PRIMARY KEY,
     matricule VARCHAR(20) UNIQUE NOT NULL,
@@ -32,12 +38,6 @@ CREATE TABLE inscriptions (
     UNIQUE(etudiant_id, module_id)
 );
 
-CREATE TABLE utilisateurs (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'SECRETAIRE', 'PROFESSEUR'))
-);
 =========================================ADD DATA=============================================================
 
 -- Insert Users 
