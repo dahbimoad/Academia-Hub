@@ -10,11 +10,11 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/academiahub/schoolmanagement/Views/ProfesseurManagement.fxml")
+                getClass().getResource("/com/academiahub/schoolmanagement/views/UtilisateurView.fxml")
         );
         Scene scene = new Scene(loader.load());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Gestion des Professeurs");
+        primaryStage.setTitle("Gestion des Utilisateurs");
         primaryStage.show();
     }
 

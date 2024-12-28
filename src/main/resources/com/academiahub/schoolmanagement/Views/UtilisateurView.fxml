@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academiahub.schoolmanagement.Controllers.UtilisateurController"
+      spacing="10">
+
+    <!-- Espace autour du conteneur -->
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- Titre -->
+    <Label text="Gestion des Utilisateurs"
+           style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+    <!-- TableView pour afficher la liste des utilisateurs -->
+    <TableView fx:id="utilisateurTable" prefHeight="300">
+        <columns>
+            <TableColumn fx:id="colId"       text="ID"       prefWidth="50"/>
+            <TableColumn fx:id="colUsername" text="Username" prefWidth="120"/>
+            <TableColumn fx:id="colPassword" text="Password" prefWidth="120"/>
+            <TableColumn fx:id="colRole"     text="Role"     prefWidth="120"/>
+        </columns>
+    </TableView>
+
+    <!-- Formulaire d'ajout/modification -->
+    <HBox spacing="10">
+        <VBox spacing="5">
+            <Label text="Username :"/>
+            <TextField fx:id="usernameField" promptText="Username"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Password :"/>
+            <TextField fx:id="passwordField" promptText="Password"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Role :"/>
+            <TextField fx:id="roleField" promptText="Role"/>
+        </VBox>
+    </HBox>
+
+    <!-- Boutons d'actions -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Ajouter"    onAction="#ajouterUtilisateur"/>
+        <Button text="Modifier"   onAction="#modifierUtilisateur"/>
+        <Button text="Supprimer"  onAction="#supprimerUtilisateur"/>
+        <Button text="Actualiser" onAction="#actualiserTable"/>
+    </HBox>
+
+</VBox>
