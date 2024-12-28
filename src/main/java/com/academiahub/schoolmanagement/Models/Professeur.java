@@ -8,6 +8,7 @@ public class Professeur {
     private String nom;
     private String prenom;
     private String specialite;
+    private int userId;
     private Set<Module> modules;
 
     public Professeur() {
@@ -22,6 +23,8 @@ public class Professeur {
     }
 
     // Getters
+    public int getUserId() { return userId; }
+    public void setUserId(int userId) { this.userId = userId; }
     public int getId() { return id; }
     public String getNom() { return nom; }
     public String getPrenom() { return prenom; }

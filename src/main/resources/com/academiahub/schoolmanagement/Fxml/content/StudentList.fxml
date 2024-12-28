@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.academiahub.schoolmanagement.Controllers.StudentListController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Liste des Étudiants" styleClass="section-title"/>
+
+    <TableView fx:id="studentsTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="matriculeCol" text="Matricule"/>
+            <TableColumn fx:id="nomCol" text="Nom"/>
+            <TableColumn fx:id="prenomCol" text="Prénom"/>
+            <TableColumn fx:id="emailCol" text="Email"/>
+            <TableColumn fx:id="promotionCol" text="Promotion"/>
+        </columns>
+    </TableView>
+</VBox>

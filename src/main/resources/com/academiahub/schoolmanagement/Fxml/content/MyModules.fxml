@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.academiahub.schoolmanagement.Controllers.MyModulesController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Mes Modules" styleClass="section-title"/>
+
+    <TableView fx:id="modulesTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="codeModuleCol" text="Code Module"/>
+            <TableColumn fx:id="nomModuleCol" text="Nom Module"/>
+            <TableColumn fx:id="etudiantsCol" text="Nombre d'étudiants"/>
+        </columns>
+    </TableView>
+</VBox>
