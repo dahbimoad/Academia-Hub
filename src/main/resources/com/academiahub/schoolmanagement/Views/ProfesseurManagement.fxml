@@ -23,6 +23,7 @@
             <TableColumn text="Nom" fx:id="colNom" prefWidth="120"/>
             <TableColumn text="Prénom" fx:id="colPrenom" prefWidth="120"/>
             <TableColumn text="Spécialité" fx:id="colSpecialite" prefWidth="150"/>
+            <TableColumn text="User ID" fx:id="colUserId" prefWidth="80"/> <!-- Nouvelle colonne pour userId -->
         </columns>
     </TableView>
 
@@ -39,6 +40,10 @@
         <VBox spacing="5">
             <Label text="Spécialité :"/>
             <TextField fx:id="specialiteField" promptText="Spécialité"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="User ID :"/>
+            <TextField fx:id="userIdField" promptText="User ID"/> <!-- Nouveau champ pour userId -->
         </VBox>
     </HBox>
 

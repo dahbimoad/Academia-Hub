@@ -1,6 +1,5 @@
 package com.academiahub.schoolmanagement.DAO;
 
-
 import com.academiahub.schoolmanagement.Models.Professeur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
 
@@ -8,16 +7,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ProfesseurDAO {
 
     public void create(Professeur professeur) {
-        String sql = "INSERT INTO professeurs(nom, prenom, specialite) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO professeurs(nom, prenom, specialite, user_id) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, professeur.getNom());
             pstmt.setString(2, professeur.getPrenom());
             pstmt.setString(3, professeur.getSpecialite());
+            pstmt.setInt(4, professeur.getUserId()); // Ajout de userId
             pstmt.executeUpdate();
             System.out.println("Professeur créé avec succès !");
         } catch (SQLException e) {
@@ -37,7 +36,8 @@ public class ProfesseurDAO {
                             rs.getInt("id"),
                             rs.getString("nom"),
                             rs.getString("prenom"),
-                            rs.getString("specialite")
+                            rs.getString("specialite"),
+                            rs.getInt("user_id") // Lecture de userId
                     );
                 }
             }
@@ -48,13 +48,14 @@ public class ProfesseurDAO {
     }
 
     public void update(Professeur professeur) {
-        String sql = "UPDATE professeurs SET nom=?, prenom=?, specialite=? WHERE id=?";
+        String sql = "UPDATE professeurs SET nom=?, prenom=?, specialite=?, user_id=? WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, professeur.getNom());
             pstmt.setString(2, professeur.getPrenom());
             pstmt.setString(3, professeur.getSpecialite());
-            pstmt.setInt(4, professeur.getId());
+            pstmt.setInt(4, professeur.getUserId()); // Mise à jour de userId
+            pstmt.setInt(5, professeur.getId());
             pstmt.executeUpdate();
             System.out.println("Professeur mis à jour avec succès !");
         } catch (SQLException e) {
@@ -85,7 +86,8 @@ public class ProfesseurDAO {
                         rs.getInt("id"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
-                        rs.getString("specialite")
+                        rs.getString("specialite"),
+                        rs.getInt("user_id") // Lecture de userId
                 );
                 liste.add(prof);
             }

@@ -5,14 +5,16 @@ public class Professeur {
     private String nom;
     private String prenom;
     private String specialite;
+    private int userId; // Nouveau champ ajouté
 
     public Professeur() {}
 
-    public Professeur(int id, String nom, String prenom, String specialite) {
+    public Professeur(int id, String nom, String prenom, String specialite, int userId) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.specialite = specialite;
+        this.userId = userId; // Initialisation du nouveau champ
     }
 
     // Getters et setters
@@ -44,9 +46,16 @@ public class Professeur {
         this.specialite = specialite;
     }
 
+    public int getUserId() {
+        return userId; // Getter pour userId
+    }
+    public void setUserId(int userId) {
+        this.userId = userId; // Setter pour userId
+    }
+
     @Override
     public String toString() {
         return "Professeur [id=" + id + ", nom=" + nom + ", prenom=" + prenom
-                + ", specialite=" + specialite + "]";
+                + ", specialite=" + specialite + ", userId=" + userId + "]"; // Ajout de userId dans toString
     }
 }
