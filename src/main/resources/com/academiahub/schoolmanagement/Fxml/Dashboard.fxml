@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="15" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.academiahub.schoolmanagement.Controllers.DashboardController"
+      styleClass="login-pane">
+    <padding>
+        <Insets bottom="30" left="30" right="30" top="30"/>
+    </padding>
+
+    <ImageView fitHeight="100" fitWidth="200">
+        <image>
+            <Image url="@../images/ensa_tanger.png"/>
+        </image>
+    </ImageView>
+
+    <Label fx:id="welcomeLabel" styleClass="title-label"/>
+    <Label fx:id="roleLabel" styleClass="role-label"/>
+</VBox>

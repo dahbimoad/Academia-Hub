@@ -1,3 +1,4 @@
+//src/main/java/com/academiahub/schoolmanagement/Models/Utilisateur.java
 package com.academiahub.schoolmanagement.Models;
 
 public class Utilisateur {

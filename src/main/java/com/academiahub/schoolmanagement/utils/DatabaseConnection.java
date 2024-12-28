@@ -1,3 +1,4 @@
+//src/main/java/com/academiahub/schoolmanagement/utils/DatabaseConnection.java
 package com.academiahub.schoolmanagement.utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,22 +9,7 @@ public class DatabaseConnection {
     private static final String USER = "postgres";  // Replace with your PostgreSQL username
     private static final String PASSWORD = "mouad1233";  // Replace with your PostgreSQL password
 
-    private static Connection connection;
-
-    static {
-        try {
-            // Explicitly load the PostgreSQL JDBC driver
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.err.println("PostgreSQL Driver not found.");
-            e.printStackTrace();
-        }
-    }
-
     public static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        }
-        return connection;
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }

@@ -1,0 +1,63 @@
+/* src/main/resources/com/academiahub/schoolmanagement/Styles/login.css */
+
+/* Style général de la fenêtre */
+.login-pane {
+    -fx-background-color: #f5f5f5;
+    -fx-border-radius: 10;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 0);
+}
+
+/* Titre de l'écran */
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
+
+/* Champs de saisie */
+.input-field {
+    -fx-pref-width: 300px;
+    -fx-font-size: 14px;
+    -fx-padding: 10;
+    -fx-border-radius: 5;
+    -fx-border-color: #dcdcdc;
+    -fx-background-radius: 5;
+}
+
+/* Lorsque le champ est focus */
+.input-field:focused {
+    -fx-border-color: #1abc9c;
+}
+
+/* Bouton de connexion */
+.login-button {
+    -fx-background-color: #1abc9c;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-pref-width: 150px;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: #16a085;
+}
+
+/* Message d'erreur */
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-size: 12px;
+}
+
+.role-label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #34495e;
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e;
+}
