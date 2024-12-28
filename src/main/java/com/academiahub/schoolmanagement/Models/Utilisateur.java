@@ -6,7 +6,7 @@ public class Utilisateur {
     private String password;
     private String role;
 
-    public Utilisateur() {}
+    public Utilisateur(int id, String username, String password, String role) {}
 
     public Utilisateur(String username, String password, String role) {
         this.username = username;
@@ -24,6 +24,11 @@ public class Utilisateur {
     public void setId(int id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
+    public String toString() {
+        return "Utilisateur [id=" + id + ", username=" + username
+                + ", password=" + password + ", role=" + role + "]";
+    }
+
     public void setRole(String role) {
         if (role != null && (role.equals("ADMIN") || role.equals("SECRETAIRE") || role.equals("PROFESSEUR"))) {
             this.role = role;
