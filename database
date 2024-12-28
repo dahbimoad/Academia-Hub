@@ -112,3 +112,10 @@ INSERT INTO inscriptions (etudiant_id, module_id, date_inscription) VALUES
 (13, 7, '2023-09-15'), (13, 8, '2023-09-15'), (13, 9, '2023-09-15'),
 (14, 7, '2023-09-15'), (14, 8, '2023-09-15'), (14, 9, '2023-09-15'),
 (15, 7, '2023-09-15'), (15, 8, '2023-09-15'), (15, 9, '2023-09-15');
+=========================================DROPTABLES=============================================================
+
+DROP TABLE IF EXISTS inscriptions;
+DROP TABLE IF EXISTS modules;
+DROP TABLE IF EXISTS professeurs;
+DROP TABLE IF EXISTS etudiants;
+DROP TABLE IF EXISTS utilisateurs;
