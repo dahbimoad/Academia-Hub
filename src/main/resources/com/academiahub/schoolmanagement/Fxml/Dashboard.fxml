@@ -1,25 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" spacing="15" xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.academiahub.schoolmanagement.Controllers.DashboardController"
-      styleClass="login-pane">
-    <padding>
-        <Insets bottom="30" left="30" right="30" top="30"/>
-    </padding>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.academiahub.schoolmanagement.Controllers.DashboardController"
+            styleClass="dashboard-pane">
 
-    <ImageView fitHeight="100" fitWidth="200">
-        <image>
-            <Image url="@../images/ensa_tanger.png"/>
-        </image>
-    </ImageView>
+    <!-- Top Header -->
+    <top>
+        <HBox alignment="CENTER" spacing="20" styleClass="header-pane">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
 
-    <Label fx:id="welcomeLabel" styleClass="title-label"/>
-    <Label fx:id="roleLabel" styleClass="role-label"/>
-</VBox>
+            <ImageView fitHeight="60" fitWidth="120">
+                <image>
+                    <Image url="@../images/ensa_tanger.png"/>
+                </image>
+            </ImageView>
+
+            <VBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                <Label fx:id="welcomeLabel" styleClass="title-label"/>
+                <Label fx:id="roleLabel" styleClass="role-label"/>
+            </VBox>
+
+            <Button text="Déconnexion" onAction="#handleLogout" styleClass="logout-button"/>
+        </HBox>
+    </top>
+
+    <!-- Left Sidebar Menu -->
+    <left>
+        <VBox styleClass="sidebar" spacing="10">
+            <padding>
+                <Insets top="20" right="10" bottom="20" left="10"/>
+            </padding>
+
+            <!-- Admin Menu Items -->
+            <VBox fx:id="adminMenu" spacing="5" managed="false" visible="false">
+                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button"/>
+                <Button text="Gestion des Professeurs" onAction="#handleTeacherManagement" styleClass="menu-button"/>
+                <Button text="Gestion des Modules" onAction="#handleModuleManagement" styleClass="menu-button"/>
+                <Button text="Gestion des Utilisateurs" onAction="#handleUserManagement" styleClass="menu-button"/>
+                <Button text="Tableau de Bord" onAction="#handleDashboardStats" styleClass="menu-button"/>
+            </VBox>
+
+            <!-- Secretary Menu Items -->
+            <VBox fx:id="secretaryMenu" spacing="5" managed="false" visible="false">
+                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button"/>
+                <Button text="Gestion des Inscriptions" onAction="#handleEnrollmentManagement" styleClass="menu-button"/>
+                <Button text="Liste des Modules" onAction="#handleModuleList" styleClass="menu-button"/>
+            </VBox>
+
+            <!-- Professor Menu Items -->
+            <VBox fx:id="professorMenu" spacing="5" managed="false" visible="false">
+                <Button text="Mes Modules" onAction="#handleMyModules" styleClass="menu-button"/>
+                <Button text="Liste des Étudiants" onAction="#handleStudentList" styleClass="menu-button"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Main Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" styleClass="content-area">
+            <!-- Default welcome message -->
+            <VBox alignment="CENTER" spacing="20">
+                <Label text="Bienvenue dans le Système de Gestion de l'École" styleClass="welcome-title"/>
+                <Label text="Sélectionnez une option dans le menu" styleClass="welcome-subtitle"/>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>
