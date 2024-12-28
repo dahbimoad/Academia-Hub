@@ -1,6 +1,6 @@
 package com.academiahub.schoolmanagement.Models;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +27,8 @@ public class Etudiant {
         this.email = email;
         this.promotion = promotion;
     }
+
+
 
     // Getters
     public int getId() { return id; }

@@ -1,6 +1,7 @@
 package com.academiahub.schoolmanagement.Controllers;
 
 import com.academiahub.schoolmanagement.Models.Utilisateur;
+import com.academiahub.schoolmanagement.DAO.EtudiantDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.sql.Connection;
 
 public class DashboardController {
     @FXML private Label welcomeLabel;
@@ -18,6 +20,7 @@ public class DashboardController {
     @FXML private VBox secretaryMenu;
     @FXML private VBox professorMenu;
     @FXML private StackPane contentArea;
+    private Connection dbConnection;
 
     private String currentUsername;
     private String currentRole;
@@ -64,8 +67,21 @@ public class DashboardController {
     }
 
     // Admin functions
-    @FXML private void handleStudentManagement() {
-        loadContent("StudentManagement");
+    @FXML
+    private void handleStudentManagement() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentManagement.fxml"));
+            Parent content = loader.load();
+
+            // Inject DAO into the EtudiantController
+            EtudiantController controller = loader.getController();
+            controller.setDAO();
+
+            contentArea.getChildren().setAll(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Erreur lors du chargement de la gestion des étudiants.");
+        }
     }
 
     @FXML private void handleTeacherManagement() {
