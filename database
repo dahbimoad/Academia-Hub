@@ -1,41 +1,19 @@
--- Create Tables
-CREATE TABLE etudiants (
+-- 1. Créer la table utilisateurs
+CREATE TABLE utilisateurs (
     id SERIAL PRIMARY KEY,
-    matricule VARCHAR(20) UNIQUE NOT NULL,
-    nom VARCHAR(50) NOT NULL,
-    prenom VARCHAR(50) NOT NULL,
-    date_naissance DATE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    promotion VARCHAR(20) NOT NULL
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'PROFESSEUR', 'SECRETAIRE'))
 );
 
+-- 2. Créer la table professeurs
 CREATE TABLE professeurs (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
-    specialite VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE modules (
-    id SERIAL PRIMARY KEY,
-    nom_module VARCHAR(100) NOT NULL,
-    code_module VARCHAR(20) UNIQUE NOT NULL,
-    professeur_id INTEGER REFERENCES professeurs(id)
-);
-
-CREATE TABLE inscriptions (
-    id SERIAL PRIMARY KEY,
-    etudiant_id INTEGER REFERENCES etudiants(id),
-    module_id INTEGER REFERENCES modules(id),
-    date_inscription DATE NOT NULL DEFAULT CURRENT_DATE,
-    UNIQUE(etudiant_id, module_id)
-);
-
-CREATE TABLE utilisateurs (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'SECRETAIRE', 'PROFESSEUR'))
+    specialite VARCHAR(100) NOT NULL,
+    user_id INT UNIQUE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
 );
 
 

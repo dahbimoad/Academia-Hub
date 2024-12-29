@@ -12,12 +12,19 @@ public class ProfesseurDAO {
     public void create(Professeur professeur) {
         String sql = "INSERT INTO professeurs(nom, prenom, specialite, user_id) VALUES (?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, professeur.getNom());
             pstmt.setString(2, professeur.getPrenom());
             pstmt.setString(3, professeur.getSpecialite());
             pstmt.setInt(4, professeur.getUserId()); // Ajout de userId
             pstmt.executeUpdate();
+
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    professeur.setId(generatedKeys.getInt(1));
+                }
+            }
+
             System.out.println("Professeur créé avec succès !");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,7 +44,30 @@ public class ProfesseurDAO {
                             rs.getString("nom"),
                             rs.getString("prenom"),
                             rs.getString("specialite"),
-                            rs.getInt("user_id") // Lecture de userId
+                            rs.getInt("user_id")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return prof;
+    }
+
+    public Professeur readByUserId(int userId) {
+        String sql = "SELECT * FROM professeurs WHERE user_id = ?";
+        Professeur prof = null;
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    prof = new Professeur(
+                            rs.getInt("id"),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
+                            rs.getString("specialite"),
+                            rs.getInt("user_id")
                     );
                 }
             }
@@ -54,7 +84,7 @@ public class ProfesseurDAO {
             pstmt.setString(1, professeur.getNom());
             pstmt.setString(2, professeur.getPrenom());
             pstmt.setString(3, professeur.getSpecialite());
-            pstmt.setInt(4, professeur.getUserId()); // Mise à jour de userId
+            pstmt.setInt(4, professeur.getUserId());
             pstmt.setInt(5, professeur.getId());
             pstmt.executeUpdate();
             System.out.println("Professeur mis à jour avec succès !");
@@ -87,7 +117,7 @@ public class ProfesseurDAO {
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("specialite"),
-                        rs.getInt("user_id") // Lecture de userId
+                        rs.getInt("user_id")
                 );
                 liste.add(prof);
             }

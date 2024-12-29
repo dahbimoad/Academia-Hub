@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -7,7 +9,7 @@
       fx:controller="com.academiahub.schoolmanagement.Controllers.UtilisateurController"
       spacing="10">
 
-    <!-- Espace autour du conteneur -->
+    <!-- Padding autour du conteneur -->
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
@@ -27,22 +29,50 @@
     </TableView>
 
     <!-- Formulaire d'ajout/modification -->
-    <HBox spacing="10">
-        <VBox spacing="5">
-            <Label text="Username :"/>
-            <TextField fx:id="usernameField" promptText="Username"/>
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Password :"/>
-            <TextField fx:id="passwordField" promptText="Password"/>
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Role :"/>
-            <TextField fx:id="roleField" promptText="Role"/>
-        </VBox>
-    </HBox>
+    <VBox spacing="10">
+        <HBox spacing="10">
+            <VBox spacing="5">
+                <Label text="Username :"/>
+                <TextField fx:id="usernameField" promptText="Username"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Password :"/>
+                <PasswordField fx:id="passwordField" promptText="Password"/>
+            </VBox>
+            <VBox spacing="5">
+                <Label text="Role :"/>
+                <ComboBox fx:id="roleComboBox" promptText="Select Role">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="ADMIN"/>
+                            <String fx:value="PROFESSEUR"/>
+                            <String fx:value="SECRETAIRE"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </VBox>
+        </HBox>
 
-    <!-- Boutons d'actions -->
+        <!-- Champs supplémentaires pour le rôle Professeur -->
+        <VBox spacing="10" fx:id="professeurBox" visible="false" managed="false">
+            <HBox spacing="10">
+                <VBox spacing="5">
+                    <Label text="Nom :"/>
+                    <TextField fx:id="nomField" promptText="Nom"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Prénom :"/>
+                    <TextField fx:id="prenomField" promptText="Prénom"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Spécialité :"/>
+                    <TextField fx:id="specialiteField" promptText="Spécialité"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </VBox>
+
+    <!-- Boutons d'action -->
     <HBox spacing="10" alignment="CENTER">
         <Button text="Ajouter"    onAction="#ajouterUtilisateur"/>
         <Button text="Modifier"   onAction="#modifierUtilisateur"/>

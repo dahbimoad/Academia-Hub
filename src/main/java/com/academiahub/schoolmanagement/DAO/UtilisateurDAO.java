@@ -1,13 +1,12 @@
 package com.academiahub.schoolmanagement.DAO;
 
-
-
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class UtilisateurDAO {
 
     public void create(Utilisateur utilisateur) {
@@ -30,8 +29,6 @@ public class UtilisateurDAO {
             e.printStackTrace();
         }
     }
-
-
 
     public Utilisateur read(int id) {
         String sql = "SELECT * FROM utilisateurs WHERE id = ?";
