@@ -41,4 +41,8 @@ public class Module {
     public void setCodeModule(String codeModule) { this.codeModule = codeModule; }
     public void setProfesseur(Professeur professeur) { this.professeur = professeur; }
     public void setInscriptions(Set<Inscription> inscriptions) { this.inscriptions = inscriptions; }
+
+    public String getTitle() {
+        return nomModule;
+    }
 }

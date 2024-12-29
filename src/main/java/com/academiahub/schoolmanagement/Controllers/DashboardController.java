@@ -101,9 +101,31 @@ public class DashboardController {
     }
 
     // Secretary functions
-    @FXML private void handleEnrollmentManagement() {
-        loadContent("EnrollmentManagement");
+    @FXML
+    private void handleEnrollmentManagement() {
+        try {
+            // Load the EnrollmentManagement.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/EnrollmentManagement.fxml"));
+            Parent content = loader.load();
+
+            // Get the controller for EnrollmentManagement.fxml
+            InscriptionController controller = loader.getController();
+
+            // Initialize the controller
+            controller.initialize();
+
+            // Clear existing content and display the new content in the content area
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(content);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Une erreur est survenue lors du chargement de la gestion des inscriptions : " + e.getMessage());
+        }
     }
+
+
 
     @FXML private void handleModuleList() {
         loadContent("ModuleList");

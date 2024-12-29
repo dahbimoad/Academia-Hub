@@ -49,4 +49,8 @@ public class Etudiant {
     public void setEmail(String email) { this.email = email; }
     public void setPromotion(String promotion) { this.promotion = promotion; }
     public void setInscriptions(Set<Inscription> inscriptions) { this.inscriptions = inscriptions; }
+
+    public String getName() {
+        return nom;
+    }
 }
