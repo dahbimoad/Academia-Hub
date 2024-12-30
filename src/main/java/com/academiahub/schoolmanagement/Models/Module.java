@@ -45,4 +45,11 @@ public class Module {
     public String getTitle() {
         return nomModule;
     }
+
+
+    @Override
+    public String toString() {
+        return nomModule; // For Module
+    }
+
 }

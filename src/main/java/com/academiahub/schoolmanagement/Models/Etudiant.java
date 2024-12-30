@@ -53,4 +53,8 @@ public class Etudiant {
     public String getName() {
         return nom;
     }
+    @Override
+    public String toString() {
+        return nom + " " + prenom; // For Etudiant
+    }
 }

@@ -64,7 +64,10 @@ public class InscriptionDAO {
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, inscriptionId);
             return stmt.executeUpdate() > 0;
+        }catch (SQLException e) {
+            System.out.println("Error deleting inscription: " + e.getMessage());
         }
+        return false;
     }
 
    /* private Inscription mapRowToInscription(ResultSet rs) throws SQLException {

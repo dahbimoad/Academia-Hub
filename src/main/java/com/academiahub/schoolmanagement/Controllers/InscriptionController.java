@@ -1,7 +1,13 @@
 package com.academiahub.schoolmanagement.Controllers;
 
+import com.academiahub.schoolmanagement.DAO.EtudiantDAO;
 import com.academiahub.schoolmanagement.DAO.InscriptionDAO;
+import com.academiahub.schoolmanagement.DAO.ModuleDOA;
+import com.academiahub.schoolmanagement.Models.Etudiant;
 import com.academiahub.schoolmanagement.Models.Inscription;
+import com.academiahub.schoolmanagement.Models.Module;
+
+
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -12,12 +18,23 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class InscriptionController {
+    @FXML
+    private ComboBox<Etudiant> studentComboBox;
+
+    @FXML
+    private ComboBox<Module> moduleComboBox;
+
+
+
 
     @FXML
     private TableView<Inscription> inscriptionTable;
@@ -75,12 +92,56 @@ public class InscriptionController {
         colDate.setCellValueFactory(new PropertyValueFactory<>("dateInscription"));
 
         loadInscriptionData();
+        loadStudents();
+        loadModules();
+    }
+
+    private void loadStudents() throws SQLException {
+        EtudiantDAO etudiantDAO = new EtudiantDAO(DatabaseConnection.getConnection());
+        List<Etudiant> students = etudiantDAO.getAllStudents(); // Fetch from DAO
+        studentComboBox.setItems(FXCollections.observableArrayList(students));
+    }
+
+    private void loadModules() throws SQLException {
+        ModuleDOA moduleDAO = new ModuleDOA(DatabaseConnection.getConnection());
+        List<Module> modules = moduleDAO.getAllModules(); // Fetch from DAO
+        moduleComboBox.setItems(FXCollections.observableArrayList(modules));
     }
 
     private void loadInscriptionData() throws SQLException {
         ObservableList<Inscription> data = FXCollections.observableArrayList(inscriptionDAO.getAllInscriptions());
         System.out.println("Loaded inscriptions: " + data.size());
         inscriptionTable.setItems(data);
+    }
+
+    @FXML
+    private void addInscription() throws SQLException {
+        Etudiant selectedStudent = studentComboBox.getValue();
+        Module selectedModule = moduleComboBox.getValue();
+        LocalDate selectedDate = datePicker.getValue();
+
+        if (selectedStudent != null && selectedModule != null && selectedDate != null) {
+            Inscription newInscription = new Inscription();
+            newInscription.setEtudiantId(selectedStudent.getId());
+            newInscription.setModuleId(selectedModule.getId());
+            newInscription.setDateInscription(Date.valueOf(selectedDate));
+
+            inscriptionDAO.addInscription(newInscription); // Save to database
+            loadInscriptionData(); // Refresh table
+            showAlert("Inscription ajouté", "L'inscription a été ajouté avec succès.", Alert.AlertType.INFORMATION);
+        } else {
+            // Show error message if any field is missing
+            showAlert("Erreur", "Erreur lors de l'ajout de l'inscription " , Alert.AlertType.ERROR);
+            System.out.println("All fields are required.");
+        }
+    }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null); // No header text
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 
@@ -90,7 +151,7 @@ public class InscriptionController {
             // Parse user input
             int etudiantId = Integer.parseInt(etudiantIdField.getText()); // Get student ID from input field
             int moduleId = Integer.parseInt(moduleIdField.getText()); // Get module ID from input field
-            Date date = java.sql.Date.valueOf(datePicker.getValue()); // Convert DatePicker value to Date
+            Date date = Date.valueOf(datePicker.getValue()); // Convert DatePicker value to Date
 
             // Create and populate an Inscription object
             Inscription inscription = new Inscription();
@@ -116,12 +177,14 @@ public class InscriptionController {
     @FXML
     private void handleDeleteInscription(ActionEvent event) {
         Inscription selectedInscription = inscriptionTable.getSelectionModel().getSelectedItem();
+        int tt=selectedInscription.getId();
         if (selectedInscription != null) {
             try {
                 if (inscriptionDAO.deleteInscription(selectedInscription.getId())) {
                     showInfo("Inscription deleted successfully.");
                     loadInscriptionData();
                 } else {
+                    System.out.println(tt);
                     showError("Failed to delete inscription.");
                 }
             } catch (SQLException e) {

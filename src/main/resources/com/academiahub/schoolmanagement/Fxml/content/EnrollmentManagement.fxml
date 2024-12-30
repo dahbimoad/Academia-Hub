@@ -32,20 +32,7 @@
     </TableView>
 
     <!-- Add/Edit/Delete Form -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <VBox spacing="5">
-            <Label text="ID Étudiant:" />
-            <TextField fx:id="etudiantIdField" promptText="ID de l'étudiant" />
-        </VBox>
-        <VBox spacing="5">
-            <Label text="ID Module:" />
-            <TextField fx:id="moduleIdField" promptText="ID du module" />
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Date d'inscription:" />
-            <DatePicker fx:id="datePicker" />
-        </VBox>
-    </HBox>
+
     <ComboBox fx:id="studentComboBox" promptText="Select a student" />
     <ComboBox fx:id="moduleComboBox" promptText="Select a module" />
     <DatePicker fx:id="datePicker" promptText="Select a date" />
