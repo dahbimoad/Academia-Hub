@@ -1,4 +1,23 @@
--- Create Tables
+-- 1. Créer la table utilisateurs
+CREATE TABLE utilisateurs (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'PROFESSEUR', 'SECRETAIRE'))
+);
+
+-- 2. Créer la table professeurs
+CREATE TABLE professeurs (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    specialite VARCHAR(100) NOT NULL,
+    user_id INT UNIQUE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
+);
+
+
+
 CREATE TABLE etudiants (
     id SERIAL PRIMARY KEY,
     matricule VARCHAR(20) UNIQUE NOT NULL,
@@ -8,15 +27,6 @@ CREATE TABLE etudiants (
     email VARCHAR(100) UNIQUE NOT NULL,
     promotion VARCHAR(20) NOT NULL
 );
-
-CREATE TABLE professeurs (
-    id SERIAL PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL,
-    prenom VARCHAR(50) NOT NULL,
-    specialite VARCHAR(100) NOT NULL,
-    user_id INTEGER UNIQUE REFERENCES utilisateurs(id)
-);
-
 CREATE TABLE modules (
     id SERIAL PRIMARY KEY,
     nom_module VARCHAR(100) NOT NULL,
@@ -32,9 +42,84 @@ CREATE TABLE inscriptions (
     UNIQUE(etudiant_id, module_id)
 );
 
-CREATE TABLE utilisateurs (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'SECRETAIRE', 'PROFESSEUR'))
-);
+SELECT setval('utilisateurs_id_seq', (SELECT MAX(id) FROM utilisateurs) + 1);   //for probleme de id
+
+-- Insert Users
+INSERT INTO utilisateurs (id, username, password, role) VALUES
+(1, 'admin', 'admin123', 'ADMIN'),
+(2, 'secretaire', 'sec123', 'SECRETAIRE'),
+(3, 'loukili', 'prof123', 'PROFESSEUR'),
+(4, 'sadiq', 'prof123', 'PROFESSEUR'),
+(5, 'cherkaoui', 'prof123', 'PROFESSEUR'),
+(6, 'ouahbi', 'prof123', 'PROFESSEUR'),
+(7, 'elaasri', 'prof123', 'PROFESSEUR');
+-- Insert Professors with their specialties
+INSERT INTO professeurs (nom, prenom, specialite, user_id) VALUES
+('LOUKILI', 'Bouchra', 'Base de données et Big Data', 3),
+('SADIQ', 'Mohammed', 'Génie Logiciel', 4),
+('CHERKAOUI', 'Mohammed', 'Intelligence Artificielle', 5),
+('OUAHBI', 'Imane', 'Réseaux et Sécurité', 6),
+('ELAASRI', 'Amine', 'Web et Technologies Mobiles', 7);
+
+-- Insert Modules taught at ENSA Tanger
+INSERT INTO modules (nom_module, code_module, professeur_id) VALUES
+('Base de données avancées', 'BDA', 1),
+('Génie Logiciel', 'GL', 2),
+('Intelligence Artificielle', 'IA', 3),
+('Réseaux Informatiques', 'RI', 4),
+('Développement Web Avancé', 'DWA', 5),
+('Big Data Analytics', 'BIG', 1),
+('Architecture Logicielle', 'ARCH', 2),
+('Machine Learning', 'ML', 3),
+('Sécurité des Systèmes', 'SEC', 4),
+('Développement Mobile', 'MOB', 5);
+
+-- Insert Students (Using realistic Moroccan names and ENSA matricule format)
+INSERT INTO etudiants (matricule, nom, prenom, date_naissance, email, promotion) VALUES
+('19ET001', 'ALAMI', 'Youssef', '2001-05-15', 'y.alami@etu.uae.ac.ma', '2022/2023'),
+('19ET002', 'BENJELLOUN', 'Sara', '2001-08-22', 's.benjelloun@etu.uae.ac.ma', '2022/2023'),
+('19ET003', 'TAZI', 'Mohammed', '2001-03-10', 'm.tazi@etu.uae.ac.ma', '2022/2023'),
+('19ET004', 'IDRISSI', 'Fatima', '2001-11-30', 'f.idrissi@etu.uae.ac.ma', '2022/2023'),
+('19ET005', 'BOUKHARI', 'Ahmed', '2001-07-25', 'a.boukhari@etu.uae.ac.ma', '2022/2023'),
+
+('20ET001', 'CHRAIBI', 'Amine', '2002-04-12', 'a.chraibi@etu.uae.ac.ma', '2023/2024'),
+('20ET002', 'BENNANI', 'Leila', '2002-09-18', 'l.bennani@etu.uae.ac.ma', '2023/2024'),
+('20ET003', 'ZIDANE', 'Karim', '2002-01-20', 'k.zidane@etu.uae.ac.ma', '2023/2024'),
+('20ET004', 'LAHLOU', 'Nada', '2002-06-05', 'n.lahlou@etu.uae.ac.ma', '2023/2024'),
+('20ET005', 'FASSI', 'Omar', '2002-12-15', 'o.fassi@etu.uae.ac.ma', '2023/2024'),
+
+('21ET001', 'MANSOURI', 'Hamza', '2003-02-28', 'h.mansouri@etu.uae.ac.ma', '2024/2025'),
+('21ET002', 'KETTANI', 'Rim', '2003-07-14', 'r.kettani@etu.uae.ac.ma', '2024/2025'),
+('21ET003', 'SEBTI', 'Mehdi', '2003-10-08', 'm.sebti@etu.uae.ac.ma', '2024/2025'),
+('21ET004', 'TEMSAMANI', 'Ghita', '2003-04-25', 'g.temsamani@etu.uae.ac.ma', '2024/2025'),
+('21ET005', 'BERRADA', 'Ilyas', '2003-08-30', 'i.berrada@etu.uae.ac.ma', '2024/2025');
+
+-- Insert Module Inscriptions
+INSERT INTO inscriptions (etudiant_id, module_id, date_inscription) VALUES
+-- 2022/2023 Students (taking DB, SE, and AI courses)
+(1, 1, '2023-09-15'), (1, 2, '2023-09-15'), (1, 3, '2023-09-15'),
+(2, 1, '2023-09-15'), (2, 2, '2023-09-15'), (2, 3, '2023-09-15'),
+(3, 1, '2023-09-15'), (3, 2, '2023-09-15'), (3, 3, '2023-09-15'),
+(4, 1, '2023-09-15'), (4, 2, '2023-09-15'), (4, 3, '2023-09-15'),
+(5, 1, '2023-09-15'), (5, 2, '2023-09-15'), (5, 3, '2023-09-15'),
+
+-- 2023/2024 Students (taking Networks, Web Dev, and Big Data courses)
+(6, 4, '2023-09-15'), (6, 5, '2023-09-15'), (6, 6, '2023-09-15'),
+(7, 4, '2023-09-15'), (7, 5, '2023-09-15'), (7, 6, '2023-09-15'),
+(8, 4, '2023-09-15'), (8, 5, '2023-09-15'), (8, 6, '2023-09-15'),
+(9, 4, '2023-09-15'), (9, 5, '2023-09-15'), (9, 6, '2023-09-15'),
+(10, 4, '2023-09-15'), (10, 5, '2023-09-15'), (10, 6, '2023-09-15'),
+
+-- 2024/2025 Students (taking Software Architecture, ML, and Security courses)
+(11, 7, '2023-09-15'), (11, 8, '2023-09-15'), (11, 9, '2023-09-15'),
+(12, 7, '2023-09-15'), (12, 8, '2023-09-15'), (12, 9, '2023-09-15'),
+(13, 7, '2023-09-15'), (13, 8, '2023-09-15'), (13, 9, '2023-09-15'),
+(14, 7, '2023-09-15'), (14, 8, '2023-09-15'), (14, 9, '2023-09-15'),
+(15, 7, '2023-09-15'), (15, 8, '2023-09-15'), (15, 9, '2023-09-15');
+=========================================DROPTABLES=============================================================
+
+DROP TABLE IF EXISTS inscriptions;
+DROP TABLE IF EXISTS modules;
+DROP TABLE IF EXISTS professeurs;
+DROP TABLE IF EXISTS etudiants;
+DROP TABLE IF EXISTS utilisateurs;
