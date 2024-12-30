@@ -1,10 +1,23 @@
--- Create Tables
+-- 1. Créer la table utilisateurs
 CREATE TABLE utilisateurs (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'SECRETAIRE', 'PROFESSEUR'))
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'PROFESSEUR', 'SECRETAIRE'))
 );
+
+-- 2. Créer la table professeurs
+CREATE TABLE professeurs (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL,
+    prenom VARCHAR(50) NOT NULL,
+    specialite VARCHAR(100) NOT NULL,
+    user_id INT UNIQUE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES utilisateurs(id) ON DELETE CASCADE
+);
+
+
+
 CREATE TABLE etudiants (
     id SERIAL PRIMARY KEY,
     matricule VARCHAR(20) UNIQUE NOT NULL,
@@ -14,15 +27,6 @@ CREATE TABLE etudiants (
     email VARCHAR(100) UNIQUE NOT NULL,
     promotion VARCHAR(20) NOT NULL
 );
-
-CREATE TABLE professeurs (
-    id SERIAL PRIMARY KEY,
-    nom VARCHAR(50) NOT NULL,
-    prenom VARCHAR(50) NOT NULL,
-    specialite VARCHAR(100) NOT NULL,
-    user_id INTEGER UNIQUE REFERENCES utilisateurs(id)
-);
-
 CREATE TABLE modules (
     id SERIAL PRIMARY KEY,
     nom_module VARCHAR(100) NOT NULL,
@@ -38,9 +42,9 @@ CREATE TABLE inscriptions (
     UNIQUE(etudiant_id, module_id)
 );
 
-=========================================ADD DATA=============================================================
+SELECT setval('utilisateurs_id_seq', (SELECT MAX(id) FROM utilisateurs) + 1);   //for probleme de id
 
--- Insert Users 
+-- Insert Users
 INSERT INTO utilisateurs (id, username, password, role) VALUES
 (1, 'admin', 'admin123', 'ADMIN'),
 (2, 'secretaire', 'sec123', 'SECRETAIRE'),

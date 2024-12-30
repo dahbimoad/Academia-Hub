@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.ComboBox?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.InscriptionController">
+
+    <!-- Title Section -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Rechercher par étudiant ou module" />
+       <!-- <Button text="Rechercher" onAction="#handleSearch" />-->
+    </HBox>
+
+    <!-- Enrollment Table -->
+    <TableView fx:id="inscriptionTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idEtudiant" text="ID Étudiant" prefWidth="150" />
+            <TableColumn fx:id="idModule" text="ID Module" prefWidth="150" />
+            <TableColumn fx:id="colNom" text="Nom" prefWidth="150" />
+            <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="150" />
+            <TableColumn fx:id="colModule" text="Module" prefWidth="200" />
+            <TableColumn fx:id="colDate" text="Date d'inscription" prefWidth="150" />
+        </columns>
+    </TableView>
+
+    <!-- Add/Edit/Delete Form -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <VBox spacing="5">
+            <Label text="ID Étudiant:" />
+            <TextField fx:id="etudiantIdField" promptText="ID de l'étudiant" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="ID Module:" />
+            <TextField fx:id="moduleIdField" promptText="ID du module" />
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Date d'inscription:" />
+            <DatePicker fx:id="datePicker" />
+        </VBox>
+    </HBox>
+    <ComboBox fx:id="studentComboBox" promptText="Select a student" />
+    <ComboBox fx:id="moduleComboBox" promptText="Select a module" />
+    <DatePicker fx:id="datePicker" promptText="Select a date" />
+    <Button text="Ajouter" onAction="#addInscription" />
+    <!-- Action Buttons -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <!-- <Button text="Ajouter" onAction="#handleAddInscription" />-->
+        <Button text="Supprimer" onAction="#handleDeleteInscription" />
+    </HBox>
+
+</VBox>
