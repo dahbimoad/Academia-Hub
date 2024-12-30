@@ -9,6 +9,7 @@ public class Module {
     private String codeModule;
     private Professeur professeur;
     private Set<Inscription> inscriptions;
+    private transient int nbEtudiants;
 
     public Module() {
         this.inscriptions = new HashSet<>();
@@ -22,6 +23,9 @@ public class Module {
     }
 
     // Getters
+    public int getNbEtudiants() {
+        return nbEtudiants;
+    }
     public int getId() { return id; }
     public String getNomModule() { return nomModule; }
     public String getCodeModule() { return codeModule; }
@@ -29,6 +33,9 @@ public class Module {
     public Set<Inscription> getInscriptions() { return inscriptions; }
 
     // Setters
+    public void setNbEtudiants(int nbEtudiants) {
+        this.nbEtudiants = nbEtudiants;
+    }
     public void setId(int id) { this.id = id; }
     public void setNomModule(String nomModule) { this.nomModule = nomModule; }
     public void setCodeModule(String codeModule) { this.codeModule = codeModule; }
