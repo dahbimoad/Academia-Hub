@@ -1,6 +1,7 @@
 package com.academiahub.schoolmanagement.Controllers;
 
 import com.academiahub.schoolmanagement.Models.Utilisateur;
+import com.academiahub.schoolmanagement.DAO.EtudiantDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.sql.Connection;
 
 public class DashboardController {
     @FXML private Label welcomeLabel;
@@ -18,6 +20,7 @@ public class DashboardController {
     @FXML private VBox secretaryMenu;
     @FXML private VBox professorMenu;
     @FXML private StackPane contentArea;
+    private Connection dbConnection;
 
     private String currentUsername;
     private String currentRole;
@@ -64,20 +67,72 @@ public class DashboardController {
     }
 
     // Admin functions
-    @FXML private void handleStudentManagement() {
-        loadContent("StudentManagement");
+    @FXML
+    private void handleStudentManagement() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentManagement.fxml"));
+            Parent content = loader.load();
+
+            // Inject DAO into the EtudiantController
+            EtudiantController controller = loader.getController();
+            controller.setDAO();
+
+            contentArea.getChildren().setAll(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Erreur lors du chargement de la gestion des étudiants.");
+        }
     }
 
     @FXML private void handleTeacherManagement() {
-        loadContent("TeacherManagement");
+        try {
+            // Load the EnrollmentManagement.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/ProfesseurView.fxml"));
+            Parent content = loader.load();
+
+            // Get the controller for EnrollmentManagement.fxml
+            ProfesseurController controller = loader.getController();
+
+            // Initialize the controller
+            controller.initialize();
+
+            // Clear existing content and display the new content in the content area
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(content);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Une erreur est survenue lors du chargement de la gestion des inscriptions : " + e.getMessage());
+        }
     }
 
     @FXML private void handleModuleManagement() {
         loadContent("ModuleManagement");
     }
 
+
     @FXML private void handleUserManagement() {
-        loadContent("UserManagement");
+        try {
+            // Load the EnrollmentManagement.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/UtilisateurView.fxml"));
+            Parent content = loader.load();
+
+            // Get the controller for EnrollmentManagement.fxml
+            UtilisateurController controller = loader.getController();
+
+            // Initialize the controller
+            controller.initialize();
+
+            // Clear existing content and display the new content in the content area
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(content);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Une erreur est survenue lors du chargement de la gestion des inscriptions : " + e.getMessage());
+        }
     }
 
     @FXML private void handleDashboardStats() {
@@ -85,9 +140,31 @@ public class DashboardController {
     }
 
     // Secretary functions
-    @FXML private void handleEnrollmentManagement() {
-        loadContent("EnrollmentManagement");
+    @FXML
+    private void handleEnrollmentManagement() {
+        try {
+            // Load the EnrollmentManagement.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/EnrollmentManagement.fxml"));
+            Parent content = loader.load();
+
+            // Get the controller for EnrollmentManagement.fxml
+            InscriptionController controller = loader.getController();
+
+            // Initialize the controller
+            controller.initialize();
+
+            // Clear existing content and display the new content in the content area
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(content);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Une erreur est survenue lors du chargement de la gestion des inscriptions : " + e.getMessage());
+        }
     }
+
+
 
     @FXML private void handleModuleList() {
         loadContent("ModuleList");
@@ -96,51 +173,51 @@ public class DashboardController {
     // Professor functions
     @FXML
     private void handleMyModules() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/MyModules.fxml"));
-        Parent content = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/MyModules.fxml"));
+            Parent content = loader.load();
 
-        MyModulesController controller = loader.getController();
-        // Create a Utilisateur object with the current user's information
-        Utilisateur currentUser = new Utilisateur();
-        currentUser.setUsername(currentUsername);
-        currentUser.setRole(currentRole);
-        controller.loadProfesseurData(currentUser);
+            MyModulesController controller = loader.getController();
+            // Create a Utilisateur object with the current user's information
+            Utilisateur currentUser = new Utilisateur();
+            currentUser.setUsername(currentUsername);
+            currentUser.setRole(currentRole);
+            controller.loadProfesseurData(currentUser);
 
-        contentArea.getChildren().setAll(content);
-    } catch (Exception e) {
-        e.printStackTrace();
-        showError("Erreur lors du chargement des modules");
-    }
+            contentArea.getChildren().setAll(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Erreur lors du chargement des modules");
+        }
     }
 
     @FXML
     private void handleStudentList() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentList.fxml"));
-        Parent content = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentList.fxml"));
+            Parent content = loader.load();
 
-        StudentListController controller = loader.getController();
-        controller.loadStudentData(currentUsername);
+            StudentListController controller = loader.getController();
+            controller.loadStudentData(currentUsername);
 
-        contentArea.getChildren().setAll(content);
-    } catch (Exception e) {
-        e.printStackTrace();
-        showError("Erreur lors du chargement de la liste des étudiants");
-    }
+            contentArea.getChildren().setAll(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Erreur lors du chargement de la liste des étudiants");
+        }
     }
     private void showError(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Erreur");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void loadContent(String contentName) {
         try {
             Parent content = FXMLLoader.load(getClass().getResource(
-                "/com/academiahub/schoolmanagement/Fxml/content/" + contentName + ".fxml"));
+                    "/com/academiahub/schoolmanagement/Fxml/content/" + contentName + ".fxml"));
             contentArea.getChildren().setAll(content);
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,4 +228,5 @@ public class DashboardController {
             contentArea.getChildren().setAll(errorContent);
         }
     }
+
 }

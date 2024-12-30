@@ -64,7 +64,7 @@ public class StudentListController {
         promotionFilter.setOnAction(e -> filterStudents());
     }
 
-     private void filterStudents() {
+    private void filterStudents() {
         String searchText = searchField.getText().toLowerCase();
         String selectedModule = moduleFilter.getValue();
         String selectedPromotion = promotionFilter.getValue();
@@ -75,31 +75,31 @@ public class StudentListController {
         filteredList.setPredicate(student -> {
             // Search text filter
             boolean matchesSearch = searchText == null || searchText.isEmpty() ||
-                student.getNom().toLowerCase().contains(searchText) ||
-                student.getPrenom().toLowerCase().contains(searchText) ||
-                student.getEmail().toLowerCase().contains(searchText);
+                    student.getNom().toLowerCase().contains(searchText) ||
+                    student.getPrenom().toLowerCase().contains(searchText) ||
+                    student.getEmail().toLowerCase().contains(searchText);
 
             // Module filter
             boolean matchesModule = selectedModule == null ||
-                selectedModule.equals("Tous les modules");
+                    selectedModule.equals("Tous les modules");
 
             if (!matchesModule) {
                 // Find the selected module
                 Optional<Module> selectedModuleObj = professorModules.stream()
-                    .filter(m -> m.getNomModule().equals(selectedModule))
-                    .findFirst();
+                        .filter(m -> m.getNomModule().equals(selectedModule))
+                        .findFirst();
 
                 if (selectedModuleObj.isPresent()) {
                     List<Etudiant> moduleStudents = professeurDAO.getModuleStudents(selectedModuleObj.get().getId());
                     matchesModule = moduleStudents.stream()
-                        .anyMatch(e -> e.getId() == student.getId());
+                            .anyMatch(e -> e.getId() == student.getId());
                 }
             }
 
             // Promotion filter
             boolean matchesPromotion = selectedPromotion == null ||
-                selectedPromotion.equals("Toutes les promotions") ||
-                student.getPromotion().equals(selectedPromotion);
+                    selectedPromotion.equals("Toutes les promotions") ||
+                    student.getPromotion().equals(selectedPromotion);
 
             return matchesSearch && matchesModule && matchesPromotion;
         });
@@ -152,8 +152,8 @@ public class StudentListController {
     private void updateFilterOptions(List<Etudiant> students) {
         // Add unique promotions to the promotion filter
         Set<String> promotions = students.stream()
-            .map(Etudiant::getPromotion)
-            .collect(Collectors.toSet());
+                .map(Etudiant::getPromotion)
+                .collect(Collectors.toSet());
 
         promotionFilter.getItems().clear();
         promotionFilter.getItems().add("Toutes les promotions");
@@ -166,7 +166,7 @@ public class StudentListController {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Sauvegarder la liste des étudiants");
             fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+                    new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
 
             File file = fileChooser.showSaveDialog(studentsTable.getScene().getWindow());
             if (file != null) {
@@ -174,11 +174,11 @@ public class StudentListController {
                     writer.println("Matricule,Nom,Prénom,Email,Promotion");
                     for (Etudiant student : studentsTable.getItems()) {
                         writer.println(String.format("%s,%s,%s,%s,%s",
-                            student.getMatricule(),
-                            student.getNom(),
-                            student.getPrenom(),
-                            student.getEmail(),
-                            student.getPromotion()));
+                                student.getMatricule(),
+                                student.getNom(),
+                                student.getPrenom(),
+                                student.getEmail(),
+                                student.getPromotion()));
                     }
                 }
             }
@@ -198,8 +198,8 @@ public class StudentListController {
     private void updateFilterOptions(List<Etudiant> students, List<Module> professorModules) {
         // Update promotion filter
         Set<String> promotions = students.stream()
-            .map(Etudiant::getPromotion)
-            .collect(Collectors.toSet());
+                .map(Etudiant::getPromotion)
+                .collect(Collectors.toSet());
 
         promotionFilter.getItems().clear();
         promotionFilter.getItems().add("Toutes les promotions");
@@ -211,7 +211,7 @@ public class StudentListController {
         moduleFilter.getItems().add("Tous les modules");
         // Add each module's name to the filter
         professorModules.forEach(module ->
-            moduleFilter.getItems().add(module.getNomModule())
+                moduleFilter.getItems().add(module.getNomModule())
         );
         moduleFilter.setValue("Tous les modules");
     }
@@ -227,8 +227,8 @@ public class StudentListController {
 
         // Update promotion filter
         Set<String> promotions = originalItems.stream()
-            .map(Etudiant::getPromotion)
-            .collect(Collectors.toSet());
+                .map(Etudiant::getPromotion)
+                .collect(Collectors.toSet());
 
         promotionFilter.getItems().clear();
         promotionFilter.getItems().add("Toutes les promotions");

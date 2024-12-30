@@ -24,7 +24,7 @@ public class Module {
 
     // Getters
     public int getNbEtudiants() {
-    return nbEtudiants;
+        return nbEtudiants;
     }
     public int getId() { return id; }
     public String getNomModule() { return nomModule; }
@@ -34,7 +34,7 @@ public class Module {
 
     // Setters
     public void setNbEtudiants(int nbEtudiants) {
-    this.nbEtudiants = nbEtudiants;
+        this.nbEtudiants = nbEtudiants;
     }
     public void setId(int id) { this.id = id; }
     public void setNomModule(String nomModule) { this.nomModule = nomModule; }

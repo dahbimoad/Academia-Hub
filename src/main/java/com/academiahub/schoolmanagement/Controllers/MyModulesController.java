@@ -39,7 +39,7 @@ public class MyModulesController {
 
             // Initialize search functionality
             searchField.textProperty().addListener((observable, oldValue, newValue) ->
-                filterModules(newValue)
+                    filterModules(newValue)
             );
 
             // Initialize sorting
@@ -61,8 +61,8 @@ public class MyModulesController {
 
         FilteredList<Module> filteredList = new FilteredList<>(originalItems);
         filteredList.setPredicate(module ->
-            module.getCodeModule().toLowerCase().contains(searchText.toLowerCase()) ||
-            module.getNomModule().toLowerCase().contains(searchText.toLowerCase())
+                module.getCodeModule().toLowerCase().contains(searchText.toLowerCase()) ||
+                        module.getNomModule().toLowerCase().contains(searchText.toLowerCase())
         );
 
         modulesTable.setItems(filteredList);
@@ -70,7 +70,7 @@ public class MyModulesController {
     }
 
     private void sortModules(String criterion) {
-            ObservableList<Module> items = FXCollections.observableArrayList(modulesTable.getItems());
+        ObservableList<Module> items = FXCollections.observableArrayList(modulesTable.getItems());
 
         switch (criterion) {
             case "Code Module":
@@ -88,8 +88,8 @@ public class MyModulesController {
 
     private void updateStatistics() {
         int totalStudents = modulesTable.getItems().stream()
-            .mapToInt(Module::getNbEtudiants)
-            .sum();
+                .mapToInt(Module::getNbEtudiants)
+                .sum();
         totalStudentsLabel.setText("Total d'étudiants: " + totalStudents);
     }
 

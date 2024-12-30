@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.EtudiantController" spacing="10" alignment="CENTER" prefWidth="800" prefHeight="600">
+    <Label text="Gestion des Étudiants" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+    <TableView fx:id="etudiantTable" prefWidth="760">
+        <columns>
+            <TableColumn fx:id="matriculeColumn" text="Matricule" prefWidth="150"/>
+            <TableColumn fx:id="nomColumn" text="Nom" prefWidth="150"/>
+            <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="150"/>
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="200"/>
+            <TableColumn fx:id="promotionColumn" text="Promotion" prefWidth="110"/>
+        </columns>
+    </TableView>
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Ajouter" onAction="#handleAddStudent"/>
+        <Button text="Modifier" onAction="#handleEditStudent"/>
+        <Button text="Supprimer" onAction="#handleDeleteStudent"/>
+        <Button text="Actualiser" onAction="#handleRefresh"/>
+    </HBox>
+</VBox>
