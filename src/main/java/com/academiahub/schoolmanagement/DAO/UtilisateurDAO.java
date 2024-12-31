@@ -1,9 +1,9 @@
 package com.academiahub.schoolmanagement.DAO;
 
 import com.academiahub.schoolmanagement.Models.Etudiant;
-import com.academiahub.schoolmanagement.Models.Professeur;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
+import com.academiahub.schoolmanagement.utils.PasswordGenerator;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -44,25 +44,27 @@ public class UtilisateurDAO {
         }
         return null;
     }
-    public void create(Utilisateur utilisateur) {
+    public boolean create(Utilisateur utilisateur) {
         String sql = "INSERT INTO utilisateurs(username, password, role) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, utilisateur.getUsername());
             pstmt.setString(2, utilisateur.getPassword());
             pstmt.setString(3, utilisateur.getRole());
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
 
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    utilisateur.setId(generatedKeys.getInt(1));
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        utilisateur.setId(generatedKeys.getInt(1));
+                        return true;
+                    }
                 }
             }
-
-            System.out.println("Utilisateur créé avec succès !");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     // ======================================
     // 3. LECTURE D'UN PROFESSEUR PAR USER_ID
@@ -89,7 +91,7 @@ public class UtilisateurDAO {
         return user;
     }
 
-    public void update(Utilisateur utilisateur) {
+    public boolean update(Utilisateur utilisateur) {
         String sql = "UPDATE utilisateurs SET username=?, password=?, role=? WHERE id=?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -102,9 +104,10 @@ public class UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    public void delete(int id) {
+    public boolean delete(int id) {
         String sql = "DELETE FROM utilisateurs WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -114,6 +117,7 @@ public class UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public List<Utilisateur> findAll() {
