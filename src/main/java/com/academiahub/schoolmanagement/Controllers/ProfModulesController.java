@@ -43,11 +43,11 @@ public class ProfModulesController {
 
             // Add listener for module selection
             modulesTable.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldSelection, newSelection) -> {
-                    if (newSelection != null) {
-                        loadStudentsForModule(newSelection.getId());
+                    (obs, oldSelection, newSelection) -> {
+                        if (newSelection != null) {
+                            loadStudentsForModule(newSelection.getId());
+                        }
                     }
-                }
             );
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +55,7 @@ public class ProfModulesController {
         }
     }
 
-     public void loadProfesseurData(String username) {
+    public void loadProfesseurData(String username) {
         this.currentUsername = username;
         loadModules();
     }
