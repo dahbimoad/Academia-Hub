@@ -1,6 +1,4 @@
-/* src/main/resources/com/academiahub/schoolmanagement/Styles/login.css */
-
-/* Style général de la fenêtre */
+/* General window style */
 .login-pane {
     -fx-background-color: #f5f5f5;
     -fx-border-radius: 10;
@@ -8,14 +6,14 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 0);
 }
 
-/* Titre de l'écran */
+/* Screen title */
 .title-label {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
     -fx-text-fill: #34495e;
 }
 
-/* Champs de saisie */
+/* Input fields */
 .input-field {
     -fx-pref-width: 300px;
     -fx-font-size: 14px;
@@ -25,12 +23,12 @@
     -fx-background-radius: 5;
 }
 
-/* Lorsque le champ est focus */
+/* Focused input field */
 .input-field:focused {
     -fx-border-color: #1abc9c;
 }
 
-/* Bouton de connexion */
+/* Login button */
 .login-button {
     -fx-background-color: #1abc9c;
     -fx-text-fill: white;
@@ -45,32 +43,36 @@
     -fx-background-color: #16a085;
 }
 
-/* Message d'erreur */
+/* Error message */
 .error-label {
     -fx-text-fill: red;
     -fx-font-size: 12px;
 }
 
+/* Role label */
 .role-label {
-     -fx-font-size: 18px;
-    -fx-text-fill: #777777; /* Slightly less prominent gray */
+    -fx-font-size: 16px;
+    -fx-text-fill: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
 }
 
-.title-label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #34495e;
-}
-
+/* Dashboard styles */
 .dashboard-pane {
     -fx-background-color: #f5f5f5;
 }
 
 .header-pane {
-    -fx-background-color: white;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
-     -fx-border-width: 0 0 1 0; /* Top, Right, Bottom, Left */
-    -fx-border-color: #e0e0e0; /* Light gray color */
+    -fx-background-color: linear-gradient(to right, #1abc9c, #16a085); /* Gradient background */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 2); /* Subtle shadow */
+    -fx-padding: 15 25; /* Padding for spacing */
+    -fx-spacing: 20; /* Spacing between elements */
+    -fx-alignment: CENTER_LEFT; /* Align content to the left */
+    -fx-border-width: 0 0 1 0; /* Bottom border */
+    -fx-border-color: rgba(0, 0, 0, 0.1); /* Light border color */
+}
+.app-info-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white; /* White text for contrast */
 }
 
 .sidebar {
@@ -86,7 +88,8 @@
     -fx-alignment: CENTER_LEFT;
     -fx-min-width: 230;
     -fx-pref-width: 230;
-    -fx-padding: 10 15;
+    -fx-padding: 15 20;
+    -fx-font-size: 16px;
 }
 
 .menu-button:hover {
@@ -103,6 +106,8 @@
     -fx-background-color: #e74c3c;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15;
 }
 
 .logout-button:hover {
@@ -110,14 +115,15 @@
 }
 
 .welcome-title {
-    -fx-font-size: 26px; /* Slightly larger */
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #34495e;
+    -fx-text-fill: white; /* White text for contrast */
 }
 
 .welcome-subtitle {
-    -fx-font-size: 16px;
+    -fx-font-size: 18px;
     -fx-text-fill: #7f8c8d;
+    -fx-font-style: italic;
 }
 
 .section-title {
@@ -137,6 +143,7 @@
     -fx-background-color: #1abc9c;
     -fx-text-fill: white;
 }
+
 .glyph-icon {
     -fx-fill: white; /* Default icon color */
 }
@@ -147,17 +154,4 @@
 
 .menu-button:hover .glyph-icon {
     -fx-fill: white; /* Icon color on menu button hover */
-}
-.header-pane {
-    -fx-background-color: white;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
-    /* Adjust padding for better vertical centering and spacing */
-    -fx-padding: 15 20; /* Increased top and bottom padding */
-    -fx-spacing: 20; /* Keep horizontal spacing */
-    -fx-alignment: CENTER; /* Ensure overall centering */
-}
-
-/*  You might want to adjust the spacing around the welcome/role VBox */
-.header-pane > VBox {
-    -fx-spacing: 5; /* Adjust spacing between welcome and role labels */
 }
