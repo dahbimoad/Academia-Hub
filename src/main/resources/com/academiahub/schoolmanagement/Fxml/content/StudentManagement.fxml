@@ -6,6 +6,12 @@
 
 <VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.EtudiantController" spacing="10" alignment="CENTER" prefWidth="800" prefHeight="600">
     <Label text="Gestion des Étudiants" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="searchField" promptText="Rechercher un étudiant..." prefWidth="300"/>
+        <ComboBox fx:id="searchCriteriaBox" promptText="Critère de recherche"/>
+    </HBox>
+
     <TableView fx:id="etudiantTable" prefWidth="760">
         <columns>
             <TableColumn fx:id="matriculeColumn" text="Matricule" prefWidth="150"/>
@@ -15,10 +21,13 @@
             <TableColumn fx:id="promotionColumn" text="Promotion" prefWidth="110"/>
         </columns>
     </TableView>
+
     <HBox spacing="10" alignment="CENTER">
         <Button text="Ajouter" onAction="#handleAddStudent"/>
         <Button text="Modifier" onAction="#handleEditStudent"/>
         <Button text="Supprimer" onAction="#handleDeleteStudent"/>
         <Button text="Actualiser" onAction="#handleRefresh"/>
+        <Button text="Exporter PDF" onAction="#handleExportPDF"/>
+
     </HBox>
 </VBox>
