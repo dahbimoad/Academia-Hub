@@ -17,6 +17,7 @@
     <HBox spacing="10" alignment="CENTER_LEFT">
         <TextField fx:id="searchField" promptText="Rechercher par étudiant ou module" />
        <!-- <Button text="Rechercher" onAction="#handleSearch" />-->
+        <Button fx:id="exportPdfButton" text="Exporter PDF" onAction="#exportToPdf" />
     </HBox>
 
     <!-- Enrollment Table -->
