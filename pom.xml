@@ -68,6 +68,11 @@
             <artifactId>fontawesomefx</artifactId>
             <version>8.9</version> <!-- Or the latest version -->
         </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.1.2</version>
+        </dependency>
     </dependencies>
 
     <build>

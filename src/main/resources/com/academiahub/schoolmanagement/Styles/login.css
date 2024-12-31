@@ -190,3 +190,98 @@
     -fx-font-weight: bold;
     -fx-padding: 0 0 10 0;
 }
+/* Enhanced Header Styles */
+.header-pane {
+    -fx-background-color: linear-gradient(to right, #2c3e50, #3498db);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+    -fx-padding: 10 25;
+}
+
+.app-name-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.app-version-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #ecf0f1;
+    -fx-opacity: 0.8;
+}
+
+/* Header Action Buttons */
+.header-action-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-min-width: 35px;
+    -fx-min-height: 35px;
+    -fx-padding: 5;
+}
+
+.header-action-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-action-button .glyph-icon {
+    -fx-fill: white;
+}
+
+/* User Profile Section */
+.user-profile-section {
+    -fx-padding: 0 10;
+}
+
+.user-name-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.user-role-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #ecf0f1;
+    -fx-opacity: 0.9;
+}
+
+.user-avatar {
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+/* Breadcrumb Bar */
+.breadcrumb-bar {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
+}
+
+.breadcrumb-current {
+    -fx-font-size: 13px;
+    -fx-text-fill: #34495e;
+}
+
+.breadcrumb-current .glyph-icon {
+    -fx-fill: #34495e;
+}
+
+/* Separator */
+.header-separator {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced Logout Button */
+.logout-button {
+    -fx-background-color: rgba(231, 76, 60, 0.9);
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 8 15;
+}
+
+.logout-button:hover {
+    -fx-background-color: #c0392b;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.logout-button .glyph-icon {
+    -fx-fill: white;
+}
