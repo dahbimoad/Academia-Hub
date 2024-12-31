@@ -136,3 +136,14 @@
     -fx-background-color: #1abc9c;
     -fx-text-fill: white;
 }
+.glyph-icon {
+    -fx-fill: white; /* Default icon color */
+}
+
+.menu-button .glyph-icon {
+    -fx-fill: #34495e; /* Icon color for menu buttons */
+}
+
+.menu-button:hover .glyph-icon {
+    -fx-fill: white; /* Icon color on menu button hover */
+}

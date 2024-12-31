@@ -5,6 +5,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.academiahub.schoolmanagement.Controllers.DashboardController"
@@ -28,7 +29,11 @@
                 <Label fx:id="roleLabel" styleClass="role-label"/>
             </VBox>
 
-            <Button text="Déconnexion" onAction="#handleLogout" styleClass="logout-button"/>
+            <Button text="Déconnexion" onAction="#handleLogout" styleClass="logout-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-sign-out-alt" iconSize="16"/>
+                </graphic>
+            </Button>
         </HBox>
     </top>
 
@@ -41,24 +46,74 @@
 
             <!-- Admin Menu Items -->
             <VBox fx:id="adminMenu" spacing="5" managed="false" visible="false">
-                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button"/>
-                <Button text="Gestion des Professeurs" onAction="#handleTeacherManagement" styleClass="menu-button"/>
-                <Button text="Gestion des Modules" onAction="#handleModuleManagement" styleClass="menu-button"/>
-                <Button text="Gestion des Utilisateurs" onAction="#handleUserManagement" styleClass="menu-button"/>
-                <Button text="Tableau de Bord" onAction="#handleDashboardStats" styleClass="menu-button"/>
+                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-graduation-cap" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
+                <Button text="Gestion des Professeurs" onAction="#handleTeacherManagement" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-users" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
+                <Button text="Gestion des Modules" onAction="#handleModuleManagement" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-book" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
+                <Button text="Gestion des Utilisateurs" onAction="#handleUserManagement" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-user-cog" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
+                <Button text="Tableau de Bord" onAction="#handleDashboardStats" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-chart-bar" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
             </VBox>
 
             <!-- Secretary Menu Items -->
             <VBox fx:id="secretaryMenu" spacing="5" managed="false" visible="false">
-                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button"/>
-                <Button text="Gestion des Inscriptions" onAction="#handleEnrollmentManagement" styleClass="menu-button"/>
-                <Button text="Liste des Modules" onAction="#handleModuleList" styleClass="menu-button"/>
+                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-graduation-cap" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
+                <Button text="Gestion des Inscriptions" onAction="#handleEnrollmentManagement" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-envelope-open" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
+                <Button text="Liste des Modules" onAction="#handleModuleList" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-list-ul" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
             </VBox>
 
             <!-- Professor Menu Items -->
             <VBox fx:id="professorMenu" spacing="5" managed="false" visible="false">
-                <Button text="Mes Modules" onAction="#handleMyModules" styleClass="menu-button"/>
-                <Button text="Liste des Étudiants" onAction="#handleStudentList" styleClass="menu-button"/>
+                <Button text="Mes Modules" onAction="#handleMyModules" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-book" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
+                <Button text="Liste des Étudiants" onAction="#handleStudentList" styleClass="menu-button">
+                    <graphic>
+                        <FontIcon iconLiteral="fas-user-graduate" iconSize="14"/>
+                    </graphic>
+                    <padding><Insets right="5"/></padding>
+                </Button>
             </VBox>
         </VBox>
     </left>
@@ -68,8 +123,8 @@
         <StackPane fx:id="contentArea" styleClass="content-area">
             <!-- Default welcome message -->
             <VBox alignment="CENTER" spacing="20">
-                <Label text="Bienvenue dans le Système de Gestion de l'École" styleClass="welcome-title"/>
-                <Label text="Sélectionnez une option dans le menu" styleClass="welcome-subtitle"/>
+                <Label text="Bienvenue sur le tableau de bord de l'application." styleClass="welcome-title"/>
+                <Label text="Veuillez sélectionner une option dans le menu de gauche pour commencer." styleClass="welcome-subtitle"/>
             </VBox>
         </StackPane>
     </center>
