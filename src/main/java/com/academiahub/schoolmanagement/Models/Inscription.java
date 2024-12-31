@@ -4,27 +4,97 @@ import java.util.Date;
 
 public class Inscription {
     private int id;
-    private Etudiant etudiant;
-    private Module module;
-    private Date dateInscription;
+    private int etudiantId; // ID of the student
+    private String etudiantNom; // Name of the student
+    private String etudiantPrenom; // First name of the student
+    private int moduleId; // ID of the module
+    private String moduleNom; // Name of the module
+    private Date dateInscription; // Date of enrollment
 
+    // Default constructor
     public Inscription() {}
 
-    public Inscription(Etudiant etudiant, Module module, Date dateInscription) {
-        this.etudiant = etudiant;
-        this.module = module;
+    // Parameterized constructor
+    public Inscription(int id, int etudiantId, String etudiantNom, String etudiantPrenom,
+                       int moduleId, String moduleNom, Date dateInscription) {
+        this.id = id;
+        this.etudiantId = etudiantId;
+        this.etudiantNom = etudiantNom;
+        this.etudiantPrenom = etudiantPrenom;
+        this.moduleId = moduleId;
+        this.moduleNom = moduleNom;
         this.dateInscription = dateInscription;
     }
 
     // Getters
-    public int getId() { return id; }
-    public Etudiant getEtudiant() { return etudiant; }
-    public Module getModule() { return module; }
-    public Date getDateInscription() { return dateInscription; }
+    public int getId() {
+        return id;
+    }
+
+    public int getEtudiantId() {
+        return etudiantId;
+    }
+
+    public String getEtudiantNom() {
+        return etudiantNom;
+    }
+
+    public String getEtudiantPrenom() {
+        return etudiantPrenom;
+    }
+
+    public int getModuleId() {
+        return moduleId;
+    }
+
+    public String getModuleNom() {
+        return moduleNom;
+    }
+
+    public Date getDateInscription() {
+        return dateInscription;
+    }
 
     // Setters
-    public void setId(int id) { this.id = id; }
-    public void setEtudiant(Etudiant etudiant) { this.etudiant = etudiant; }
-    public void setModule(Module module) { this.module = module; }
-    public void setDateInscription(Date dateInscription) { this.dateInscription = dateInscription; }
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setEtudiantId(int etudiantId) {
+        this.etudiantId = etudiantId;
+    }
+
+    public void setEtudiantNom(String etudiantNom) {
+        this.etudiantNom = etudiantNom;
+    }
+
+    public void setEtudiantPrenom(String etudiantPrenom) {
+        this.etudiantPrenom = etudiantPrenom;
+    }
+
+    public void setModuleId(int moduleId) {
+        this.moduleId = moduleId;
+    }
+
+    public void setModuleNom(String moduleNom) {
+        this.moduleNom = moduleNom;
+    }
+
+    public void setDateInscription(Date dateInscription) {
+        this.dateInscription = dateInscription;
+    }
+
+    // Overriding toString for debugging
+    @Override
+    public String toString() {
+        return "Inscription{" +
+                "id=" + id +
+                ", etudiantId=" + etudiantId +
+                ", etudiantNom='" + etudiantNom + '\'' +
+                ", etudiantPrenom='" + etudiantPrenom + '\'' +
+                ", moduleId=" + moduleId +
+                ", moduleNom='" + moduleNom + '\'' +
+                ", dateInscription=" + dateInscription +
+                '}';
+    }
 }

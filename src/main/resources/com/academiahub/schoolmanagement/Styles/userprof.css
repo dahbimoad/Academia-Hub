@@ -1,0 +1,82 @@
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Styles des champs de texte */
+.text-field, .password-field, .combo-box {
+    -fx-pref-width: 200px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+}
+
+/* Styles des boutons */
+.button {
+    -fx-padding: 8px 15px;
+    -fx-background-radius: 4px;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.button-primary {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+
+.button-primary:hover {
+    -fx-background-color: #1976D2;
+}
+
+.button-secondary {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #388E3C;
+}
+
+.button-danger {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+}
+
+.button-danger:hover {
+    -fx-background-color: #D32F2F;
+}
+
+.button-info {
+    -fx-background-color: #9E9E9E;
+    -fx-text-fill: white;
+}
+
+.button-info:hover {
+    -fx-background-color: #757575;
+}
+
+/* Styles de la TableView */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #E0E0E0;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 10px;
+    -fx-font-weight: bold;
+}
+
+.table-view .table-cell {
+    -fx-padding: 8px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #f8f8f8;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}

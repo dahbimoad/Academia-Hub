@@ -11,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-
 public class LoginController {
     @FXML
     private TextField usernameField;
@@ -52,24 +50,41 @@ public class LoginController {
             Utilisateur user = utilisateurDAO.authenticate(username, password);
 
             if (user != null) {
-                // Load the dashboard
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/Dashboard.fxml"));
-                Parent dashboardRoot = loader.load();
+                try {
+                    // Load the dashboard FXML
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/Dashboard.fxml"));
+                    Parent dashboardRoot = loader.load();
 
-                // Get the controller and initialize user data
-                DashboardController dashboardController = loader.getController();
-                dashboardController.initializeUserData(user.getUsername(), user.getRole());
+                    // Get the controller
+                    DashboardController dashboardController = loader.getController();
 
-                // Get the current stage
-                Stage stage = (Stage) usernameField.getScene().getWindow();
+                    dashboardController.initializeUserData(user);
 
-                // Create new scene with the same stylesheet
-                Scene dashboardScene = new Scene(dashboardRoot);
-                dashboardScene.getStylesheets().add(getClass().getResource("/com/academiahub/schoolmanagement/Styles/login.css").toExternalForm());
+                    // Create new scene
+                    Scene dashboardScene = new Scene(dashboardRoot);
+                    dashboardScene.getStylesheets().add(getClass().getResource("/com/academiahub/schoolmanagement/Styles/login.css").toExternalForm());
 
-                // Set the new scene
-                stage.setScene(dashboardScene);
-                stage.show();
+                    // Get the stage from current scene
+                    Stage stage = (Stage) usernameField.getScene().getWindow();
+
+                    // Set the new scene
+                    stage.setScene(dashboardScene);
+
+                    // Initialize user data after setting the scene
+                    dashboardController.initializeUserData(user);
+
+                    // Make window larger
+                    stage.setWidth(1200);
+                    stage.setHeight(800);
+                    stage.centerOnScreen();
+
+                    stage.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    errorMessage.setTextFill(Color.RED);
+                    errorMessage.setText("Erreur lors du chargement du tableau de bord");
+                }
             } else {
                 errorMessage.setTextFill(Color.RED);
                 errorMessage.setText("Nom d'utilisateur ou mot de passe incorrect");
