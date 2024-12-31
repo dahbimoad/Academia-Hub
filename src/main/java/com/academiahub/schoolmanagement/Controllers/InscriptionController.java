@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class InscriptionController {
@@ -74,6 +75,7 @@ public class InscriptionController {
     private Button deleteButton;
 
     private InscriptionDAO inscriptionDAO;
+    private ObservableList<Inscription> inscriptionList;
 
     public void initialize() throws SQLException {
         this.inscriptionDAO = new InscriptionDAO(DatabaseConnection.getConnection());
@@ -91,9 +93,12 @@ public class InscriptionController {
 
         colDate.setCellValueFactory(new PropertyValueFactory<>("dateInscription"));
 
+        inscriptionList = FXCollections.observableArrayList();
+        inscriptionTable.setItems(inscriptionList);
         loadInscriptionData();
         loadStudents();
         loadModules();
+
     }
 
     private void loadStudents() throws SQLException {
@@ -109,9 +114,10 @@ public class InscriptionController {
     }
 
     private void loadInscriptionData() throws SQLException {
-        ObservableList<Inscription> data = FXCollections.observableArrayList(inscriptionDAO.getAllInscriptions());
-        System.out.println("Loaded inscriptions: " + data.size());
-        inscriptionTable.setItems(data);
+        List<Inscription> inscriptions = inscriptionDAO.getAllInscriptions();
+        System.out.println("Loaded inscriptions: " + inscriptions.size());
+        inscriptionList.setAll(inscriptions);
+
     }
 
     @FXML
@@ -177,21 +183,25 @@ public class InscriptionController {
     @FXML
     private void handleDeleteInscription(ActionEvent event) {
         Inscription selectedInscription = inscriptionTable.getSelectionModel().getSelectedItem();
-        int tt=selectedInscription.getId();
-        if (selectedInscription != null) {
+        if (selectedInscription == null) {
+            showError("Veuillez sélectionner une inscription à supprimer.");
+            return;
+        }
+
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation");
+        confirmationAlert.setHeaderText("Supprimer l'inscription");
+        confirmationAlert.setContentText("Êtes-vous sûr de vouloir supprimer cette inscription ?");
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                if (inscriptionDAO.deleteInscription(selectedInscription.getId())) {
-                    showInfo("Inscription deleted successfully.");
-                    loadInscriptionData();
-                } else {
-                    System.out.println(tt);
-                    showError("Failed to delete inscription.");
-                }
-            } catch (SQLException e) {
-                showError("Error deleting inscription: " + e.getMessage());
+                inscriptionDAO.deleteInscription(selectedInscription.getId());
+                inscriptionList.remove(selectedInscription);
+                showInfo("Inscription supprimé avec succès.");
+            } catch (Exception e) {
+                showError("Erreur lors de la suppression de l'inscription: " + e.getMessage());
             }
-        } else {
-            showError("No inscription selected.");
         }
     }
 
@@ -210,4 +220,6 @@ public class InscriptionController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 }
