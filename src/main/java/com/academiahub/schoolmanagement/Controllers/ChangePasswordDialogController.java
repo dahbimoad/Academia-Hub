@@ -63,7 +63,7 @@ public class ChangePasswordDialogController {
         if (password.matches(".*[a-z].*")) score++;
         if (password.matches(".*[0-9].*")) score++;
         if (password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) score++;
-        return score / 5.0;
+        return score / 1.0;
     }
 
     private void validatePasswordMatch(String password, String confirmation) {
