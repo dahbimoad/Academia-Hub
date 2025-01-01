@@ -22,9 +22,6 @@
 
         <Label text="Spécialité:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
         <TextField fx:id="specialiteField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-
-        <Label text="User ID:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextField fx:id="userIdField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
     </GridPane>
 
     <HBox spacing="10" alignment="CENTER_RIGHT">
