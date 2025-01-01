@@ -5,6 +5,7 @@ module com.academiahub.schoolmanagement {
     requires org.kordamp.bootstrapfx.core;
     requires org.apache.poi.ooxml;
     requires org.slf4j;
+    requires itextpdf;
 
 
     opens com.academiahub.schoolmanagement to javafx.fxml;

@@ -76,4 +76,21 @@ public class EtudiantDAO {
             preparedStatement.executeUpdate();
         }
     }
+
+    public List<Etudiant> getAllStudents() throws SQLException {
+        List<Etudiant> students = new ArrayList<>();
+        String query = "SELECT id, nom, prenom FROM etudiants";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Etudiant student = new Etudiant();
+                student.setId(resultSet.getInt("id"));
+                student.setNom(resultSet.getString("nom"));
+                student.setPrenom(resultSet.getString("prenom"));
+                students.add(student);
+            }
+        }
+        return students;
+    }
+
 }
