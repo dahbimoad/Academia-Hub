@@ -4,6 +4,7 @@ import com.academiahub.schoolmanagement.DAO.ProfesseurDAO;
 import com.academiahub.schoolmanagement.DAO.UtilisateurDAO;
 import com.academiahub.schoolmanagement.Models.Professeur;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
+import com.academiahub.schoolmanagement.utils.AlertUtils;
 import com.academiahub.schoolmanagement.utils.PasswordGenerator;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,8 +16,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-public class UtilisateurController {
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+public class UtilisateurController {
+    private static final Logger LOGGER = Logger.getLogger(ProfesseurController.class.getName());
     // TableView et ses colonnes
     @FXML private TableView<Utilisateur> utilisateurTable;
     @FXML private TableColumn<Utilisateur, Integer> colId;
@@ -367,25 +372,40 @@ public class UtilisateurController {
     private void supprimerUtilisateur() {
         Utilisateur selected = utilisateurTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            showAlert(Alert.AlertType.WARNING, "Veuillez sélectionner un utilisateur à supprimer !");
+            AlertUtils.showWarning("Sélection requise", "Veuillez sélectionner un utilisateur à supprimer.");
             return;
         }
 
-        // Si l'utilisateur est PROFESSEUR, supprimer également l'entrée correspondante dans professeurs
-        if ("PROFESSEUR".equalsIgnoreCase(selected.getRole())) {
-            Professeur prof = professeurDAO.readByUserId(selected.getId());
-            if (prof != null) {
-                professeurDAO.delete(prof.getId());
+        Optional<ButtonType> result = AlertUtils.showConfirmation(
+                "Confirmation de suppression",
+                "Voulez-vous vraiment supprimer cet utilisateur ?"
+        );
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                // Si l'utilisateur est PROFESSEUR, supprimer également l'entrée correspondante dans professeurs
+                if ("PROFESSEUR".equalsIgnoreCase(selected.getRole())) {
+                    Professeur prof = professeurDAO.readByUserId(selected.getId());
+                    if (prof != null) {
+                        professeurDAO.delete(prof.getId());
+                    }
+                }
+
+                // Supprimer l'utilisateur
+                utilisateurDAO.delete(selected.getId());
+
+                // Rafraîchir la table et champs
+                clearFields();
+                actualiserTable();
+
+                AlertUtils.showInformation("Succès", "Utilisateur supprimé avec succès !");
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Erreur lors de la suppression", e);
+                AlertUtils.showError("Erreur de suppression", "Impossible de supprimer l'utilisateur.");
             }
         }
-
-        // Supprimer l'utilisateur
-        utilisateurDAO.delete(selected.getId());
-
-        // Rafraîchir la table
-        actualiserTable();
-        showAlert(Alert.AlertType.INFORMATION, "Utilisateur supprimé avec succès !");
     }
+
 
     /**
      * Actualise la TableView avec les données actuelles.
