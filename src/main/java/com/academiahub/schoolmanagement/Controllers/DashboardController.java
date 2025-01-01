@@ -47,8 +47,6 @@ public class DashboardController {
         this.currentUser = user;
         this.currentUsername = user.getUsername();
         this.currentRole = user.getRole();
-        welcomeLabel.setText("Bienvenue " + currentUsername + " !");
-        roleLabel.setText("Vous êtes un " + currentRole);
 
         // Show appropriate menu based on role
         switch (currentRole) {
