@@ -1,17 +1,17 @@
 package com.academiahub.schoolmanagement.DAO;
 
 import com.academiahub.schoolmanagement.Models.Etudiant;
-import com.academiahub.schoolmanagement.Models.Professeur;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtilisateurDAO {
     private Connection connection;
-
+    private static final Logger logger = LoggerFactory.getLogger(UtilisateurDAO.class); // Déclaration
     public UtilisateurDAO(Connection connection) {
         this.connection = connection;
     }
@@ -44,25 +44,27 @@ public class UtilisateurDAO {
         }
         return null;
     }
-    public void create(Utilisateur utilisateur) {
+    public boolean create(Utilisateur utilisateur) {
         String sql = "INSERT INTO utilisateurs(username, password, role) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, utilisateur.getUsername());
             pstmt.setString(2, utilisateur.getPassword());
             pstmt.setString(3, utilisateur.getRole());
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
 
-            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    utilisateur.setId(generatedKeys.getInt(1));
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        utilisateur.setId(generatedKeys.getInt(1));
+                        return true;
+                    }
                 }
             }
-
-            System.out.println("Utilisateur créé avec succès !");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
     // ======================================
     // 3. LECTURE D'UN PROFESSEUR PAR USER_ID
@@ -89,22 +91,36 @@ public class UtilisateurDAO {
         return user;
     }
 
-    public void update(Utilisateur utilisateur) {
-        String sql = "UPDATE utilisateurs SET username=?, password=?, role=? WHERE id=?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, utilisateur.getUsername());
-            pstmt.setString(2, utilisateur.getPassword());
-            pstmt.setString(3, utilisateur.getRole());
-            pstmt.setInt(4, utilisateur.getId());
-            pstmt.executeUpdate();
-            System.out.println("Utilisateur mis à jour avec succès !");
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public boolean update(Utilisateur utilisateur) {
+        if (utilisateur == null) {
+            logger.warn("Tentative de mise à jour avec un utilisateur null.");
+            return false;
         }
-    }
 
-    public void delete(int id) {
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement("UPDATE utilisateurs SET username = ?, password = ?, role = ? WHERE id = ?")) {
+
+            stmt.setString(1, utilisateur.getUsername());
+            stmt.setString(2, utilisateur.getPassword());
+            stmt.setString(3, utilisateur.getRole());
+            stmt.setInt(4, utilisateur.getId());
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                logger.info("Utilisateur mis à jour : ID={}, Nom d'utilisateur={}", utilisateur.getId(), utilisateur.getUsername());
+                return true;
+            } else {
+                logger.warn("Aucun utilisateur trouvé avec l'ID : {}", utilisateur.getId());
+                return false;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la mise à jour de l'utilisateur : ID={}, Erreur : {}", utilisateur.getId(), e.getMessage(), e); // Log de l'exception complète
+            return false;
+        }}
+
+
+    public static void delete(int id) {
         String sql = "DELETE FROM utilisateurs WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -198,6 +214,10 @@ public class UtilisateurDAO {
         }
         return students;
     }
+
+
+
+
 
     // ======================================
     // 9. Récupérer les Modules Enseignés par le Nom d'Utilisateur
