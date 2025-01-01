@@ -18,6 +18,7 @@ public class InscriptionDAO {
     public List<Inscription> getAllInscriptions() throws SQLException {
         List<Inscription> inscriptions = new ArrayList<>();
         String query = "SELECT " +
+                "i.id AS inscription_id, " +
                 "e.id AS etudiant_id, " +
                 "m.id AS module_id, " +
                 "e.nom AS etudiant_nom, " +
@@ -32,6 +33,7 @@ public class InscriptionDAO {
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Inscription inscription = new Inscription();
+                inscription.setInscriptionId(resultSet.getInt("inscription_id"));
                 inscription.setEtudiantId(resultSet.getInt("etudiant_id"));
                 inscription.setModuleId(resultSet.getInt("module_id"));
                 inscription.setEtudiantNom(resultSet.getString("etudiant_nom"));
@@ -60,14 +62,20 @@ public class InscriptionDAO {
 
     public boolean deleteInscription(int inscriptionId) throws SQLException {
         String query = "DELETE FROM inscriptions WHERE id = ?";
+        connection.setAutoCommit(false); // Start transaction
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, inscriptionId);
-            return stmt.executeUpdate() > 0;
-        }catch (SQLException e) {
-            System.out.println("Error deleting inscription: " + e.getMessage());
+            int result = stmt.executeUpdate();
+            connection.commit(); // Commit the transaction
+            return result > 0;
+        } catch (SQLException e) {
+            connection.rollback(); // Rollback on error
+            System.err.println("Error deleting inscription: " + e.getMessage());
+            throw e; // Re-throw the exception to be handled by the controller
+        } finally {
+            connection.setAutoCommit(true); // Reset auto-commit
         }
-        return false;
     }
 
    /* private Inscription mapRowToInscription(ResultSet rs) throws SQLException {

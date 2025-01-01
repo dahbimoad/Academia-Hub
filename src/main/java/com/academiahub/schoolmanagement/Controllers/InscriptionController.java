@@ -53,6 +53,8 @@ public class InscriptionController {
 
     @FXML
     private TableColumn<Inscription, Integer> idEtudiant;
+    @FXML
+    private TableColumn<Inscription, Integer> id;
 
     @FXML
     private TableColumn<Inscription, Integer> idModule;
@@ -92,6 +94,7 @@ public class InscriptionController {
         this.inscriptionDAO = new InscriptionDAO(DatabaseConnection.getConnection());
 
         // Bind columns to specific attributes (keep your existing bindings)
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
         idEtudiant.setCellValueFactory(new PropertyValueFactory<>("etudiantId"));
         idModule.setCellValueFactory(new PropertyValueFactory<>("moduleId"));
         colNom.setCellValueFactory(cellData ->
@@ -319,11 +322,26 @@ public class InscriptionController {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                inscriptionDAO.deleteInscription(selectedInscription.getId());
-                inscriptionList.remove(selectedInscription);
-                showInfo("Inscription supprimé avec succès.");
-            } catch (Exception e) {
+                System.out.println(selectedInscription.getId());
+                System.out.println(selectedInscription.getModuleNom());
+                boolean deleted = inscriptionDAO.deleteInscription(selectedInscription.getId());
+                if (deleted) {
+                    inscriptionList.remove(selectedInscription);
+                    // Reload data from database to ensure sync
+                    loadInscriptionData();
+                    showInfo("Inscription supprimée avec succès.");
+                } else {
+                    showError("L'inscription n'a pas pu être supprimée. Veuillez réessayer.");
+                }
+            } catch (SQLException e) {
                 showError("Erreur lors de la suppression de l'inscription: " + e.getMessage());
+                e.printStackTrace();
+                // Reload data to ensure UI is in sync with database
+                try {
+                    loadInscriptionData();
+                } catch (SQLException ex) {
+                    showError("Erreur lors de la actualisation des données: " + ex.getMessage());
+                }
             }
         }
     }

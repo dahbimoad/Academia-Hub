@@ -26,6 +26,7 @@
 
     <TableView fx:id="inscriptionTable" VBox.vgrow="ALWAYS" style="-fx-border-color: #ddd;">
         <columns>
+            <TableColumn fx:id="id" text="ID Inscription" prefWidth="150"/>
             <TableColumn fx:id="idEtudiant" text="ID Étudiant" prefWidth="150"/>
             <TableColumn fx:id="idModule" text="ID Module" prefWidth="150"/>
             <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
