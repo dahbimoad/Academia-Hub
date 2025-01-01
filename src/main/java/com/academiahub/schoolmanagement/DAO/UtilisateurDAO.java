@@ -106,7 +106,7 @@ public class UtilisateurDAO {
     }
 
 
-    public void delete(int id) {
+    public static void delete(int id) {
         String sql = "DELETE FROM utilisateurs WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

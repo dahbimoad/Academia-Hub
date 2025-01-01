@@ -31,6 +31,13 @@ public class UtilisateurController {
     @FXML private ComboBox<String> roleComboBox;
     @FXML private TextField searchField;
 
+    // --- Champs spécifiques au PROFESSEUR ---
+    @FXML private VBox professeurBox;
+    @FXML private TextField nomField;
+    @FXML private TextField prenomField;
+    @FXML private TextField specialiteField;
+    // ----------------------------------------
+
     // Boutons d'action
     @FXML private Button btnAjouter;
     @FXML private Button btnModifier;
@@ -42,7 +49,6 @@ public class UtilisateurController {
     private final UtilisateurDAO utilisateurDAO = new UtilisateurDAO();
     private final ProfesseurDAO professeurDAO = new ProfesseurDAO();
     private final ObservableList<Utilisateur> masterData = FXCollections.observableArrayList();
-    private final ObservableList<Utilisateur> utilisateurList = FXCollections.observableArrayList();
     private FilteredList<Utilisateur> filteredData;
     private SortedList<Utilisateur> sortedData;
 
@@ -62,6 +68,22 @@ public class UtilisateurController {
         setupTableSelection();
         loadData();
         initializeFormVisibility();
+
+        // Ajout d'un listener pour afficher ou masquer le bloc Professeur
+        // en fonction du rôle sélectionné.
+        roleComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if ("PROFESSEUR".equalsIgnoreCase(newVal)) {
+                professeurBox.setVisible(true);
+                professeurBox.setManaged(true);
+            } else {
+                professeurBox.setVisible(false);
+                professeurBox.setManaged(false);
+                // On efface les champs du professeur si le rôle n'est pas PROFESSEUR
+                nomField.clear();
+                prenomField.clear();
+                specialiteField.clear();
+            }
+        });
     }
 
     /**
@@ -74,6 +96,10 @@ public class UtilisateurController {
         passwordField.setPromptText("Le mot de passe sera généré automatiquement");
         btnValider.setVisible(false);
         btnAnnuler.setVisible(false);
+
+        // Par défaut, on masque la partie Professeur
+        professeurBox.setVisible(false);
+        professeurBox.setManaged(false);
     }
 
     /**
@@ -111,6 +137,7 @@ public class UtilisateurController {
      * Configure les options disponibles dans le ComboBox des rôles.
      */
     private void setupRoleComboBox() {
+        // On peut ajouter plus de rôles si besoin.
         roleComboBox.setItems(FXCollections.observableArrayList("PROFESSEUR", "SECRETAIRE"));
     }
 
@@ -120,9 +147,25 @@ public class UtilisateurController {
     private void setupTableSelection() {
         utilisateurTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (currentMode == Mode.NORMAL && newSelection != null) {
+                // On met à jour les champs de base
                 usernameField.setText(newSelection.getUsername());
                 roleComboBox.setValue(newSelection.getRole());
                 passwordField.clear();
+
+                // Si l'utilisateur est PROFESSEUR, on charge ses informations
+                if ("PROFESSEUR".equalsIgnoreCase(newSelection.getRole())) {
+                    Professeur prof = professeurDAO.readByUserId(newSelection.getId());
+                    if (prof != null) {
+                        nomField.setText(prof.getNom());
+                        prenomField.setText(prof.getPrenom());
+                        specialiteField.setText(prof.getSpecialite());
+                    }
+                } else {
+                    // Sinon, on vide les champs
+                    nomField.clear();
+                    prenomField.clear();
+                    specialiteField.clear();
+                }
             }
         });
     }
@@ -134,6 +177,7 @@ public class UtilisateurController {
         Utilisateur selectedUser = utilisateurTable.getSelectionModel().getSelectedItem();
         masterData.clear();
         masterData.addAll(utilisateurDAO.findAll());
+        // On resélectionne l'utilisateur précédemment sélectionné, si présent
         if (selectedUser != null) {
             for (Utilisateur user : masterData) {
                 if (user.getId() == selectedUser.getId()) {
@@ -208,18 +252,37 @@ public class UtilisateurController {
     }
 
     /**
-     * Ajoute un nouvel utilisateur.
+     * Ajoute un nouvel utilisateur + éventuellement un professeur.
      */
     private void ajouterUtilisateur() {
         if (!validateFields()) return;
 
+        // Génération automatique d'un mot de passe
         String generatedPassword = PasswordGenerator.generateStrongPassword();
         Utilisateur user = new Utilisateur(0,
                 usernameField.getText().trim(),
                 generatedPassword,
                 roleComboBox.getValue());
 
+        // On tente de créer l'utilisateur en base
         if (utilisateurDAO.create(user)) {
+            // Si le rôle est PROFESSEUR, on crée également l'entrée Professeur
+            if ("PROFESSEUR".equalsIgnoreCase(user.getRole())) {
+                if (!validateProfesseurFields()) {
+                    // Si les champs Professeur sont vides ou invalides, on supprime l'utilisateur créé
+                    utilisateurDAO.delete(user.getId());
+                    return;
+                }
+                Professeur prof = new Professeur(
+                        0,
+                        nomField.getText().trim(),
+                        prenomField.getText().trim(),
+                        specialiteField.getText().trim(),
+                        user.getId()
+                );
+                professeurDAO.create(prof);
+            }
+
             showPasswordAlert("Utilisateur Créé", user.getUsername(), generatedPassword);
             masterData.add(user);
             clearFields();
@@ -229,38 +292,68 @@ public class UtilisateurController {
     }
 
     /**
-     * Modifie un utilisateur existant.
+     * Modifie un utilisateur existant + éventuellement un professeur.
      */
     @FXML
     public void modifierUtilisateur() {
-
         try {
-        Utilisateur selected = utilisateurTable.getSelectionModel().getSelectedItem();
-        if (selected == null || !validateFields()) return;
+            Utilisateur selected = utilisateurTable.getSelectionModel().getSelectedItem();
+            if (selected == null || !validateFields()) return;
 
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirmation");
-        confirm.setHeaderText("Générer un nouveau mot de passe ?");
-        confirm.setContentText("Cette action va générer un nouveau mot de passe pour l'utilisateur. Continuer ?");
+            // Confirmation pour régénérer le mot de passe
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirmation");
+            confirm.setHeaderText("Générer un nouveau mot de passe ?");
+            confirm.setContentText("Cette action va générer un nouveau mot de passe pour l'utilisateur. Continuer ?");
 
-        if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
-            String newPassword = PasswordGenerator.generateStrongPassword();
-            selected.setUsername(usernameField.getText().trim());
-            selected.setPassword(newPassword);
-            selected.setRole(roleComboBox.getValue());
+            if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
+                String newPassword = PasswordGenerator.generateStrongPassword();
+                selected.setUsername(usernameField.getText().trim());
+                selected.setPassword(newPassword);
+                selected.setRole(roleComboBox.getValue());
 
-            System.out.println("Tentative de mise à jour de l'utilisateur : " + selected);
+                if (utilisateurDAO.update(selected)) {
+                    // Gérer le cas PROFESSEUR
+                    if ("PROFESSEUR".equalsIgnoreCase(selected.getRole())) {
+                        // Vérifie les champs
+                        if (!validateProfesseurFields()) {
+                            showAlert(Alert.AlertType.WARNING,
+                                    "Veuillez remplir les champs Nom, Prénom et Spécialité pour le professeur.");
+                            return;
+                        }
+                        Professeur prof = professeurDAO.readByUserId(selected.getId());
+                        if (prof != null) {
+                            // Mise à jour
+                            prof.setNom(nomField.getText().trim());
+                            prof.setPrenom(prenomField.getText().trim());
+                            prof.setSpecialite(specialiteField.getText().trim());
+                            professeurDAO.update(prof);
+                        } else {
+                            // Création si pas encore existant
+                            prof = new Professeur(
+                                    0,
+                                    nomField.getText().trim(),
+                                    prenomField.getText().trim(),
+                                    specialiteField.getText().trim(),
+                                    selected.getId()
+                            );
+                            professeurDAO.create(prof);
+                        }
+                    } else {
+                        // Si le rôle n'est plus PROFESSEUR, on supprime l'entrée dans Professeur si elle existe
+                        Professeur prof = professeurDAO.readByUserId(selected.getId());
+                        if (prof != null) {
+                            professeurDAO.delete(prof.getId());
+                        }
+                    }
 
-            if (utilisateurDAO.update(selected)) {
-                System.out.println("Utilisateur mis à jour avec succès.");
-                showPasswordAlert("Modification Utilisateur", selected.getUsername(), newPassword);
-                loadData();
-                clearFields();
-            } else {
-                System.out.println("Erreur lors de la mise à jour de l'utilisateur.");
-                showAlert(Alert.AlertType.ERROR, "Erreur lors de la modification de l'utilisateur.");
+                    showPasswordAlert("Modification Utilisateur", selected.getUsername(), newPassword);
+                    loadData();
+                    clearFields();
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Erreur lors de la modification de l'utilisateur.");
+                }
             }
-        }
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Une erreur inattendue s'est produite : " + e.getMessage());
@@ -268,10 +361,9 @@ public class UtilisateurController {
     }
 
     /**
-     * Supprime un utilisateur sélectionné.
+     * Supprime un utilisateur sélectionné (et éventuellement un professeur).
      */
     @FXML
-
     private void supprimerUtilisateur() {
         Utilisateur selected = utilisateurTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
@@ -294,7 +386,6 @@ public class UtilisateurController {
         actualiserTable();
         showAlert(Alert.AlertType.INFORMATION, "Utilisateur supprimé avec succès !");
     }
-
 
     /**
      * Actualise la TableView avec les données actuelles.
@@ -339,7 +430,7 @@ public class UtilisateurController {
     }
 
     /**
-     * Valide les champs de saisie.
+     * Valide les champs de saisie basiques (nom d'utilisateur + rôle).
      * @return Vrai si les champs sont valides, faux sinon.
      */
     private boolean validateFields() {
@@ -354,7 +445,9 @@ public class UtilisateurController {
         Utilisateur existingUser = utilisateurDAO.findByUsername(username);
         Utilisateur selectedUser = utilisateurTable.getSelectionModel().getSelectedItem();
 
-        if (existingUser != null && (currentMode == Mode.AJOUT || (selectedUser != null && existingUser.getId() != selectedUser.getId()))) {
+        // En mode AJOUT ou en mode MODIFICATION mais avec un autre ID
+        if (existingUser != null && (currentMode == Mode.AJOUT ||
+                (selectedUser != null && existingUser.getId() != selectedUser.getId()))) {
             showAlert(Alert.AlertType.WARNING, "Ce nom d'utilisateur existe déjà !");
             return false;
         }
@@ -371,12 +464,32 @@ public class UtilisateurController {
     }
 
     /**
+     * Valide les champs spécifiques au rôle PROFESSEUR.
+     * @return Vrai si nom, prénom et spécialité sont remplis, faux sinon.
+     */
+    private boolean validateProfesseurFields() {
+        String nom = nomField.getText().trim();
+        String prenom = prenomField.getText().trim();
+        String specialite = specialiteField.getText().trim();
+
+        if (nom.isEmpty() || prenom.isEmpty() || specialite.isEmpty()) {
+            showAlert(Alert.AlertType.WARNING,
+                    "Veuillez remplir Nom, Prénom et Spécialité pour le professeur !");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Efface les champs de saisie.
      */
     private void clearFields() {
         usernameField.clear();
         passwordField.clear();
         roleComboBox.getSelectionModel().clearSelection();
+        nomField.clear();
+        prenomField.clear();
+        specialiteField.clear();
         utilisateurTable.getSelectionModel().clearSelection();
     }
 
@@ -387,7 +500,8 @@ public class UtilisateurController {
      */
     private void showAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type);
-        alert.setTitle(type == Alert.AlertType.ERROR ? "Erreur" : (type == Alert.AlertType.WARNING ? "Attention" : "Information"));
+        alert.setTitle(type == Alert.AlertType.ERROR ? "Erreur" :
+                (type == Alert.AlertType.WARNING ? "Attention" : "Information"));
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
@@ -401,5 +515,19 @@ public class UtilisateurController {
         usernameField.setText(user.getUsername());
         roleComboBox.setValue(user.getRole());
         passwordField.clear();
+
+        // Si c'est un professeur, remplir les champs correspondants
+        if ("PROFESSEUR".equalsIgnoreCase(user.getRole())) {
+            Professeur prof = professeurDAO.readByUserId(user.getId());
+            if (prof != null) {
+                nomField.setText(prof.getNom());
+                prenomField.setText(prof.getPrenom());
+                specialiteField.setText(prof.getSpecialite());
+            }
+        } else {
+            nomField.clear();
+            prenomField.clear();
+            specialiteField.clear();
+        }
     }
 }
