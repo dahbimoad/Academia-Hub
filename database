@@ -53,7 +53,7 @@ CREATE TABLE notifications (
 );
 
 
-SELECT setval('utilisateurs_id_seq', (SELECT MAX(id) FROM utilisateurs) + 1);   //for probleme de id
+
 
 -- Insert Users
 INSERT INTO utilisateurs (id, username, password, role) VALUES
@@ -127,6 +127,12 @@ INSERT INTO inscriptions (etudiant_id, module_id, date_inscription) VALUES
 (13, 7, '2023-09-15'), (13, 8, '2023-09-15'), (13, 9, '2023-09-15'),
 (14, 7, '2023-09-15'), (14, 8, '2023-09-15'), (14, 9, '2023-09-15'),
 (15, 7, '2023-09-15'), (15, 8, '2023-09-15'), (15, 9, '2023-09-15');
+
+
+SELECT setval('utilisateurs_id_seq', (SELECT MAX(id) FROM utilisateurs) + 1);
+
+
+
 =========================================DROPTABLES=============================================================
 
 DROP TABLE IF EXISTS inscriptions;
