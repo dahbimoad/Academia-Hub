@@ -1,6 +1,7 @@
 package com.academiahub.schoolmanagement.DAO;
 
 import com.academiahub.schoolmanagement.Models.Etudiant;
+import com.academiahub.schoolmanagement.Models.Professeur;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
 import org.slf4j.Logger;
@@ -227,4 +228,35 @@ public class UtilisateurDAO {
         }
         return students;
     }
+    public boolean updatePassword(Utilisateur user, String currentPassword, String newPassword) throws SQLException {
+        try {
+            // First verify current password
+            String verifyQuery = "SELECT * FROM utilisateurs WHERE id = ? AND password = ?";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement verifyStmt = conn.prepareStatement(verifyQuery)) {
+                verifyStmt.setInt(1, user.getId());
+                verifyStmt.setString(2, currentPassword);
+
+                ResultSet rs = verifyStmt.executeQuery();
+                if (!rs.next()) {
+                    return false; // Current password is incorrect
+                }
+            }
+
+            // Update with new password
+            String updateQuery = "UPDATE utilisateurs SET password = ? WHERE id = ?";
+            try (Connection conn = DatabaseConnection.getConnection();
+                 PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                updateStmt.setString(1, newPassword);
+                updateStmt.setInt(2, user.getId());
+
+                int rowsAffected = updateStmt.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
 }

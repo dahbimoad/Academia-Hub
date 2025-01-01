@@ -1,0 +1,250 @@
+/* Dialog Base Styles */
+.dialog-content {
+    -fx-background-color: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+    -fx-min-width: 400px;
+}
+
+.dialog-header {
+    -fx-padding: 15 0 20 0;
+}
+
+.dialog-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.dialog-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7f8c8d;
+}
+
+/* Form Styles */
+.form-container {
+    -fx-spacing: 15;
+}
+
+.input-field {
+    -fx-background-color: #f5f6fa;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: transparent;
+    -fx-padding: 10 15;
+    -fx-font-size: 14px;
+}
+
+.input-field:focused {
+    -fx-background-color: white;
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.1), 5, 0, 0, 0);
+}
+
+/* Button Styles */
+.cancel-button, .save-button {
+    -fx-padding: 8 20;
+    -fx-background-radius: 5;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.cancel-button {
+    -fx-background-color: #f5f6fa;
+    -fx-text-fill: #2c3e50;
+}
+
+.save-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #eceef4;
+}
+
+.save-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+/* Error Label */
+.error-label {
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 12px;
+}
+
+/* Settings Dialog Specific */
+.settings-dialog {
+    -fx-background-color: white;
+}
+
+.settings-header {
+    -fx-padding: 0 0 15 0;
+    -fx-border-color: transparent transparent #ecf0f1 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.settings-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.settings-tabs {
+    -fx-tab-min-height: 40px;
+}
+
+.settings-tabs .tab-header-background {
+    -fx-background-color: #f5f6fa;
+}
+
+.settings-tab {
+    -fx-background-color: transparent;
+    -fx-padding: 5 15;
+}
+
+.settings-tab:selected {
+    -fx-background-color: white;
+}
+
+.tab-content {
+    -fx-background-color: white;
+}
+
+.setting-item {
+    -fx-padding: 10;
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 8;
+}
+
+.setting-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.setting-description {
+    -fx-text-fill: #7f8c8d;
+    -fx-font-size: 12px;
+}
+
+.settings-combo {
+    -fx-background-color: white;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 4;
+    -fx-padding: 5 10;
+}
+
+.edit-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-background-radius: 4;
+    -fx-padding: 5 15;
+    -fx-cursor: hand;
+}
+
+.edit-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+/* Icons */
+.glyph-icon {
+    -fx-fill: #3498db;
+}
+
+.setting-icon {
+    -fx-fill: #7f8c8d;
+}
+.strength-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.hint-label {
+    -fx-font-size: 11px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.progress-bar > .bar {
+    -fx-background-insets: 1 1 1 1;
+    -fx-padding: 0.20em;
+}
+
+.progress-bar .bar {
+    -fx-background-insets: 1 1 1 1;
+    -fx-padding: 0.20em;
+}
+
+.progress-bar.weak .bar {
+    -fx-background-color: #e74c3c;
+}
+
+.progress-bar.medium .bar {
+    -fx-background-color: #f1c40f;
+}
+
+.progress-bar.strong .bar {
+    -fx-background-color: #2ecc71;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-border-color: #dcdde1;
+    -fx-border-radius: 3;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #3498db;
+    -fx-border-color: #3498db;
+}
+
+.settings-saved-label {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-padding: 5 10;
+    -fx-background-radius: 5;
+    -fx-font-size: 12px;
+}
+.settings-tabs {
+    -fx-tab-min-width: 120px;
+    -fx-tab-max-width: 120px;
+    -fx-tab-min-height: 40px;
+}
+
+.settings-tabs .tab {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: transparent;
+}
+
+.settings-tabs .tab:selected {
+    -fx-border-color: #3498db;
+    -fx-background-color: #f8f9fa;
+}
+
+.setting-item {
+    -fx-padding: 16px;
+    -fx-background-color: white;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.modify-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 4px;
+    -fx-min-width: 100px;
+}
+
+.modify-button:hover {
+    -fx-background-color: #2980b9;
+}
+
+.settings-separator {
+    -fx-padding: 0 -16px;
+}

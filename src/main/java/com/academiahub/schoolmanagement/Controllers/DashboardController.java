@@ -2,7 +2,6 @@ package com.academiahub.schoolmanagement.Controllers;
 
 import com.academiahub.schoolmanagement.DAO.NotificationDAO;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
-import com.academiahub.schoolmanagement.DAO.EtudiantDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +12,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,7 +29,7 @@ public class DashboardController {
     @FXML private StackPane contentArea;
     private Connection dbConnection;
     @FXML private Button notificationButton;
-    private Utilisateur currentUser;
+    private static Utilisateur currentUser;
 
     private String currentUsername;
     private String currentRole;
@@ -42,9 +41,12 @@ public class DashboardController {
         showError("Database connection failed: " + e.getMessage());
     }
     }
+    public static Utilisateur getCurrentUser() {
+        return currentUser;
+    }
 
      public void initializeUserData(Utilisateur user) {
-        this.currentUser = user;
+        currentUser = user;
         this.currentUsername = user.getUsername();
         this.currentRole = user.getRole();
 
@@ -289,5 +291,24 @@ private void showProfileDialog() {
         showError("Erreur lors de l'affichage du profil");
     }
 }
+@FXML
+private void handleSettings() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/SettingsDialog.fxml"));
+        Parent root = loader.load();
 
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setTitle("Paramètres");
+        Scene scene = new Scene(root);
+        dialogStage.setScene(scene);
+
+        SettingsDialogController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+
+        dialogStage.showAndWait();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 }

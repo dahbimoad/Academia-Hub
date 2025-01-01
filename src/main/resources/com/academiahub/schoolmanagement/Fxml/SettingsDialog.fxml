@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox spacing="20" styleClass="settings-dialog" xmlns:fx="http://javafx.com/fxml"
+     fx:controller="com.academiahub.schoolmanagement.Controllers.SettingsDialogController">
+   <padding>
+       <Insets top="20" right="25" bottom="20" left="25"/>
+   </padding>
+
+   <!-- Header -->
+   <HBox alignment="CENTER_LEFT" spacing="15" styleClass="settings-header">
+       <FontIcon iconLiteral="fas-cog" iconSize="24" styleClass="settings-icon"/>
+       <Label text="Paramètres" styleClass="settings-title"/>
+   </HBox>
+
+   <!-- Tabs Container -->
+   <TabPane styleClass="settings-tabs" tabClosingPolicy="UNAVAILABLE">
+       <!-- Profile Tab -->
+       <Tab styleClass="settings-tab">
+           <graphic>
+               <HBox spacing="8" alignment="CENTER">
+                   <FontIcon iconLiteral="fas-user" iconSize="14"/>
+                   <Label text="Profil" styleClass="tab-label"/>
+               </HBox>
+           </graphic>
+           <content>
+               <VBox spacing="24" styleClass="tab-content">
+                   <padding>
+                       <Insets top="20" right="20" bottom="20" left="20"/>
+                   </padding>
+
+                   <!-- Password Setting -->
+                   <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
+                       <FontIcon iconLiteral="fas-key" iconSize="16" styleClass="setting-icon"/>
+                       <VBox spacing="4" HBox.hgrow="ALWAYS">
+                           <Label text="Mot de passe" styleClass="setting-label"/>
+                           <Label text="Modifiez votre mot de passe" styleClass="setting-description"/>
+                       </VBox>
+                       <Button text="Modifier" onAction="#handleChangePassword" styleClass="modify-button">
+                           <graphic>
+                               <FontIcon iconLiteral="fas-edit" iconSize="12"/>
+                           </graphic>
+                       </Button>
+                   </HBox>
+
+                   <Separator styleClass="settings-separator"/>
+
+                   <!-- Account Info -->
+                   <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
+                       <FontIcon iconLiteral="fas-user-circle" iconSize="16" styleClass="setting-icon"/>
+                       <VBox spacing="4" HBox.hgrow="ALWAYS">
+                           <Label text="Informations du compte" styleClass="setting-label"/>
+                           <Label text="Modifiez votre username" styleClass="setting-description"/>
+                       </VBox>
+                       <Button text="Modifier" onAction="#handleEditProfile" styleClass="modify-button">
+                           <graphic>
+                               <FontIcon iconLiteral="fas-edit" iconSize="12"/>
+                           </graphic>
+                       </Button>
+                   </HBox>
+               </VBox>
+           </content>
+       </Tab>
+
+       <!-- Interface Tab -->
+       <Tab styleClass="settings-tab">
+           <graphic>
+               <HBox spacing="8" alignment="CENTER">
+                   <FontIcon iconLiteral="fas-desktop" iconSize="14"/>
+                   <Label text="Interface" styleClass="tab-label"/>
+               </HBox>
+           </graphic>
+           <content>
+               <VBox spacing="24" styleClass="tab-content">
+                   <padding>
+                       <Insets top="20" right="20" bottom="20" left="20"/>
+                   </padding>
+
+                   <!-- Theme Setting -->
+                   <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
+                       <FontIcon iconLiteral="fas-palette" iconSize="16" styleClass="setting-icon"/>
+                       <VBox spacing="4" HBox.hgrow="ALWAYS">
+                           <Label text="Thème" styleClass="setting-label"/>
+                           <Label text="Personnalisez l'apparence de l'application" styleClass="setting-description"/>
+                       </VBox>
+                       <ComboBox fx:id="themeComboBox" styleClass="settings-combo"/>
+                   </HBox>
+
+                   <!-- Language Setting -->
+                   <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
+                       <FontIcon iconLiteral="fas-language" iconSize="16" styleClass="setting-icon"/>
+                       <VBox spacing="4" HBox.hgrow="ALWAYS">
+                           <Label text="Langue" styleClass="setting-label"/>
+                           <Label text="Choisissez votre langue préférée" styleClass="setting-description"/>
+                       </VBox>
+                       <ComboBox fx:id="languageComboBox" styleClass="settings-combo"/>
+                   </HBox>
+               </VBox>
+           </content>
+       </Tab>
+
+       <!-- Notifications Tab -->
+       <Tab styleClass="settings-tab">
+           <graphic>
+               <HBox spacing="8" alignment="CENTER">
+                   <FontIcon iconLiteral="fas-bell" iconSize="14"/>
+                   <Label text="Notifications" styleClass="tab-label"/>
+               </HBox>
+           </graphic>
+           <content>
+               <VBox spacing="24" styleClass="tab-content">
+                   <padding>
+                       <Insets top="20" right="20" bottom="20" left="20"/>
+                   </padding>
+
+                   <!-- General Notifications -->
+                   <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
+                       <FontIcon iconLiteral="fas-bell" iconSize="16" styleClass="setting-icon"/>
+                       <VBox spacing="4" HBox.hgrow="ALWAYS">
+                           <Label text="Notifications" styleClass="setting-label"/>
+                           <Label text="Activer/Désactiver les notifications" styleClass="setting-description"/>
+                       </VBox>
+                       <CheckBox fx:id="enableNotificationsCheck"/>
+                   </HBox>
+
+                   <!-- Sound Notifications -->
+                   <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
+                       <FontIcon iconLiteral="fas-volume-up" iconSize="16" styleClass="setting-icon"/>
+                       <VBox spacing="4" HBox.hgrow="ALWAYS">
+                           <Label text="Son" styleClass="setting-label"/>
+                           <Label text="Activer le son des notifications" styleClass="setting-description"/>
+                       </VBox>
+                       <CheckBox fx:id="notificationSoundCheck"/>
+                   </HBox>
+
+                   <!-- Email Notifications -->
+                   <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
+                       <FontIcon iconLiteral="fas-envelope" iconSize="16" styleClass="setting-icon"/>
+                       <VBox spacing="4" HBox.hgrow="ALWAYS">
+                           <Label text="Notifications par email" styleClass="setting-label"/>
+                           <Label text="Recevoir les notifications par email" styleClass="setting-description"/>
+                       </VBox>
+                       <CheckBox fx:id="emailNotificationsCheck"/>
+                   </HBox>
+               </VBox>
+           </content>
+       </Tab>
+   </TabPane>
+
+   <Label fx:id="settingsSavedLabel" text="Paramètres enregistrés"
+          styleClass="settings-saved-label" visible="false"/>
+</VBox>
