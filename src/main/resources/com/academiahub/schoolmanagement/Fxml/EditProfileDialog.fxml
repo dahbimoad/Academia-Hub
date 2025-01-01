@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<VBox spacing="15" styleClass="dialog-content" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academiahub.schoolmanagement.Controllers.EditProfileDialogController">
+    <padding>
+        <Insets top="20" right="25" bottom="20" left="25"/>
+    </padding>
+
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="dialog-header">
+        <FontIcon iconLiteral="fas-user" iconSize="20" styleClass="dialog-icon"/>
+        <Label text="Modifier le profil" styleClass="dialog-title"/>
+    </HBox>
+
+    <!-- Role Display -->
+    <Label fx:id="roleLabel" styleClass="role-info"/>
+
+    <!-- Form Content -->
+    <GridPane vgap="15" hgap="10">
+        <Label text="Nom d'utilisateur:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="usernameField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field"/>
+    </GridPane>
+
+    <!-- Error Message -->
+    <Label fx:id="errorLabel" styleClass="error-label" wrapText="true"/>
+
+    <!-- Buttons -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Annuler" onAction="#handleCancel" styleClass="cancel-button"/>
+        <Button text="Enregistrer" onAction="#handleSave" styleClass="save-button" defaultButton="true"/>
+    </HBox>
+</VBox>

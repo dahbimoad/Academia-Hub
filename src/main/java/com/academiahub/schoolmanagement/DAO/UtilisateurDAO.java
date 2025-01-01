@@ -21,29 +21,26 @@ public class UtilisateurDAO {
     }
 
     public Utilisateur authenticate(String username, String password) {
-        String query = "SELECT * FROM utilisateurs WHERE username = ? AND password = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, username);
-            stmt.setString(2, password); // In a real application, use password hashing
+    String query = "SELECT * FROM utilisateurs WHERE username = ? AND password = ?";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query)) {
+        stmt.setString(1, username);
+        stmt.setString(2, password);
 
-            System.out.println("Attempting authentication for user: " + username);
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                Utilisateur user = new Utilisateur();
-                user.setId(rs.getInt("id"));
-                user.setUsername(rs.getString("username"));
-                user.setRole(rs.getString("role"));
-                System.out.println("Authentication successful. Role: " + user.getRole());
-                return user;
-            }
-            System.out.println("Authentication failed for user: " + username);
-        } catch (SQLException e) {
-            System.out.println("Database error during authentication:");
-            e.printStackTrace();
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            Utilisateur user = new Utilisateur();
+            user.setId(rs.getInt("id"));
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password")); // Added this line
+            user.setRole(rs.getString("role"));
+            return user;
         }
-        return null;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+    return null;
+}
     public void create(Utilisateur utilisateur) {
         String sql = "INSERT INTO utilisateurs(username, password, role) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -103,6 +100,8 @@ public class UtilisateurDAO {
             e.printStackTrace();
         }
     }
+
+
 
     public void delete(int id) {
         String sql = "DELETE FROM utilisateurs WHERE id = ?";
@@ -198,9 +197,58 @@ public class UtilisateurDAO {
         }
         return students;
     }
+    public boolean updatePassword(Utilisateur user, String currentPassword, String newPassword) throws SQLException {
+    try {
+        // First verify current password
+        String verifyQuery = "SELECT * FROM utilisateurs WHERE id = ? AND password = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement verifyStmt = conn.prepareStatement(verifyQuery)) {
+            verifyStmt.setInt(1, user.getId());
+            verifyStmt.setString(2, currentPassword);
 
-    // ======================================
-    // 9. Récupérer les Modules Enseignés par le Nom d'Utilisateur
-    // ======================================
+            ResultSet rs = verifyStmt.executeQuery();
+            if (!rs.next()) {
+                return false; // Current password is incorrect
+            }
+        }
+
+        // Update with new password
+        String updateQuery = "UPDATE utilisateurs SET password = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+            updateStmt.setString(1, newPassword);
+            updateStmt.setInt(2, user.getId());
+
+            int rowsAffected = updateStmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw e;
+    }
+}
+
+public boolean updateUsername(Utilisateur user, String newUsername) throws SQLException {
+    try {
+        String query = "UPDATE utilisateurs SET username = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, newUsername);
+            pstmt.setInt(2, user.getId());
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                user.setUsername(newUsername);
+                return true;
+            }
+            return false;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw e;
+    }
+}
+
+
 
 }

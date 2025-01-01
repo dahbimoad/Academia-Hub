@@ -1,0 +1,196 @@
+/************************************
+ * Global Dialog Styling
+ ************************************/
+.dialog-content {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 2);
+    -fx-padding: 20;
+}
+
+/* Header & Title */
+.dialog-header {
+    -fx-padding: 0 0 15 0;
+    -fx-border-color: transparent transparent #eee transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.dialog-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.dialog-icon {
+    -fx-fill: #1abc9c;
+    /* You can also set a small drop shadow or slight margin if you like */
+}
+
+/* Error Label */
+.error-label {
+    -fx-text-fill: #e74c3c;
+    -fx-font-size: 12px;
+    -fx-font-style: italic;
+}
+
+/* Text & Password Fields */
+.text-field, .password-field {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 4;
+    -fx-padding: 8;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #1abc9c;
+    -fx-effect: dropshadow(one-pass-box, rgba(26, 188, 156, 0.2), 5, 0.5, 0, 0);
+}
+
+/* Buttons */
+.save-button {
+    -fx-background-color: #1abc9c;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.save-button:hover {
+    -fx-background-color: #16a085;
+}
+
+.cancel-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.cancel-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+/************************************
+ * Settings Dialog
+ ************************************/
+.settings-dialog {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 2);
+    -fx-padding: 20;
+}
+
+/* Header */
+.settings-header {
+    -fx-padding: 0 0 15 0;
+    -fx-border-color: transparent transparent #eee transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.settings-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.settings-icon {
+    -fx-fill: #1abc9c;
+}
+
+/* Tabs */
+.settings-tabs {
+    -fx-tab-min-width: 120px;
+    -fx-background-color: transparent;
+}
+
+.settings-tabs .tab-header-area {
+    -fx-padding: 0 0 10 0;
+}
+
+.settings-tabs .tab {
+    -fx-background-color: transparent;
+    -fx-padding: 8 15;
+}
+
+.settings-tabs .tab:selected {
+    -fx-background-color: #1abc9c;
+}
+
+.settings-tabs .tab:selected .tab-label,
+.settings-tabs .tab:selected .glyph-icon {
+    -fx-text-fill: white;
+    -fx-fill: white;
+}
+
+.settings-tabs .tab .glyph-icon {
+    -fx-fill: #666;
+}
+
+/* Tab Content */
+.tab-content {
+    -fx-background-color: #fff;
+}
+
+/************************************
+ * Individual Setting Items
+ ************************************/
+.setting-item {
+    -fx-padding: 10;
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 5;
+    -fx-spacing: 15;
+}
+
+.setting-icon {
+    -fx-fill: #1abc9c;
+}
+
+.setting-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.setting-description {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666;
+}
+
+/* Edit / Action Buttons in Settings */
+.edit-button {
+    -fx-background-color: #1abc9c;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 8 15;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.edit-button:hover {
+    -fx-background-color: #16a085;
+}
+
+.edit-button .glyph-icon {
+    -fx-fill: white;
+}
+
+/* Combobox */
+.settings-combo {
+    -fx-background-color: white;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 5;
+    -fx-min-width: 200px;
+}
+
+.settings-combo:hover {
+    -fx-border-color: #1abc9c;
+}
+
+.settings-combo .list-cell {
+    -fx-padding: 5 10;
+}

@@ -390,3 +390,37 @@
 .stats-container:hover {
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
 }
+.avatar-icon {
+    -fx-fill: white;  /* Makes the icon white to match header theme */
+    -fx-opacity: 0.9;
+}
+.avatar-icon {
+    -fx-fill: #2c3e50;
+    -fx-opacity: 0.8;
+}
+
+.user-avatar {
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.header-action-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-min-width: 35px;
+    -fx-min-height: 35px;
+    -fx-padding: 5;
+}
+
+.header-action-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-action-button .glyph-icon {
+    -fx-fill: white;
+}
+
+.menu-button {
+    -fx-padding: 10 15;
+}
+
