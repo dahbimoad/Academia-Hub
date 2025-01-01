@@ -26,35 +26,35 @@ public class ProfesseurDAO {
     public List<Module> getProfesseurModules(String username) {
         List<Module> modules = new ArrayList<>();
         String query = "SELECT m.* FROM modules m " +
-                      "JOIN professeurs p ON m.professeur_id = p.id " +
-                      "JOIN utilisateurs u ON p.user_id = u.id " +
-                      "WHERE u.username = ?";
+                "JOIN professeurs p ON m.professeur_id = p.id " +
+                "JOIN utilisateurs u ON p.user_id = u.id " +
+                "WHERE u.username = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            Module module = new Module();
-            module.setId(rs.getInt("id"));
-            module.setNomModule(rs.getString("nom_module"));
-            module.setCodeModule(rs.getString("code_module"));
-            // Fetch and set the number of students
-            int moduleId = module.getId();
-            List<Etudiant> students = getModuleStudents(moduleId);
-            module.setNbEtudiants(students.size());
-            modules.add(module);
+            while (rs.next()) {
+                Module module = new Module();
+                module.setId(rs.getInt("id"));
+                module.setNomModule(rs.getString("nom_module"));
+                module.setCodeModule(rs.getString("code_module"));
+                // Fetch and set the number of students
+                int moduleId = module.getId();
+                List<Etudiant> students = getModuleStudents(moduleId);
+                module.setNbEtudiants(students.size());
+                modules.add(module);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
         return modules;
     }
     public List<Etudiant> getModuleStudents(int moduleId) {
         List<Etudiant> students = new ArrayList<>();
         String query = "SELECT e.* FROM etudiants e " +
-                      "JOIN inscriptions i ON e.id = i.etudiant_id " +
-                      "WHERE i.module_id = ?";
+                "JOIN inscriptions i ON e.id = i.etudiant_id " +
+                "WHERE i.module_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, moduleId);

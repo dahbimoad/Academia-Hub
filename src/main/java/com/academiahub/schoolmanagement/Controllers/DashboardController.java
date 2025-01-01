@@ -125,6 +125,7 @@ public class DashboardController {
         }
     }
 
+
     @FXML private void handleModuleManagement() {
         loadContent("ModuleManagement");
     }
