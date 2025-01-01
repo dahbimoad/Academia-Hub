@@ -33,13 +33,13 @@
 
         <GridPane hgap="10" vgap="10">
             <TextField fx:id="nomField" promptText="Nom" styleClass="text-field"
-                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                       GridPane.columnIndex="0" GridPane.rowIndex="0" editable="false"/>
             <TextField fx:id="prenomField" promptText="Prénom" styleClass="text-field"
-                       GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                       GridPane.columnIndex="1" GridPane.rowIndex="0" editable="false"/>
             <TextField fx:id="specialiteField" promptText="Spécialité" styleClass="text-field"
-                       GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                       GridPane.columnIndex="0" GridPane.rowIndex="1" editable="false"/>
             <TextField fx:id="userIdField" promptText="User ID" styleClass="text-field"
-                       GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                       GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false"/>
         </GridPane>
 
         <HBox spacing="10" alignment="CENTER_RIGHT">
