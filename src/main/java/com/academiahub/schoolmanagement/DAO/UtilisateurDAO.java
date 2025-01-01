@@ -3,7 +3,6 @@ package com.academiahub.schoolmanagement.DAO;
 import com.academiahub.schoolmanagement.Models.Etudiant;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
-import com.academiahub.schoolmanagement.utils.PasswordGenerator;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -92,22 +91,22 @@ public class UtilisateurDAO {
     }
 
     public boolean update(Utilisateur utilisateur) {
-        String sql = "UPDATE utilisateurs SET username=?, password=?, role=? WHERE id=?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, utilisateur.getUsername());
-            pstmt.setString(2, utilisateur.getPassword());
-            pstmt.setString(3, utilisateur.getRole());
-            pstmt.setInt(4, utilisateur.getId());
-            pstmt.executeUpdate();
-            System.out.println("Utilisateur mis à jour avec succès !");
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement("UPDATE utilisateurs SET username = ?, password = ?, role = ? WHERE id = ?")) {
+            stmt.setString(1, utilisateur.getUsername());
+            stmt.setString(2, utilisateur.getPassword());
+            stmt.setString(3, utilisateur.getRole());
+            stmt.setInt(4, utilisateur.getId());
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Ajouter un journal pour déboguer
+            return false;
         }
-        return false;
     }
 
-    public boolean delete(int id) {
+
+    public void delete(int id) {
         String sql = "DELETE FROM utilisateurs WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -117,7 +116,6 @@ public class UtilisateurDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public List<Utilisateur> findAll() {
@@ -201,6 +199,20 @@ public class UtilisateurDAO {
             e.printStackTrace();
         }
         return students;
+    }
+
+
+
+    private Connection getConnection() {
+        try {
+            String url = "jdbc:postgresql://localhost:5432/ecole";
+            String user = "postgres";
+            String password = "Imad2002";
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null; // Cela pourrait provoquer le NullPointerException
+        }
     }
 
     // ======================================

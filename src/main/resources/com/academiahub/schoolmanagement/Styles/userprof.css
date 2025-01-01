@@ -1,82 +1,57 @@
+/* Styles généraux */
 .root {
-    -fx-font-family: "Segoe UI", Arial, sans-serif;
-    -fx-background-color: #f5f5f5;
-}
-
-/* Styles des champs de texte */
-.text-field, .password-field, .combo-box {
-    -fx-pref-width: 200px;
-    -fx-background-radius: 4px;
-    -fx-border-radius: 4px;
+    -fx-background-color: #f4f4f4;
 }
 
 /* Styles des boutons */
-.button {
-    -fx-padding: 8px 15px;
-    -fx-background-radius: 4px;
-    -fx-cursor: hand;
-    -fx-font-weight: bold;
-}
-
 .button-primary {
-    -fx-background-color: #2196F3;
+    -fx-background-color: #007bff;
     -fx-text-fill: white;
 }
 
-.button-primary:hover {
-    -fx-background-color: #1976D2;
-}
-
-.button-secondary {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-}
-
-.button-secondary:hover {
-    -fx-background-color: #388E3C;
+.button-warning {
+    -fx-background-color: #ffc107;
+    -fx-text-fill: black;
 }
 
 .button-danger {
-    -fx-background-color: #F44336;
+    -fx-background-color: #dc3545;
     -fx-text-fill: white;
 }
 
-.button-danger:hover {
-    -fx-background-color: #D32F2F;
-}
-
-.button-info {
-    -fx-background-color: #9E9E9E;
+.button-secondary {
+    -fx-background-color: #6c757d;
     -fx-text-fill: white;
 }
 
-.button-info:hover {
-    -fx-background-color: #757575;
+.button-success {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
 }
 
-/* Styles de la TableView */
-.table-view {
+/* Style du formulaire */
+.form-container {
     -fx-background-color: white;
-    -fx-background-radius: 4px;
-    -fx-border-radius: 4px;
-    -fx-border-color: #E0E0E0;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 0);
+    -fx-background-radius: 5;
 }
 
-.table-view .column-header {
-    -fx-background-color: #f0f0f0;
-    -fx-padding: 10px;
+.form-title {
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
+    -fx-padding: 0 0 10 0;
 }
 
-.table-view .table-cell {
-    -fx-padding: 8px;
+/* Style de la barre de recherche */
+.text-field {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
 }
 
-.table-row-cell:odd {
-    -fx-background-color: #f8f8f8;
-}
-
-.table-row-cell:selected {
-    -fx-background-color: #2196F3;
-    -fx-text-fill: white;
+/* Style du tableau */
+.table-view {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
 }
