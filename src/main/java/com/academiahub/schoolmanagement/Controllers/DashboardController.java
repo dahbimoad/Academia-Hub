@@ -1,17 +1,24 @@
 package com.academiahub.schoolmanagement.Controllers;
 
+import com.academiahub.schoolmanagement.DAO.NotificationDAO;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
-import com.academiahub.schoolmanagement.DAO.EtudiantDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DashboardController {
     @FXML private Label welcomeLabel;
@@ -21,16 +28,27 @@ public class DashboardController {
     @FXML private VBox professorMenu;
     @FXML private StackPane contentArea;
     private Connection dbConnection;
+    @FXML private Button notificationButton;
+    private static Utilisateur currentUser;
 
     private String currentUsername;
     private String currentRole;
+    public DashboardController() {
+    try {
+        dbConnection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/school_management", "postgres", "mouad1233");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        showError("Database connection failed: " + e.getMessage());
+    }
+    }
+    public static Utilisateur getCurrentUser() {
+        return currentUser;
+    }
 
      public void initializeUserData(Utilisateur user) {
+        currentUser = user;
         this.currentUsername = user.getUsername();
         this.currentRole = user.getRole();
-
-        welcomeLabel.setText("Bienvenue " + currentUsername + " !");
-        roleLabel.setText("Vous êtes un " + currentRole);
 
         // Show appropriate menu based on role
         switch (currentRole) {
@@ -106,6 +124,7 @@ public class DashboardController {
             showError("Une erreur est survenue lors du chargement de la gestion des inscriptions : " + e.getMessage());
         }
     }
+
 
     @FXML private void handleModuleManagement() {
         loadContent("ModuleManagement");
@@ -228,5 +247,68 @@ public class DashboardController {
             contentArea.getChildren().setAll(errorContent);
         }
     }
+@FXML
+private void showNotifications() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+            "/com/academiahub/schoolmanagement/Fxml/notifications_popup.fxml"));
+        Parent notificationsPopup = loader.load();
 
+        NotificationsController controller = loader.getController();
+        controller.setNotificationDAO(new NotificationDAO(dbConnection));
+        controller.setUserRole(currentRole);
+
+        // Create a new stage for the popup
+        Stage stage = new Stage();
+        stage.setScene(new Scene(notificationsPopup));
+        stage.initOwner(notificationButton.getScene().getWindow());
+        stage.setTitle("Notifications");
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        showError("Erreur lors de l'affichage des notifications.");
+    }
+}
+
+
+
+
+
+@FXML
+private void showProfileDialog() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/user_profile_dialog.fxml"));
+        VBox profileDialog = loader.load();
+
+        UserProfileController controller = loader.getController();
+        controller.setCurrentUser(currentUser);
+
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.getDialogPane().setContent(profileDialog);
+        dialog.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        showError("Erreur lors de l'affichage du profil");
+    }
+}
+@FXML
+private void handleSettings() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/SettingsDialog.fxml"));
+        Parent root = loader.load();
+
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setTitle("Paramètres");
+        Scene scene = new Scene(root);
+        dialogStage.setScene(scene);
+
+        SettingsDialogController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+
+        dialogStage.showAndWait();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 }

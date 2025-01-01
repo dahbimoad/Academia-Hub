@@ -33,4 +33,6 @@ public class Utilisateur {
         } else {
             throw new IllegalArgumentException("Invalid role. Must be ADMIN, SECRETAIRE, or PROFESSEUR");
         }}
+
+
 }

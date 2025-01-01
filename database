@@ -42,7 +42,18 @@ CREATE TABLE inscriptions (
     UNIQUE(etudiant_id, module_id)
 );
 
-SELECT setval('utilisateurs_id_seq', (SELECT MAX(id) FROM utilisateurs) + 1);   //for probleme de id
+CREATE TABLE notifications (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(50) NOT NULL, -- 'INFO', 'WARNING', 'ERROR'
+    recipient_role VARCHAR(50), -- 'ALL', 'ADMIN', 'PROFESSEUR', 'SECRETAIRE'
+    read_status BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 
 -- Insert Users
 INSERT INTO utilisateurs (id, username, password, role) VALUES
@@ -116,6 +127,12 @@ INSERT INTO inscriptions (etudiant_id, module_id, date_inscription) VALUES
 (13, 7, '2023-09-15'), (13, 8, '2023-09-15'), (13, 9, '2023-09-15'),
 (14, 7, '2023-09-15'), (14, 8, '2023-09-15'), (14, 9, '2023-09-15'),
 (15, 7, '2023-09-15'), (15, 8, '2023-09-15'), (15, 9, '2023-09-15');
+
+
+SELECT setval('utilisateurs_id_seq', (SELECT MAX(id) FROM utilisateurs) + 1);
+
+
+
 =========================================DROPTABLES=============================================================
 
 DROP TABLE IF EXISTS inscriptions;

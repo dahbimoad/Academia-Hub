@@ -1,21 +1,51 @@
+/* Base styles */
 .root {
     -fx-font-family: "Segoe UI", Arial, sans-serif;
     -fx-background-color: #f5f5f5;
 }
 
-/* Styles des champs de texte */
+/* Form containers */
+.form-container {
+    -fx-background-color: white;
+    -fx-padding: 15px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #E0E0E0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+.form-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10px 0;
+}
+
+.form-subtitle {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 0;
+}
+
+/* Input fields */
 .text-field, .password-field, .combo-box {
     -fx-pref-width: 200px;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
+    -fx-border-color: #E0E0E0;
+    -fx-padding: 8px;
 }
 
-/* Styles des boutons */
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: #2196F3;
+}
+
+/* Buttons */
 .button {
     -fx-padding: 8px 15px;
     -fx-background-radius: 4px;
     -fx-cursor: hand;
     -fx-font-weight: bold;
+    -fx-min-width: 80px;
 }
 
 .button-primary {
@@ -23,38 +53,30 @@
     -fx-text-fill: white;
 }
 
-.button-primary:hover {
-    -fx-background-color: #1976D2;
-}
+.button-primary:hover { -fx-background-color: #1976D2; }
 
-.button-secondary {
-    -fx-background-color: #4CAF50;
+.button-warning {
+    -fx-background-color: #FFA726;
     -fx-text-fill: white;
 }
 
-.button-secondary:hover {
-    -fx-background-color: #388E3C;
-}
+.button-warning:hover { -fx-background-color: #F57C00; }
 
 .button-danger {
     -fx-background-color: #F44336;
     -fx-text-fill: white;
 }
 
-.button-danger:hover {
-    -fx-background-color: #D32F2F;
-}
+.button-danger:hover { -fx-background-color: #D32F2F; }
 
-.button-info {
-    -fx-background-color: #9E9E9E;
+.button-success {
+    -fx-background-color: #4CAF50;
     -fx-text-fill: white;
 }
 
-.button-info:hover {
-    -fx-background-color: #757575;
-}
+.button-success:hover { -fx-background-color: #388E3C; }
 
-/* Styles de la TableView */
+/* TableView */
 .table-view {
     -fx-background-color: white;
     -fx-background-radius: 4px;
@@ -62,21 +84,35 @@
     -fx-border-color: #E0E0E0;
 }
 
-.table-view .column-header {
+.table-view .column-header-background {
     -fx-background-color: #f0f0f0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
     -fx-padding: 10px;
     -fx-font-weight: bold;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 0 0 1 0;
 }
 
 .table-view .table-cell {
     -fx-padding: 8px;
+    -fx-alignment: center-left;
 }
 
-.table-row-cell:odd {
-    -fx-background-color: #f8f8f8;
-}
+.table-row-cell:odd { -fx-background-color: #f8f8f8; }
 
 .table-row-cell:selected {
-    -fx-background-color: #2196F3;
-    -fx-text-fill: white;
+    -fx-background-color: derive(#2196F3, 90%);
+    -fx-text-fill: -fx-text-base-color;
+}
+
+/* Search field */
+.search-container {
+    -fx-padding: 0 0 10px 0;
+}
+
+.search-field {
+    -fx-pref-width: 300px;
 }
