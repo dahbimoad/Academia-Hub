@@ -5,33 +5,57 @@
 <?import javafx.geometry.Insets?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox spacing="15" styleClass="dialog-content" xmlns:fx="http://javafx.com/fxml"
+<VBox spacing="15" styleClass="dialog-content"
+      xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.academiahub.schoolmanagement.Controllers.EditProfileDialogController">
+
     <padding>
         <Insets top="20" right="25" bottom="20" left="25"/>
     </padding>
 
     <!-- Header -->
-    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="dialog-header">
-        <FontIcon iconLiteral="fas-user" iconSize="20" styleClass="dialog-icon"/>
-        <Label text="Modifier le profil" styleClass="dialog-title"/>
+    <HBox styleClass="dialog-header" spacing="10">
+        <FontIcon iconLiteral="fas-user-edit" iconSize="24" styleClass="glyph-icon"/>
+        <VBox spacing="5">
+            <Label text="Modifier le profil" styleClass="dialog-title"/>
+            <Label text="Personnalisez vos informations" styleClass="dialog-subtitle"/>
+        </VBox>
     </HBox>
 
-    <!-- Role Display -->
-    <Label fx:id="roleLabel" styleClass="role-info"/>
+    <!-- Role Info -->
+    <HBox styleClass="setting-item" spacing="10" alignment="CENTER_LEFT">
+        <FontIcon iconLiteral="fas-user-tag" iconSize="16" styleClass="setting-icon"/>
+        <VBox spacing="3">
+            <Label text="Rôle utilisateur" styleClass="setting-title"/>
+            <Label fx:id="roleLabel" styleClass="setting-description"/>
+        </VBox>
+    </HBox>
 
-    <!-- Form Content -->
-    <GridPane vgap="15" hgap="10">
-        <Label text="Nom d'utilisateur:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="usernameField" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="text-field"/>
-    </GridPane>
+    <!-- Form -->
+    <VBox spacing="15" styleClass="form-container">
+        <VBox spacing="8">
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <FontIcon iconLiteral="fas-user" iconSize="14" styleClass="glyph-icon"/>
+                <Label text="Nom d'utilisateur"/>
+            </HBox>
+            <TextField fx:id="usernameField" styleClass="input-field"
+                      promptText="Entrez votre nom d'utilisateur"/>
+        </VBox>
+    </VBox>
 
-    <!-- Error Message -->
-    <Label fx:id="errorLabel" styleClass="error-label" wrapText="true"/>
+    <Label fx:id="errorLabel" styleClass="error-label"/>
 
     <!-- Buttons -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Annuler" onAction="#handleCancel" styleClass="cancel-button"/>
-        <Button text="Enregistrer" onAction="#handleSave" styleClass="save-button" defaultButton="true"/>
+        <Button text="Annuler" onAction="#handleCancel" styleClass="cancel-button">
+            <graphic>
+                <FontIcon iconLiteral="fas-times" iconSize="12"/>
+            </graphic>
+        </Button>
+        <Button text="Enregistrer" onAction="#handleSave" styleClass="save-button" defaultButton="true">
+            <graphic>
+                <FontIcon iconLiteral="fas-check" iconSize="12"/>
+            </graphic>
+        </Button>
     </HBox>
 </VBox>

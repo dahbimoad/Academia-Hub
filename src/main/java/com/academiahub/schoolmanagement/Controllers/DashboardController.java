@@ -294,20 +294,20 @@ private void showProfileDialog() {
 private void handleSettings() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/SettingsDialog.fxml"));
-        Parent settingsRoot = loader.load();
+        Parent root = loader.load();
 
-        Stage settingsStage = new Stage();
-        settingsStage.setTitle("Paramètres");
-        settingsStage.initModality(Modality.APPLICATION_MODAL);
-        settingsStage.initOwner(contentArea.getScene().getWindow());
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.setTitle("Paramètres");
+        Scene scene = new Scene(root);
+        dialogStage.setScene(scene);
 
-        Scene scene = new Scene(settingsRoot);
-        settingsStage.setScene(scene);
-        settingsStage.show();
+        SettingsDialogController controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+
+        dialogStage.showAndWait();
     } catch (IOException e) {
         e.printStackTrace();
-        showError("Erreur lors de l'ouverture des paramètres");
     }
 }
-
 }
