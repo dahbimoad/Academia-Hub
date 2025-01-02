@@ -9,9 +9,17 @@ module com.academiahub.schoolmanagement {
 
 
     opens com.academiahub.schoolmanagement to javafx.fxml;
-    opens com.academiahub.schoolmanagement.Controllers to javafx.fxml;
+
 
     exports com.academiahub.schoolmanagement;
-    exports com.academiahub.schoolmanagement.Controllers;
+
     exports com.academiahub.schoolmanagement.Models;
+    exports com.academiahub.schoolmanagement.Controllers.Base;
+    opens com.academiahub.schoolmanagement.Controllers.Base to javafx.fxml;
+    exports com.academiahub.schoolmanagement.Controllers.Admin;
+    opens com.academiahub.schoolmanagement.Controllers.Admin to javafx.fxml;
+    exports com.academiahub.schoolmanagement.Controllers.Sec;
+    opens com.academiahub.schoolmanagement.Controllers.Sec to javafx.fxml;
+    exports com.academiahub.schoolmanagement.Controllers.Prof;
+    opens com.academiahub.schoolmanagement.Controllers.Prof to javafx.fxml;
 }

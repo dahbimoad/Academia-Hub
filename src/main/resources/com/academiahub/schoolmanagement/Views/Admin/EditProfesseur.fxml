@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.academiahub.schoolmanagement.Controllers.Admin.EditProfesseurController">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Modifier Professeur" styleClass="form-title"/>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="Nom:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="nomField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Prénom:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="prenomField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Spécialité:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="specialiteField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </GridPane>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Enregistrer" onAction="#saveModification" styleClass="button-success"/>
+        <Button text="Annuler" onAction="#cancelModification" styleClass="button-danger"/>
+    </HBox>
+</VBox>

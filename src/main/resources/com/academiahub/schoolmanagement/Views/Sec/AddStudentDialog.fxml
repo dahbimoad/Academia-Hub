@@ -1,0 +1,31 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.Sec.AddStudentDialogController" style="-fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 1);" hgap="15" vgap="15">
+    <padding>
+        <Insets bottom="30" left="30" right="30" top="30"/>
+    </padding>
+
+    <Label text="Matricule:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <TextField fx:id="matriculeField" style="-fx-padding: 10; -fx-border-color: #bbb; -fx-border-radius: 5; -fx-background-color: #f9f9f9;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+    <Label text="Nom:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+    <TextField fx:id="nomField" style="-fx-padding: 10; -fx-border-color: #bbb; -fx-border-radius: 5; -fx-background-color: #f9f9f9;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+    <Label text="Prénom:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+    <TextField fx:id="prenomField" style="-fx-padding: 10; -fx-border-color: #bbb; -fx-border-radius: 5; -fx-background-color: #f9f9f9;" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+    <Label text="Date de Naissance:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+    <DatePicker fx:id="dateNaissancePicker" style="-fx-padding: 10; -fx-border-color: #bbb; -fx-border-radius: 5; -fx-background-color: #f9f9f9;" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+    <Label text="Email:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <TextField fx:id="emailField" style="-fx-padding: 10; -fx-border-color: #bbb; -fx-border-radius: 5; -fx-background-color: #f9f9f9;" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+    <Label text="Promotion:" style="-fx-font-size: 14px; -fx-text-fill: #333;" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+    <TextField fx:id="promotionField" style="-fx-padding: 10; -fx-border-color: #bbb; -fx-border-radius: 5; -fx-background-color: #f9f9f9;" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+    <Button text="Ajouter" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10; -fx-font-size: 14px; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+    <Button text="Annuler" onAction="#handleCancel" style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-padding: 10; -fx-font-size: 14px; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 1);" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+</GridPane>

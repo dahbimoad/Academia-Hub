@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.academiahub.schoolmanagement.Controllers.Base.NotificationsController"
+      styleClass="notifications-popup" maxHeight="500" maxWidth="400">
+
+    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="notifications-header">
+        <Label text="Notifications" styleClass="notifications-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="markAllReadButton" text="Tout marquer comme lu"
+                onAction="#handleMarkAllRead" styleClass="mark-read-button"/>
+    </HBox>
+
+    <ListView fx:id="notificationsListView" VBox.vgrow="ALWAYS"/>
+</VBox>

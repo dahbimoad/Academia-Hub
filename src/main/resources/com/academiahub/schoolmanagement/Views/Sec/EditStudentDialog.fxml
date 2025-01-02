@@ -1,0 +1,27 @@
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.Insets?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.Sec.EditStudentDialogController"
+          >
+    <Label text="Matricule:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+    <TextField fx:id="matriculeField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+    <Label text="Nom:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+    <TextField fx:id="nomField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+    <Label text="Prénom:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+    <TextField fx:id="prenomField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+    <Label text="Date de Naissance:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+    <DatePicker fx:id="dateNaissancePicker" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+
+    <Label text="Email:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <TextField fx:id="emailField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+
+    <Label text="Promotion:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+    <TextField fx:id="promotionField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+
+    <Button text="Enregistrer" onAction="#handleSave" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+    <Button text="Annuler" onAction="#handleCancel" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+</GridPane>
