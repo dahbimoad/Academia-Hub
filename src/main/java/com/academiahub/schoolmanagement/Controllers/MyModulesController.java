@@ -4,6 +4,7 @@ import com.academiahub.schoolmanagement.DAO.ProfesseurDAO;
 import com.academiahub.schoolmanagement.Models.Module;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
+import com.academiahub.schoolmanagement.utils.LanguageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -18,38 +19,47 @@ public class MyModulesController {
     @FXML private TableColumn<Module, String> codeModuleCol;
     @FXML private TableColumn<Module, String> nomModuleCol;
     @FXML private TableColumn<Module, Integer> etudiantsCol;
-
-    // Add missing FXML fields
     @FXML private TextField searchField;
     @FXML private ComboBox<String> sortComboBox;
     @FXML private Label totalStudentsLabel;
 
     private ProfesseurDAO professeurDAO;
     private ObservableList<Module> originalItems = FXCollections.observableArrayList();
+    private final LanguageManager langManager = LanguageManager.getInstance();
 
     @FXML
     public void initialize() {
         try {
             professeurDAO = new ProfesseurDAO(DatabaseConnection.getConnection());
 
-            // Initialize columns
+            // Initialize columns with localized headers
+            codeModuleCol.setText(langManager.getString("mymodules.code"));
+            nomModuleCol.setText(langManager.getString("mymodules.name"));
+            etudiantsCol.setText(langManager.getString("mymodules.students.count"));
+
+            // Set up column value factories
             codeModuleCol.setCellValueFactory(new PropertyValueFactory<>("codeModule"));
             nomModuleCol.setCellValueFactory(new PropertyValueFactory<>("nomModule"));
             etudiantsCol.setCellValueFactory(new PropertyValueFactory<>("nbEtudiants"));
 
-            // Initialize search functionality
+            // Setup search with localized prompt
+            searchField.setPromptText(langManager.getString("mymodules.search"));
             searchField.textProperty().addListener((observable, oldValue, newValue) ->
                     filterModules(newValue)
             );
 
-            // Initialize sorting
-            sortComboBox.getItems().addAll("Code Module", "Nom Module", "Nombre d'étudiants");
-            sortComboBox.setValue("Code Module"); // Set default value
+            // Setup sorting with localized options
+            sortComboBox.getItems().addAll(
+                langManager.getString("mymodules.sort.code"),
+                langManager.getString("mymodules.sort.name"),
+                langManager.getString("mymodules.sort.students")
+            );
+            sortComboBox.setValue(langManager.getString("mymodules.sort.code"));
             sortComboBox.setOnAction(e -> sortModules(sortComboBox.getValue()));
 
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Erreur lors de l'initialisation");
+            showError(langManager.getString("mymodules.error.init"));
         }
     }
 
@@ -66,23 +76,20 @@ public class MyModulesController {
         );
 
         modulesTable.setItems(filteredList);
-        updateStatistics(); // Update statistics after filtering
+        updateStatistics();
     }
 
     private void sortModules(String criterion) {
         ObservableList<Module> items = FXCollections.observableArrayList(modulesTable.getItems());
 
-        switch (criterion) {
-            case "Code Module":
-                items.sort(Comparator.comparing(Module::getCodeModule));
-                break;
-            case "Nom Module":
-                items.sort(Comparator.comparing(Module::getNomModule));
-                break;
-            case "Nombre d'étudiants":
-                items.sort(Comparator.comparing(Module::getNbEtudiants).reversed());
-                break;
+        if (criterion.equals(langManager.getString("mymodules.sort.code"))) {
+            items.sort(Comparator.comparing(Module::getCodeModule));
+        } else if (criterion.equals(langManager.getString("mymodules.sort.name"))) {
+            items.sort(Comparator.comparing(Module::getNomModule));
+        } else if (criterion.equals(langManager.getString("mymodules.sort.students"))) {
+            items.sort(Comparator.comparing(Module::getNbEtudiants).reversed());
         }
+
         modulesTable.setItems(items);
     }
 
@@ -90,15 +97,15 @@ public class MyModulesController {
         int totalStudents = modulesTable.getItems().stream()
                 .mapToInt(Module::getNbEtudiants)
                 .sum();
-        totalStudentsLabel.setText("Total d'étudiants: " + totalStudents);
+        totalStudentsLabel.setText(String.format(
+            langManager.getString("mymodules.total.students"),
+            totalStudents
+        ));
     }
 
     public void loadProfesseurData(Utilisateur user) {
         try {
-            // Get professor's modules using username
             var modules = professeurDAO.getProfesseurModules(user.getUsername());
-
-            // For each module, get the number of students
             modules.forEach(module -> {
                 var students = professeurDAO.getModuleStudents(module.getId());
                 module.setNbEtudiants(students.size());
@@ -107,19 +114,17 @@ public class MyModulesController {
             originalItems.setAll(modules);
             modulesTable.setItems(originalItems);
             updateStatistics();
-
-            // Sort initially by code module
-            sortModules("Code Module");
+            sortModules(langManager.getString("mymodules.sort.code"));
 
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Erreur lors du chargement des modules");
+            showError(langManager.getString("mymodules.error.loading"));
         }
     }
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
+        alert.setTitle(langManager.getString("alert.error"));
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();

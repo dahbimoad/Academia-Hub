@@ -11,27 +11,27 @@
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Mes Modules" styleClass="section-title"/>
+    <Label text="%mymodules.title" styleClass="section-title"/>
 
     <!-- Modules List -->
     <TableView fx:id="modulesTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="codeModuleCol" text="Code Module"/>
-            <TableColumn fx:id="nomModuleCol" text="Nom Module"/>
-            <TableColumn fx:id="etudiantsCol" text="Nombre d'étudiants"/>
+            <TableColumn fx:id="codeModuleCol" text="%mymodules.code"/>
+            <TableColumn fx:id="nomModuleCol" text="%mymodules.name"/>
+            <TableColumn fx:id="etudiantsCol" text="%mymodules.students.count"/>
         </columns>
     </TableView>
 
-    <Label text="Étudiants Inscrits" styleClass="section-title"/>
+    <Label text="%mymodules.students.enrolled" styleClass="section-title"/>
 
     <!-- Students List -->
     <TableView fx:id="studentsTable" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="matriculeCol" text="Matricule"/>
-            <TableColumn fx:id="nomCol" text="Nom"/>
-            <TableColumn fx:id="prenomCol" text="Prénom"/>
-            <TableColumn fx:id="emailCol" text="Email"/>
-            <TableColumn fx:id="promotionCol" text="Promotion"/>
+            <TableColumn fx:id="matriculeCol" text="%studentlist.matricule"/>
+            <TableColumn fx:id="nomCol" text="%studentlist.name"/>
+            <TableColumn fx:id="prenomCol" text="%studentlist.firstname"/>
+            <TableColumn fx:id="emailCol" text="%studentlist.email"/>
+            <TableColumn fx:id="promotionCol" text="%studentlist.promotion"/>
         </columns>
     </TableView>
 </VBox>

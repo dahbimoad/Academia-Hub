@@ -194,7 +194,9 @@ public class DashboardController {
     @FXML
     private void handleMyModules() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/MyModules.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/MyModules.fxml"),
+                    LanguageManager.getInstance().getBundle()
+            );
             Parent content = loader.load();
 
             MyModulesController controller = loader.getController();
@@ -214,7 +216,9 @@ public class DashboardController {
     @FXML
     private void handleStudentList() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentList.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentList.fxml"),
+                    LanguageManager.getInstance().getBundle()
+            );
             Parent content = loader.load();
 
             StudentListController controller = loader.getController();

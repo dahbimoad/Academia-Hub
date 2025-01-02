@@ -4,6 +4,7 @@ import com.academiahub.schoolmanagement.DAO.ProfesseurDAO;
 import com.academiahub.schoolmanagement.Models.Etudiant;
 import com.academiahub.schoolmanagement.Models.Module;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
+import com.academiahub.schoolmanagement.utils.LanguageManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,8 +16,7 @@ public class ProfModulesController {
     @FXML private TableColumn<Module, String> nomModuleCol;
     @FXML private TableColumn<Module, Integer> nbEtudiantsCol;
 
-    @FXML
-    private TableView<Etudiant> studentsTable;
+    @FXML private TableView<Etudiant> studentsTable;
     @FXML private TableColumn<Etudiant, String> matriculeCol;
     @FXML private TableColumn<Etudiant, String> nomCol;
     @FXML private TableColumn<Etudiant, String> prenomCol;
@@ -25,15 +25,29 @@ public class ProfModulesController {
 
     private ProfesseurDAO professeurDAO;
     private String currentUsername;
+    private final LanguageManager langManager = LanguageManager.getInstance();
 
     @FXML
     public void initialize() {
         try {
             professeurDAO = new ProfesseurDAO(DatabaseConnection.getConnection());
 
+            // Set localized column headers for modules
+            codeModuleCol.setText(langManager.getString("mymodules.code"));
+            nomModuleCol.setText(langManager.getString("mymodules.name"));
+            nbEtudiantsCol.setText(langManager.getString("mymodules.students.count"));
+
+            // Set localized column headers for students
+            matriculeCol.setText(langManager.getString("studentlist.matricule"));
+            nomCol.setText(langManager.getString("studentlist.name"));
+            prenomCol.setText(langManager.getString("studentlist.firstname"));
+            emailCol.setText(langManager.getString("studentlist.email"));
+            promotionCol.setText(langManager.getString("studentlist.promotion"));
+
             // Initialize columns
             codeModuleCol.setCellValueFactory(new PropertyValueFactory<>("codeModule"));
             nomModuleCol.setCellValueFactory(new PropertyValueFactory<>("nomModule"));
+            nbEtudiantsCol.setCellValueFactory(new PropertyValueFactory<>("nbEtudiants"));
 
             matriculeCol.setCellValueFactory(new PropertyValueFactory<>("matricule"));
             nomCol.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -51,7 +65,7 @@ public class ProfModulesController {
             );
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Erreur lors de l'initialisation");
+            showError(langManager.getString("mymodules.error.init"));
         }
     }
 
@@ -66,7 +80,7 @@ public class ProfModulesController {
             modulesTable.setItems(FXCollections.observableArrayList(modules));
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Erreur lors du chargement des modules");
+            showError(langManager.getString("mymodules.error.loading"));
         }
     }
 
@@ -76,13 +90,13 @@ public class ProfModulesController {
             studentsTable.setItems(FXCollections.observableArrayList(students));
         } catch (Exception e) {
             e.printStackTrace();
-            showError("Erreur lors du chargement des étudiants");
+            showError(langManager.getString("mymodules.error.loading"));
         }
     }
 
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
+        alert.setTitle(langManager.getString("alert.error"));
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
