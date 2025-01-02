@@ -2,6 +2,7 @@ package com.academiahub.schoolmanagement.Controllers;
 
 import com.academiahub.schoolmanagement.DAO.UtilisateurDAO;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
+import com.academiahub.schoolmanagement.utils.LanguageManager;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -37,16 +38,19 @@ public class EditProfileDialogController {
     private void validateUsername(String username) {
         clearError();
         if (username.length() < 3) {
-            showError("Le nom d'utilisateur doit contenir au moins 3 caractères");
+            showError(LanguageManager.getInstance().getString("profile.error.length"));
         } else if (!username.matches("[a-zA-Z0-9_]+")) {
-            showError("Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des underscores");
+            showError(LanguageManager.getInstance().getString("profile.error.format"));
         }
     }
 
     public void loadUserData(Utilisateur user) {
         this.currentUser = user;
         usernameField.setText(user.getUsername());
-        roleLabel.setText("Role: " + user.getRole());
+        // Format the role label with the role from user
+        roleLabel.setText(String.format("%s: %s",
+            LanguageManager.getInstance().getString("profile.role"),
+            user.getRole()));
     }
 
     @FXML
@@ -57,7 +61,7 @@ public class EditProfileDialogController {
             try {
                 Utilisateur existingUser = utilisateurDAO.findByUsername(username);
                 if (existingUser != null && existingUser.getId() != currentUser.getId()) {
-                    showError("Ce nom d'utilisateur est déjà utilisé");
+                    showError(LanguageManager.getInstance().getString("profile.error.exists"));
                     return;
                 }
 
@@ -65,16 +69,16 @@ public class EditProfileDialogController {
                 utilisateurDAO.update(currentUser);
                 showSuccessAndClose();
             } catch (Exception e) {
-                showError("Erreur lors de la mise à jour: " + e.getMessage());
+                showError(e.getMessage());
             }
         }
     }
 
     private void showSuccessAndClose() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
+        alert.setTitle(LanguageManager.getInstance().getString("alert.success"));
         alert.setHeaderText(null);
-        alert.setContentText("Profil mis à jour avec succès");
+        alert.setContentText(LanguageManager.getInstance().getString("profile.success"));
         alert.showAndWait();
         dialogStage.close();
     }
@@ -96,17 +100,17 @@ public class EditProfileDialogController {
         String username = usernameField.getText().trim();
 
         if (username.isEmpty()) {
-            showError("Le nom d'utilisateur est obligatoire");
+            showError(LanguageManager.getInstance().getString("profile.error.required"));
             return false;
         }
 
         if (username.length() < 3) {
-            showError("Le nom d'utilisateur doit contenir au moins 3 caractères");
+            showError(LanguageManager.getInstance().getString("profile.error.length"));
             return false;
         }
 
         if (!username.matches("[a-zA-Z0-9_]+")) {
-            showError("Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des underscores");
+            showError(LanguageManager.getInstance().getString("profile.error.format"));
             return false;
         }
 

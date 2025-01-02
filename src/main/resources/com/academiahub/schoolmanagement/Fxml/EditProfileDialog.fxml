@@ -17,8 +17,8 @@
     <HBox styleClass="dialog-header" spacing="10">
         <FontIcon iconLiteral="fas-user-edit" iconSize="24" styleClass="glyph-icon"/>
         <VBox spacing="5">
-            <Label text="Modifier le profil" styleClass="dialog-title"/>
-            <Label text="Personnalisez vos informations" styleClass="dialog-subtitle"/>
+            <Label text="%profile.title" styleClass="dialog-title"/>
+            <Label text="%profile.subtitle" styleClass="dialog-subtitle"/>
         </VBox>
     </HBox>
 
@@ -26,7 +26,7 @@
     <HBox styleClass="setting-item" spacing="10" alignment="CENTER_LEFT">
         <FontIcon iconLiteral="fas-user-tag" iconSize="16" styleClass="setting-icon"/>
         <VBox spacing="3">
-            <Label text="Rôle utilisateur" styleClass="setting-title"/>
+            <Label text="%profile.role" styleClass="setting-title"/>
             <Label fx:id="roleLabel" styleClass="setting-description"/>
         </VBox>
     </HBox>
@@ -36,10 +36,10 @@
         <VBox spacing="8">
             <HBox spacing="8" alignment="CENTER_LEFT">
                 <FontIcon iconLiteral="fas-user" iconSize="14" styleClass="glyph-icon"/>
-                <Label text="Nom d'utilisateur"/>
+                <Label text="%profile.username"/>
             </HBox>
             <TextField fx:id="usernameField" styleClass="input-field"
-                      promptText="Entrez votre nom d'utilisateur"/>
+                      promptText="%profile.username.prompt"/>
         </VBox>
     </VBox>
 
@@ -47,12 +47,12 @@
 
     <!-- Buttons -->
     <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="Annuler" onAction="#handleCancel" styleClass="cancel-button">
+        <Button text="%button.cancel" onAction="#handleCancel" styleClass="cancel-button">
             <graphic>
                 <FontIcon iconLiteral="fas-times" iconSize="12"/>
             </graphic>
         </Button>
-        <Button text="Enregistrer" onAction="#handleSave" styleClass="save-button" defaultButton="true">
+        <Button text="%button.save" onAction="#handleSave" styleClass="save-button" defaultButton="true">
             <graphic>
                 <FontIcon iconLiteral="fas-check" iconSize="12"/>
             </graphic>

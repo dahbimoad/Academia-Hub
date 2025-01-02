@@ -1,9 +1,9 @@
 package com.academiahub.schoolmanagement.Controllers;
 
 import com.academiahub.schoolmanagement.DAO.UtilisateurDAO;
+import com.academiahub.schoolmanagement.utils.LanguageManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import com.academiahub.schoolmanagement.Models.Utilisateur;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -45,15 +45,15 @@ public class ChangePasswordDialogController {
         double strength = calculatePasswordStrength(password);
         strengthBar.setProgress(strength);
 
-        String strengthText = switch ((int) (strength * 4)) {
-            case 0 -> "Très faible";
-            case 1 -> "Faible";
-            case 2 -> "Moyen";
-            case 3 -> "Fort";
-            default -> "Très fort";
+        String strengthKey = switch ((int) (strength * 4)) {
+            case 0 -> "password.strength.veryweak";
+            case 1 -> "password.strength.weak";
+            case 2 -> "password.strength.medium";
+            case 3 -> "password.strength.strong";
+            default -> "password.strength.verystrong";
         };
 
-        strengthLabel.setText(strengthText);
+        strengthLabel.setText(LanguageManager.getInstance().getString(strengthKey));
     }
 
     private double calculatePasswordStrength(String password) {
@@ -63,12 +63,12 @@ public class ChangePasswordDialogController {
         if (password.matches(".*[a-z].*")) score++;
         if (password.matches(".*[0-9].*")) score++;
         if (password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) score++;
-        return score / 1.0;
+        return score / 5.0;
     }
 
     private void validatePasswordMatch(String password, String confirmation) {
         if (!password.equals(confirmation)) {
-            showError("Les mots de passe ne correspondent pas");
+            showError(LanguageManager.getInstance().getString("password.error.match"));
         } else {
             clearError();
         }
@@ -84,10 +84,10 @@ public class ChangePasswordDialogController {
                         newPasswordField.getText())) {
                     showSuccessAndClose();
                 } else {
-                    showError("Ancien mot de passe incorrect");
+                    showError(LanguageManager.getInstance().getString("password.error.incorrect"));
                 }
             } catch (Exception e) {
-                showError("Erreur lors de la mise à jour: " + e.getMessage());
+                showError(e.getMessage());
             }
         }
     }
@@ -98,27 +98,27 @@ public class ChangePasswordDialogController {
         String confirmPassword = confirmPasswordField.getText();
 
         if (currentPassword.isEmpty()) {
-            showError("Veuillez saisir votre mot de passe actuel");
+            showError(LanguageManager.getInstance().getString("password.error.current"));
             return false;
         }
 
         if (newPassword.isEmpty()) {
-            showError("Veuillez saisir le nouveau mot de passe");
+            showError(LanguageManager.getInstance().getString("password.error.new"));
             return false;
         }
 
         if (confirmPassword.isEmpty()) {
-            showError("Veuillez confirmer le nouveau mot de passe");
+            showError(LanguageManager.getInstance().getString("password.error.confirm"));
             return false;
         }
 
         if (!newPassword.equals(confirmPassword)) {
-            showError("Les mots de passe ne correspondent pas");
+            showError(LanguageManager.getInstance().getString("password.error.match"));
             return false;
         }
 
         if (calculatePasswordStrength(newPassword) < 0.6) {
-            showError("Le mot de passe est trop faible. Il doit contenir au moins 8 caractères, incluant majuscules, minuscules, chiffres et caractères spéciaux");
+            showError(LanguageManager.getInstance().getString("password.error.weak"));
             return false;
         }
 
@@ -127,9 +127,9 @@ public class ChangePasswordDialogController {
 
     private void showSuccessAndClose() {
         Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Succès");
+        alert.setTitle(LanguageManager.getInstance().getString("alert.success"));
         alert.setHeaderText(null);
-        alert.setContentText("Mot de passe modifié avec succès");
+        alert.setContentText(LanguageManager.getInstance().getString("password.success"));
         alert.showAndWait();
         dialogStage.close();
     }
