@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ComboBox?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.InscriptionController">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.InscriptionController"
+      style="-fx-background-color: #f5f8fa; -fx-padding: 20px; -fx-spacing: 15;">
 
-    <!-- Title Section -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <TextField fx:id="searchField" promptText="Rechercher par étudiant ou module" />
-       <!-- <Button text="Rechercher" onAction="#handleSearch" />-->
+    <!-- En-tête -->
+    <Label text="Gestion des Inscriptions"
+           style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 0 0 10 0;"/>
+
+    <!-- Barre de recherche et export -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <TextField fx:id="searchField" promptText="Rechercher par étudiant ou module"
+                   style="-fx-background-color: white; -fx-border-color: #e1e8ed; -fx-border-radius: 5px;
+                         -fx-background-radius: 5px; -fx-padding: 8px; -fx-pref-width: 300px;"/>
+        <Button fx:id="exportPdfButton" text="Exporter PDF" onAction="#exportToPdf"
+                style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-padding: 8px 15px;
+                       -fx-background-radius: 5px; -fx-cursor: hand;">
+            <HBox.margin>
+                <Insets left="10"/>
+            </HBox.margin>
+        </Button>
     </HBox>
 
-    <!-- Enrollment Table -->
-    <TableView fx:id="inscriptionTable" VBox.vgrow="ALWAYS">
+    <!-- Table des inscriptions -->
+    <TableView fx:id="inscriptionTable" VBox.vgrow="ALWAYS"
+               style="-fx-background-color: white; -fx-border-color: #e1e8ed; -fx-border-radius: 5px;">
         <columns>
-            <TableColumn fx:id="idEtudiant" text="ID Étudiant" prefWidth="150" />
-            <TableColumn fx:id="idModule" text="ID Module" prefWidth="150" />
-            <TableColumn fx:id="colNom" text="Nom" prefWidth="150" />
-            <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="150" />
-            <TableColumn fx:id="colModule" text="Module" prefWidth="200" />
-            <TableColumn fx:id="colDate" text="Date d'inscription" prefWidth="150" />
+            <TableColumn fx:id="id" text="ID Inscription" prefWidth="120"/>
+            <TableColumn fx:id="idEtudiant" text="ID Étudiant" prefWidth="120"/>
+            <TableColumn fx:id="idModule" text="ID Module" prefWidth="120"/>
+            <TableColumn fx:id="colNom" text="Nom" prefWidth="150"/>
+            <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="150"/>
+            <TableColumn fx:id="colModule" text="Module" prefWidth="200"/>
+            <TableColumn fx:id="colDate" text="Date d'inscription" prefWidth="150"/>
         </columns>
     </TableView>
 
-    <!-- Add/Edit/Delete Form -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <VBox spacing="5">
-            <Label text="ID Étudiant:" />
-            <TextField fx:id="etudiantIdField" promptText="ID de l'étudiant" />
-        </VBox>
-        <VBox spacing="5">
-            <Label text="ID Module:" />
-            <TextField fx:id="moduleIdField" promptText="ID du module" />
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Date d'inscription:" />
-            <DatePicker fx:id="datePicker" />
-        </VBox>
-    </HBox>
-    <ComboBox fx:id="studentComboBox" promptText="Select a student" />
-    <ComboBox fx:id="moduleComboBox" promptText="Select a module" />
-    <DatePicker fx:id="datePicker" promptText="Select a date" />
-    <Button text="Ajouter" onAction="#addInscription" />
-    <!-- Action Buttons -->
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <!-- <Button text="Ajouter" onAction="#handleAddInscription" />-->
-        <Button text="Supprimer" onAction="#handleDeleteInscription" />
+    <!-- Formulaire d'ajout -->
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <ComboBox fx:id="studentComboBox" promptText="Sélectionner un étudiant"
+                  style="-fx-background-color: white; -fx-border-color: #e1e8ed; -fx-border-radius: 5px;
+                         -fx-background-radius: 5px; -fx-padding: 5px; -fx-pref-width: 200px;"/>
+        <ComboBox fx:id="moduleComboBox" promptText="Sélectionner un module"
+                  style="-fx-background-color: white; -fx-border-color: #e1e8ed; -fx-border-radius: 5px;
+                         -fx-background-radius: 5px; -fx-padding: 5px; -fx-pref-width: 200px;"/>
+        <DatePicker fx:id="datePicker" promptText="Sélectionner une date"
+                    style="-fx-background-color: white; -fx-border-color: #e1e8ed; -fx-border-radius: 5px;
+                           -fx-background-radius: 5px; -fx-padding: 5px; -fx-pref-width: 200px;"/>
+        <Button text="Ajouter" onAction="#addInscription"
+                style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-padding: 8px 20px;
+                       -fx-background-radius: 5px; -fx-cursor: hand;"/>
+        <Button text="Supprimer" onAction="#handleDeleteInscription"
+                style="-fx-background-color: #dc3545; -fx-text-fill: white; -fx-padding: 8px 20px;
+                       -fx-background-radius: 5px; -fx-cursor: hand;"/>
     </HBox>
 
 </VBox>

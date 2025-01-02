@@ -97,4 +97,8 @@ public class Inscription {
                 ", dateInscription=" + dateInscription +
                 '}';
     }
+
+    public void setInscriptionId(int inscriptionId) {
+        this.id = inscriptionId;
+    }
 }
