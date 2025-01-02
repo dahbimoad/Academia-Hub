@@ -11,6 +11,7 @@ import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
+import com.academiahub.schoolmanagement.utils.LanguageManager;
 
 public class SettingsDialogController {
     @FXML private ComboBox<String> themeComboBox;
@@ -22,26 +23,38 @@ public class SettingsDialogController {
 
     private Stage dialogStage;
 
-   @FXML
-public void initialize() {
-    setupComboBoxes();
-    if (enableNotificationsCheck != null) {
-        setupNotificationControls();
+    @FXML
+    public void initialize() {
+        setupComboBoxes();
+        if (enableNotificationsCheck != null) {
+            setupNotificationControls();
+        }
+        if (settingsSavedLabel != null) {
+            settingsSavedLabel.setVisible(false);
+        }
     }
-    if (settingsSavedLabel != null) {
-        settingsSavedLabel.setVisible(false);
-    }
-}
 
     private void setupComboBoxes() {
         themeComboBox.getItems().addAll("Clair", "Sombre", "Système");
         themeComboBox.setValue("Clair");
-        languageComboBox.getItems().addAll("Français", "English", "العربية");
+
+        languageComboBox.getItems().setAll("Français", "English", "العربية");
         languageComboBox.setValue("Français");
 
         // Add listeners for changes
         themeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) applyTheme(newVal);
+        });
+
+        languageComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                String langCode = switch (newVal) {
+                    case "English" -> "en";
+                    case "العربية" -> "ar";
+                    default -> "fr";
+                };
+                applyLanguage(langCode);
+            }
         });
     }
 
@@ -61,68 +74,51 @@ public void initialize() {
         dialogStage.getScene().getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
     }
 
-    @FXML
-private void handleEditProfile() {
-    try {
-        FXMLLoader loader = new FXMLLoader();
-        URL fxmlUrl = getClass().getResource("/com/academiahub/schoolmanagement/Fxml/EditProfileDialog.fxml");
-        if (fxmlUrl == null) {
-            throw new IOException("Cannot find EditProfileDialog.fxml");
-        }
-        loader.setLocation(fxmlUrl);
-        Parent root = loader.load();
+    private void applyLanguage(String langCode) {
+    LanguageManager.getInstance().setLanguage(langCode);
 
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.APPLICATION_MODAL);
-        dialogStage.setTitle("Modifier le profil");
-        Scene scene = new Scene(root);
-        String cssUrl = getClass().getResource("/com/academiahub/schoolmanagement/Styles/settings.css").toExternalForm();
-        scene.getStylesheets().add(cssUrl);
-        dialogStage.setScene(scene);
-
-        EditProfileDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        controller.loadUserData(DashboardController.getCurrentUser());
-
-        dialogStage.showAndWait();
-    } catch (IOException e) {
-        showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ouverture du dialogue: " + e.getMessage());
+    // Apply RTL for Arabic
+    Scene scene = dialogStage.getScene();
+    if (langCode.equals("ar")) {
+        scene.getRoot().getStyleClass().add("rtl");
+        scene.getRoot().getStyleClass().add("arabic-text");
+    } else {
+        scene.getRoot().getStyleClass().removeAll("rtl", "arabic-text");
     }
+
+    refreshUI();
 }
 
-
-    @FXML
-private void handleChangePassword() {
-    try {
-        URL fxmlUrl = getClass().getResource("/com/academiahub/schoolmanagement/Fxml/ChangePasswordDialog.fxml");
-        if (fxmlUrl == null) {
-            throw new IOException("Cannot find ChangePasswordDialog.fxml");
-        }
-
-        FXMLLoader loader = new FXMLLoader(fxmlUrl);
-        Parent root = loader.load();
-
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.APPLICATION_MODAL);
-        dialogStage.setTitle("Changer le mot de passe");
-        Scene scene = new Scene(root);
-
-        URL cssUrl = getClass().getResource("/com/academiahub/schoolmanagement/Styles/settings.css");
-        if (cssUrl != null) {
-            scene.getStylesheets().add(cssUrl.toExternalForm());
-        }
-
-        dialogStage.setScene(scene);
-        ChangePasswordDialogController controller = loader.getController();
-        controller.setDialogStage(dialogStage);
-        dialogStage.showAndWait();
-
-    } catch (IOException e) {
-        showAlert(Alert.AlertType.ERROR, "Erreur",
-            "Erreur lors de l'ouverture du dialogue: " + e.getMessage());
-        e.printStackTrace();
+    private void refreshUI() {
+        // Refresh the current scene
+        Scene scene = dialogStage.getScene();
+        reloadFXML(scene);
     }
-}
+
+    private void reloadFXML(Scene scene) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/academiahub/schoolmanagement/Fxml/SettingsDialog.fxml"),
+                LanguageManager.getInstance().getBundle()
+            );
+            scene.setRoot(loader.load());
+
+            // Reinitialize the controller
+            SettingsDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+        } catch (IOException e) {
+            showError("Error reloading UI: " + e.getMessage());
+        }
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     @FXML
     private void handleSaveSettings() {
@@ -139,17 +135,71 @@ private void handleChangePassword() {
         fadeOut.play();
     }
 
-    private void showAlert(Alert.AlertType type, String title, String content) {
-        Alert alert = new Alert(type);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
+    @FXML
+    private void handleEditProfile() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            URL fxmlUrl = getClass().getResource("/com/academiahub/schoolmanagement/Fxml/EditProfileDialog.fxml");
+            if (fxmlUrl == null) {
+                throw new IOException("Cannot find EditProfileDialog.fxml");
+            }
+            loader.setLocation(fxmlUrl);
+            loader.setResources(LanguageManager.getInstance().getBundle());  // Set the resource bundle
+            Parent root = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle(LanguageManager.getInstance().getString("settings.profile.edit"));
+            Scene scene = new Scene(root);
+            String cssUrl = getClass().getResource("/com/academiahub/schoolmanagement/Styles/settings.css").toExternalForm();
+            scene.getStylesheets().add(cssUrl);
+            dialogStage.setScene(scene);
+
+            EditProfileDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.loadUserData(DashboardController.getCurrentUser());
+
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            showError("Error opening dialog: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleChangePassword() {
+        try {
+            URL fxmlUrl = getClass().getResource("/com/academiahub/schoolmanagement/Fxml/ChangePasswordDialog.fxml");
+            if (fxmlUrl == null) {
+                throw new IOException("Cannot find ChangePasswordDialog.fxml");
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            loader.setResources(LanguageManager.getInstance().getBundle());  // Set the resource bundle
+            Parent root = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.setTitle(LanguageManager.getInstance().getString("settings.password.change"));
+            Scene scene = new Scene(root);
+
+            URL cssUrl = getClass().getResource("/com/academiahub/schoolmanagement/Styles/settings.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+
+            dialogStage.setScene(scene);
+            ChangePasswordDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            showError("Error opening dialog: " + e.getMessage());
+        }
     }
 
     public void setDialogStage(Stage dialogStage) {
-    this.dialogStage = dialogStage;
-    String cssUrl = getClass().getResource("/com/academiahub/schoolmanagement/Styles/settings.css").toExternalForm();
-    dialogStage.getScene().getStylesheets().add(cssUrl);
-}
+        this.dialogStage = dialogStage;
+        String cssUrl = getClass().getResource("/com/academiahub/schoolmanagement/Styles/settings.css").toExternalForm();
+        dialogStage.getScene().getStylesheets().add(cssUrl);
+    }
 }

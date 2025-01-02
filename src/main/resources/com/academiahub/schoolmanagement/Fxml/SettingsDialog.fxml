@@ -13,7 +13,7 @@
    <!-- Header -->
    <HBox alignment="CENTER_LEFT" spacing="15" styleClass="settings-header">
        <FontIcon iconLiteral="fas-cog" iconSize="24" styleClass="settings-icon"/>
-       <Label text="Paramètres" styleClass="settings-title"/>
+       <Label text="%settings.title" styleClass="settings-title"/>
    </HBox>
 
    <!-- Tabs Container -->
@@ -23,7 +23,7 @@
            <graphic>
                <HBox spacing="8" alignment="CENTER">
                    <FontIcon iconLiteral="fas-user" iconSize="14"/>
-                   <Label text="Profil" styleClass="tab-label"/>
+                   <Label text="%settings.profile" styleClass="tab-label"/>
                </HBox>
            </graphic>
            <content>
@@ -36,10 +36,10 @@
                    <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
                        <FontIcon iconLiteral="fas-key" iconSize="16" styleClass="setting-icon"/>
                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                           <Label text="Mot de passe" styleClass="setting-label"/>
-                           <Label text="Modifiez votre mot de passe" styleClass="setting-description"/>
+                           <Label text="%settings.password" styleClass="setting-label"/>
+                           <Label text="%settings.password.description" styleClass="setting-description"/>
                        </VBox>
-                       <Button text="Modifier" onAction="#handleChangePassword" styleClass="modify-button">
+                       <Button text="%settings.modify" onAction="#handleChangePassword" styleClass="modify-button">
                            <graphic>
                                <FontIcon iconLiteral="fas-edit" iconSize="12"/>
                            </graphic>
@@ -52,10 +52,10 @@
                    <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
                        <FontIcon iconLiteral="fas-user-circle" iconSize="16" styleClass="setting-icon"/>
                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                           <Label text="Informations du compte" styleClass="setting-label"/>
-                           <Label text="Modifiez votre username" styleClass="setting-description"/>
+                           <Label text="%settings.account.info" styleClass="setting-label"/>
+                           <Label text="%settings.account.description" styleClass="setting-description"/>
                        </VBox>
-                       <Button text="Modifier" onAction="#handleEditProfile" styleClass="modify-button">
+                       <Button text="%settings.modify" onAction="#handleEditProfile" styleClass="modify-button">
                            <graphic>
                                <FontIcon iconLiteral="fas-edit" iconSize="12"/>
                            </graphic>
@@ -70,7 +70,7 @@
            <graphic>
                <HBox spacing="8" alignment="CENTER">
                    <FontIcon iconLiteral="fas-desktop" iconSize="14"/>
-                   <Label text="Interface" styleClass="tab-label"/>
+                   <Label text="%settings.interface" styleClass="tab-label"/>
                </HBox>
            </graphic>
            <content>
@@ -83,8 +83,8 @@
                    <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
                        <FontIcon iconLiteral="fas-palette" iconSize="16" styleClass="setting-icon"/>
                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                           <Label text="Thème" styleClass="setting-label"/>
-                           <Label text="Personnalisez l'apparence de l'application" styleClass="setting-description"/>
+                           <Label text="%settings.theme" styleClass="setting-label"/>
+                           <Label text="%settings.theme.description" styleClass="setting-description"/>
                        </VBox>
                        <ComboBox fx:id="themeComboBox" styleClass="settings-combo"/>
                    </HBox>
@@ -93,8 +93,8 @@
                    <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
                        <FontIcon iconLiteral="fas-language" iconSize="16" styleClass="setting-icon"/>
                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                           <Label text="Langue" styleClass="setting-label"/>
-                           <Label text="Choisissez votre langue préférée" styleClass="setting-description"/>
+                           <Label text="%settings.language" styleClass="setting-label"/>
+                           <Label text="%settings.language.description" styleClass="setting-description"/>
                        </VBox>
                        <ComboBox fx:id="languageComboBox" styleClass="settings-combo"/>
                    </HBox>
@@ -107,7 +107,7 @@
            <graphic>
                <HBox spacing="8" alignment="CENTER">
                    <FontIcon iconLiteral="fas-bell" iconSize="14"/>
-                   <Label text="Notifications" styleClass="tab-label"/>
+                   <Label text="%settings.notifications" styleClass="tab-label"/>
                </HBox>
            </graphic>
            <content>
@@ -120,8 +120,8 @@
                    <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
                        <FontIcon iconLiteral="fas-bell" iconSize="16" styleClass="setting-icon"/>
                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                           <Label text="Notifications" styleClass="setting-label"/>
-                           <Label text="Activer/Désactiver les notifications" styleClass="setting-description"/>
+                           <Label text="%settings.notifications.general" styleClass="setting-label"/>
+                           <Label text="%settings.notifications.toggle" styleClass="setting-description"/>
                        </VBox>
                        <CheckBox fx:id="enableNotificationsCheck"/>
                    </HBox>
@@ -130,8 +130,8 @@
                    <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
                        <FontIcon iconLiteral="fas-volume-up" iconSize="16" styleClass="setting-icon"/>
                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                           <Label text="Son" styleClass="setting-label"/>
-                           <Label text="Activer le son des notifications" styleClass="setting-description"/>
+                           <Label text="%settings.notifications.sound" styleClass="setting-label"/>
+                           <Label text="%settings.notifications.sound.description" styleClass="setting-description"/>
                        </VBox>
                        <CheckBox fx:id="notificationSoundCheck"/>
                    </HBox>
@@ -140,8 +140,8 @@
                    <HBox spacing="15" alignment="CENTER" styleClass="setting-item">
                        <FontIcon iconLiteral="fas-envelope" iconSize="16" styleClass="setting-icon"/>
                        <VBox spacing="4" HBox.hgrow="ALWAYS">
-                           <Label text="Notifications par email" styleClass="setting-label"/>
-                           <Label text="Recevoir les notifications par email" styleClass="setting-description"/>
+                           <Label text="%settings.notifications.email" styleClass="setting-label"/>
+                           <Label text="%settings.notifications.email.description" styleClass="setting-description"/>
                        </VBox>
                        <CheckBox fx:id="emailNotificationsCheck"/>
                    </HBox>
@@ -150,6 +150,5 @@
        </Tab>
    </TabPane>
 
-   <Label fx:id="settingsSavedLabel" text="Paramètres enregistrés"
-          styleClass="settings-saved-label" visible="false"/>
+   <Label fx:id="settingsSavedLabel" text="%settings.saved" styleClass="settings-saved-label" visible="false"/>
 </VBox>

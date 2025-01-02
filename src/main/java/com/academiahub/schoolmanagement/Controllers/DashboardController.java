@@ -2,6 +2,7 @@ package com.academiahub.schoolmanagement.Controllers;
 
 import com.academiahub.schoolmanagement.DAO.NotificationDAO;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
+import com.academiahub.schoolmanagement.utils.LanguageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -294,21 +295,33 @@ private void showProfileDialog() {
 @FXML
 private void handleSettings() {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/SettingsDialog.fxml"));
+        // Create FXMLLoader with resource bundle
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/com/academiahub/schoolmanagement/Fxml/SettingsDialog.fxml"),
+            LanguageManager.getInstance().getBundle()
+        );
+
         Parent root = loader.load();
 
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.APPLICATION_MODAL);
-        dialogStage.setTitle("Paramètres");
+        dialogStage.setTitle(LanguageManager.getInstance().getString("settings.title"));
         Scene scene = new Scene(root);
+
+        // Add CSS
+        String cssUrl = getClass().getResource("/com/academiahub/schoolmanagement/Styles/settings.css").toExternalForm();
+        scene.getStylesheets().add(cssUrl);
+
         dialogStage.setScene(scene);
 
+        // Get the controller and set the dialog stage
         SettingsDialogController controller = loader.getController();
         controller.setDialogStage(dialogStage);
 
         dialogStage.showAndWait();
     } catch (IOException e) {
         e.printStackTrace();
+        showError("Une erreur est survenue lors du chargement des paramètres : " + e.getMessage());
     }
 }
 }

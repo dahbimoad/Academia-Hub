@@ -248,3 +248,24 @@
 .settings-separator {
     -fx-padding: 0 -16px;
 }
+/* Add this to your settings.css file */
+
+/* RTL Support */
+.rtl {
+    -fx-node-orientation: right-to-left;
+}
+
+/* Specific RTL adjustments */
+.rtl .setting-item {
+    -fx-node-orientation: right-to-left;
+}
+
+.rtl .settings-header {
+    -fx-node-orientation: right-to-left;
+}
+
+/* Font settings for Arabic */
+.arabic-text {
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+}
