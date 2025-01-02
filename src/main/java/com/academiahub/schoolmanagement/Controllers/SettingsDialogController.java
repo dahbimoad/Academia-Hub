@@ -11,6 +11,10 @@ import javafx.animation.FadeTransition;
 import javafx.util.Duration;
 import java.io.IOException;
 import java.net.URL;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.CheckBox;
+import java.util.prefs.Preferences;
 
 public class SettingsDialogController {
     @FXML private ComboBox<String> themeComboBox;

@@ -6,6 +6,7 @@ module com.academiahub.schoolmanagement {
     requires org.apache.poi.ooxml;
     requires org.slf4j;
     requires itextpdf;
+    requires java.prefs;
 
 
     opens com.academiahub.schoolmanagement to javafx.fxml;

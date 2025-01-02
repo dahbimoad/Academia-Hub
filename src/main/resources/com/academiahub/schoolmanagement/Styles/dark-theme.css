@@ -1,0 +1,78 @@
+.root {
+    -fx-background-color: #1a1a1a;
+    -fx-text-fill: #ffffff;
+}
+
+.settings-dialog {
+    -fx-background-color: #2c2c2c;
+}
+
+.settings-header {
+    -fx-background-color: #2c2c2c;
+}
+
+.settings-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.settings-icon {
+    -fx-fill: #ffffff;
+}
+
+.tab-content {
+    -fx-background-color: #2c2c2c;
+}
+
+.setting-item {
+    -fx-background-color: #333333;
+    -fx-border-color: #404040;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+}
+
+.setting-label {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+}
+
+.setting-description {
+    -fx-text-fill: #b3b3b3;
+}
+
+.setting-icon {
+    -fx-fill: #3498db;
+}
+
+.modify-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+
+.settings-combo {
+    -fx-background-color: #333333;
+    -fx-text-fill: white;
+    -fx-border-color: #404040;
+}
+
+.settings-saved-label {
+    -fx-text-fill: #2ecc71;
+    -fx-font-weight: bold;
+}
+
+.tab-pane {
+    -fx-background-color: #2c2c2c;
+}
+
+.tab {
+    -fx-background-color: #333333;
+}
+
+.tab:selected {
+    -fx-background-color: #404040;
+}
+
+.tab-label {
+    -fx-text-fill: #ffffff;
+}

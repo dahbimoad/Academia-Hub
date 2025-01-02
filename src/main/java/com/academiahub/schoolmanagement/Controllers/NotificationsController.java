@@ -1,84 +1,109 @@
 package com.academiahub.schoolmanagement.Controllers;
 
-import com.academiahub.schoolmanagement.DAO.NotificationDAO;
+import com.academiahub.schoolmanagement.DAO.NotificationsDAO;
 import com.academiahub.schoolmanagement.Models.Notification;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.geometry.Pos;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.stage.Stage;
 
-import java.sql.SQLException;
+import java.sql.Connection;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class NotificationsController {
-    @FXML private ListView<Notification> notificationsListView;
-    @FXML private Button markAllReadButton;
+    @FXML
+    private Button closeButton;
+    @FXML
+    private ListView<Notification> notificationListView;
+    @FXML
+    private Label noNotificationsLabel;
 
-    private NotificationDAO notificationDAO;
-    private String userRole;
-
-    public void initialize() {
-        setupNotificationsList();
-    }
-
-
-    public void setUserRole(String role) {
-    this.userRole = role;
-    if (this.notificationDAO != null) { // Ensure DAO is set
-        loadNotifications();
-    }
-}
-
-    private void setupNotificationsList() {
-        notificationsListView.setCellFactory(lv -> new NotificationCell());
-        loadNotifications();
-    }
-
-    private void loadNotifications() {
-    if (notificationDAO == null || userRole == null) {
-        throw new IllegalStateException("NotificationDAO and userRole must be set before loading notifications!");
-    }
-
-    try {
-        List<Notification> notifications = notificationDAO.getNotificationsForRole(userRole);
-        notificationsListView.setItems(FXCollections.observableArrayList(notifications));
-    } catch (SQLException e) {
-        e.printStackTrace();
-        showError("Erreur lors du chargement des notifications: " + e.getMessage());
-    }
-}
-
-
+    private NotificationsDAO notificationsDAO;
+    private ObservableList<Notification> notifications;
 
     @FXML
-private void handleMarkAllRead() {
-    try {
-        for (Notification notification : notificationsListView.getItems()) {
-            if (!notification.isReadStatus()) {
-                notificationDAO.markAsRead(notification.getId());
-                notification.setReadStatus(true); // Update local state
+    public void initialize() {
+        notifications = FXCollections.observableArrayList();
+        notificationListView.setItems(notifications);
+
+        // Configuration de la cellule personnalisée
+        notificationListView.setCellFactory(param -> new NotificationListCell());
+
+        // Charger les notifications
+
+    }
+
+    public void setNotificationsDAO(Connection connection) {
+        this.notificationsDAO = new NotificationsDAO(connection);
+        refreshNotifications();
+    }
+
+    public void refreshNotifications() {
+        notifications.clear();
+        notifications.addAll(notificationsDAO.getStudentsWithoutModules());
+        notifications.addAll(notificationsDAO.getUpcomingDeadlines());
+
+        if (notifications.isEmpty()) {
+            noNotificationsLabel.setVisible(true);
+            notificationListView.setVisible(false);
+        } else {
+            noNotificationsLabel.setVisible(false);
+            notificationListView.setVisible(true);
+        }
+    }
+
+    // Classe interne pour personnaliser l'affichage des notifications
+    private class NotificationListCell extends javafx.scene.control.ListCell<Notification> {
+        @Override
+        protected void updateItem(Notification notification, boolean empty) {
+            super.updateItem(notification, empty);
+
+            if (empty || notification == null) {
+                setText(null);
+                setGraphic(null);
+            } else {
+                VBox container = new VBox(8);
+                container.getStyleClass().add("notification-cell");
+
+                HBox headerBox = new HBox(10);
+                headerBox.setAlignment(Pos.CENTER_LEFT);
+
+                Label typeLabel = new Label(notification.getType());
+                typeLabel.getStyleClass().add(
+                        notification.getType().equals("ALERT") ? "alert-label" : "reminder-label"
+                );
+
+                Label dateLabel = new Label(notification.getDateCreation()
+                        .format(DateTimeFormatter.ofPattern("dd MMM, HH:mm")));
+                dateLabel.getStyleClass().add("date-label");
+
+                headerBox.getChildren().addAll(typeLabel, dateLabel);
+
+                Label messageLabel = new Label(notification.getMessage());
+                messageLabel.getStyleClass().add("message-label");
+                messageLabel.setWrapText(true);
+
+                container.getChildren().addAll(headerBox, messageLabel);
+
+                if (!notification.isRead()) {
+                    container.getStyleClass().add("unread-notification");
+                }
+
+                setGraphic(container);
             }
         }
-        notificationsListView.refresh(); // Refresh the ListView to update styles
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Show error message
     }
-}
 
-    public void setNotificationDAO(NotificationDAO notificationDAO) {
-    this.notificationDAO = notificationDAO;
-    if (this.userRole != null) { // Ensure role is set
-        loadNotifications();
-    }
-}
-
-
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    @FXML
+    public void handleClose() {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 }

@@ -3,17 +3,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.academiahub.schoolmanagement.Controllers.NotificationsController"
-      styleClass="notifications-popup" maxHeight="500" maxWidth="400">
+      spacing="10" styleClass="notifications-container">
 
-    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="notifications-header">
-        <Label text="Notifications" styleClass="notifications-title"/>
-        <Region HBox.hgrow="ALWAYS"/>
-        <Button fx:id="markAllReadButton" text="Tout marquer comme lu"
-                onAction="#handleMarkAllRead" styleClass="mark-read-button"/>
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <!-- Header with title and close button -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Notifications" styleClass="notifications-title" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="closeButton" onAction="#handleClose" styleClass="close-button">
+            <graphic>
+                <FontIcon iconLiteral="fas-times" iconSize="16"/>
+            </graphic>
+        </Button>
     </HBox>
 
-    <ListView fx:id="notificationsListView" VBox.vgrow="ALWAYS"/>
+    <ListView fx:id="notificationListView" VBox.vgrow="ALWAYS"/>
+
+    <Label fx:id="noNotificationsLabel"
+           text="Aucune notification"
+           styleClass="no-notifications-label"
+           visible="false"
+           managed="false"/>
 </VBox>
