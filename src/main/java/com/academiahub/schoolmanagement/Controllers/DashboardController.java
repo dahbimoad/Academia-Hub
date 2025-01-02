@@ -35,7 +35,7 @@ public class DashboardController {
     private String currentRole;
     public DashboardController() {
     try {
-        dbConnection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/school_management", "postgres", "mouad1233");
+        dbConnection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/ecole", "postgres", "Imad2002");
     } catch (SQLException e) {
         e.printStackTrace();
         showError("Database connection failed: " + e.getMessage());
