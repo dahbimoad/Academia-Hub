@@ -28,8 +28,8 @@
                         </image>
                     </ImageView>
                     <VBox alignment="CENTER_LEFT">
-                        <Label text="School Management System" styleClass="app-name-label"/>
-                        <Label text="v1.0" styleClass="app-version-label"/>
+                        <Label text="%app.title" styleClass="app-name-label"/>
+                        <Label text="%app.version" styleClass="app-version-label"/>
                     </VBox>
                 </HBox>
 
@@ -45,8 +45,7 @@
                     </VBox>
 
                     <!-- User Avatar with Icon -->
-                        <FontIcon iconLiteral="fas-user-circle" iconSize="40" styleClass="avatar-icon"/>
-
+                    <FontIcon iconLiteral="fas-user-circle" iconSize="40" styleClass="avatar-icon"/>
 
                     <!-- Action Buttons -->
                     <Button fx:id="notificationButton" styleClass="header-action-button" onAction="#showNotifications">
@@ -54,7 +53,7 @@
                             <FontIcon iconLiteral="fas-bell" iconSize="16"/>
                         </graphic>
                         <tooltip>
-                            <Tooltip text="Notifications"/>
+                            <Tooltip text="%tooltip.notifications"/>
                         </tooltip>
                     </Button>
 
@@ -63,13 +62,13 @@
                             <FontIcon iconLiteral="fas-cog" iconSize="16"/>
                         </graphic>
                         <tooltip>
-                            <Tooltip text="Paramètres"/>
+                            <Tooltip text="%settings.title"/>
                         </tooltip>
                     </Button>
 
                     <Separator orientation="VERTICAL" styleClass="header-separator"/>
 
-                    <Button text="Déconnexion" onAction="#handleLogout" styleClass="logout-button">
+                    <Button text="%button.logout" onAction="#handleLogout" styleClass="logout-button">
                         <graphic>
                             <FontIcon iconLiteral="fas-sign-out-alt" iconSize="14"/>
                         </graphic>
@@ -82,7 +81,7 @@
                 <padding>
                     <Insets top="8" right="25" bottom="8" left="25"/>
                 </padding>
-                <Label text="Dashboard" styleClass="breadcrumb-current">
+                <Label text="%dashboard.title" styleClass="breadcrumb-current">
                     <graphic>
                         <FontIcon iconLiteral="fas-home" iconSize="12"/>
                     </graphic>
@@ -100,27 +99,27 @@
 
             <!-- Admin Menu Items -->
             <VBox fx:id="adminMenu" spacing="5" managed="false" visible="false">
-                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button">
+                <Button text="%menu.students" onAction="#handleStudentManagement" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-graduation-cap" iconSize="14"/>
                     </graphic>
                 </Button>
-                <Button text="Gestion des Professeurs" onAction="#handleTeacherManagement" styleClass="menu-button">
+                <Button text="%menu.teachers" onAction="#handleTeacherManagement" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-users" iconSize="14"/>
                     </graphic>
                 </Button>
-                <Button text="Gestion des Modules" onAction="#handleModuleManagement" styleClass="menu-button">
+                <Button text="%menu.modules" onAction="#handleModuleManagement" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-book" iconSize="14"/>
                     </graphic>
                 </Button>
-                <Button text="Gestion des Utilisateurs" onAction="#handleUserManagement" styleClass="menu-button">
+                <Button text="%menu.users" onAction="#handleUserManagement" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-user-cog" iconSize="14"/>
                     </graphic>
                 </Button>
-                <Button text="Tableau de Bord" onAction="#handleDashboardStats" styleClass="menu-button">
+                <Button text="%menu.dashboard" onAction="#handleDashboardStats" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-chart-bar" iconSize="14"/>
                     </graphic>
@@ -129,17 +128,17 @@
 
             <!-- Secretary Menu Items -->
             <VBox fx:id="secretaryMenu" spacing="5" managed="false" visible="false">
-                <Button text="Gestion des Étudiants" onAction="#handleStudentManagement" styleClass="menu-button">
+                <Button text="%menu.students" onAction="#handleStudentManagement" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-graduation-cap" iconSize="14"/>
                     </graphic>
                 </Button>
-                <Button text="Gestion des Inscriptions" onAction="#handleEnrollmentManagement" styleClass="menu-button">
+                <Button text="%menu.enrollments" onAction="#handleEnrollmentManagement" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-envelope-open" iconSize="14"/>
                     </graphic>
                 </Button>
-                <Button text="Liste des Modules" onAction="#handleModuleList" styleClass="menu-button">
+                <Button text="%menu.modules.list" onAction="#handleModuleList" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-list-ul" iconSize="14"/>
                     </graphic>
@@ -148,12 +147,12 @@
 
             <!-- Professor Menu Items -->
             <VBox fx:id="professorMenu" spacing="5" managed="false" visible="false">
-                <Button text="Mes Modules" onAction="#handleMyModules" styleClass="menu-button">
+                <Button text="%menu.my.modules" onAction="#handleMyModules" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-book" iconSize="14"/>
                     </graphic>
                 </Button>
-                <Button text="Liste des Étudiants" onAction="#handleStudentList" styleClass="menu-button">
+                <Button text="%menu.students.list" onAction="#handleStudentList" styleClass="menu-button">
                     <graphic>
                         <FontIcon iconLiteral="fas-user-graduate" iconSize="14"/>
                     </graphic>
@@ -167,8 +166,8 @@
         <StackPane fx:id="contentArea" styleClass="content-area">
             <!-- Default welcome message -->
             <VBox alignment="CENTER" spacing="20">
-                <Label text="Bienvenue dans le système de gestion scolaire" styleClass="welcome-title"/>
-                <Label text="Système de gestion académique" styleClass="welcome-subtitle"/>
+                <Label text="%welcome.message" styleClass="welcome-title"/>
+                <Label text="%welcome.subtitle" styleClass="welcome-subtitle"/>
             </VBox>
         </StackPane>
     </center>

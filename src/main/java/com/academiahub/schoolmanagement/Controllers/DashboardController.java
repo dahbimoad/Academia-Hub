@@ -71,7 +71,9 @@ public class DashboardController {
     @FXML
     private void handleLogout() {
         try {
-            Parent loginRoot = FXMLLoader.load(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/Login.fxml"));
+            Parent loginRoot = FXMLLoader.load(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/Login.fxml"),
+                    LanguageManager.getInstance().getBundle()
+            );
             Scene loginScene = new Scene(loginRoot);
             loginScene.getStylesheets().add(getClass().getResource("/com/academiahub/schoolmanagement/Styles/login.css").toExternalForm());
 
@@ -89,7 +91,9 @@ public class DashboardController {
     @FXML
     private void handleStudentManagement() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentManagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/StudentManagement.fxml"),
+                    LanguageManager.getInstance().getBundle()
+            );
             Parent content = loader.load();
 
             // Inject DAO into the EtudiantController
@@ -106,7 +110,9 @@ public class DashboardController {
     @FXML private void handleTeacherManagement() {
         try {
             // Load the EnrollmentManagement.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/ProfesseurView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/ProfesseurView.fxml"),
+                    LanguageManager.getInstance().getBundle()
+            );
             Parent content = loader.load();
 
             // Get the controller for EnrollmentManagement.fxml
@@ -135,7 +141,9 @@ public class DashboardController {
     @FXML private void handleUserManagement() {
         try {
             // Load the EnrollmentManagement.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/UtilisateurView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/UtilisateurView.fxml"),
+                    LanguageManager.getInstance().getBundle()
+            );
             Parent content = loader.load();
 
             // Get the controller for EnrollmentManagement.fxml
@@ -164,7 +172,9 @@ public class DashboardController {
     private void handleEnrollmentManagement() {
         try {
             // Load the EnrollmentManagement.fxml file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/EnrollmentManagement.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/EnrollmentManagement.fxml")
+                    ,LanguageManager.getInstance().getBundle()
+            );
             Parent content = loader.load();
 
             // Get the controller for EnrollmentManagement.fxml
@@ -240,8 +250,9 @@ public class DashboardController {
 
     private void loadContent(String contentName) {
         try {
-            Parent content = FXMLLoader.load(getClass().getResource(
-                    "/com/academiahub/schoolmanagement/Fxml/content/" + contentName + ".fxml"));
+            Parent content = FXMLLoader.load(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/content/" + contentName + ".fxml"),
+                    LanguageManager.getInstance().getBundle()
+            );
             contentArea.getChildren().setAll(content);
         } catch (Exception e) {
             e.printStackTrace();
@@ -256,7 +267,9 @@ public class DashboardController {
 private void showNotifications() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(
-            "/com/academiahub/schoolmanagement/Fxml/notifications_popup.fxml"));
+            "/com/academiahub/schoolmanagement/Fxml/notifications_popup.fxml"),
+                LanguageManager.getInstance().getBundle()
+        );
         Parent notificationsPopup = loader.load();
 
         NotificationsController controller = loader.getController();
@@ -282,7 +295,9 @@ private void showNotifications() {
 @FXML
 private void showProfileDialog() {
     try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/user_profile_dialog.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/user_profile_dialog.fxml"),
+                LanguageManager.getInstance().getBundle()
+        );
         VBox profileDialog = loader.load();
 
         UserProfileController controller = loader.getController();

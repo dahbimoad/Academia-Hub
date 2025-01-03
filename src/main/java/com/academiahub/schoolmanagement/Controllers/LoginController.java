@@ -3,6 +3,7 @@ package com.academiahub.schoolmanagement.Controllers;
 import com.academiahub.schoolmanagement.DAO.UtilisateurDAO;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
+import com.academiahub.schoolmanagement.utils.LanguageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,7 +53,9 @@ public class LoginController {
             if (user != null) {
                 try {
                     // Load the dashboard FXML
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/Dashboard.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Fxml/Dashboard.fxml"),
+                            LanguageManager.getInstance().getBundle()
+                    );
                     Parent dashboardRoot = loader.load();
 
                     // Get the controller
