@@ -8,8 +8,9 @@ import com.academiahub.schoolmanagement.Controllers.Sec.InscriptionController;
 import com.academiahub.schoolmanagement.Controllers.Sec.EtudiantController;
 import com.academiahub.schoolmanagement.Controllers.Prof.StudentListController;
 import com.academiahub.schoolmanagement.Controllers.Sec.ModuleListController;
-import com.academiahub.schoolmanagement.DAO.NotificationDAO;
+import com.academiahub.schoolmanagement.DAO.NotificationsDAO;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
+import com.academiahub.schoolmanagement.utils.DatabaseConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -303,33 +305,41 @@ public class DashboardController {
     }
 
     @FXML
-private void showNotifications() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                "/com/academiahub/schoolmanagement/Views/Base/notifications_popup.fxml"));
-        Parent notificationsPopup = loader.load();
+    public void showNotifications() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Views/Base/notifications_popup.fxml"));
+            Parent root = loader.load();
 
-        NotificationsController controller = loader.getController();
-        controller.setNotificationDAO(new NotificationDAO(dbConnection));
-        controller.setUserRole(currentRole);
+            // Récupérer le controller et initialiser le DAO
+            NotificationsController notificationsController = loader.getController();
+            // Supposons que vous avez une classe DatabaseConnection avec une méthode getConnection()
+            Connection connection = DatabaseConnection.getConnection();
+            notificationsController.setNotificationsDAO(connection);
 
-        // Create a new stage for the popup
-        Stage stage = new Stage();
-        stage.setScene(new Scene(notificationsPopup));
-        stage.initOwner(notificationButton.getScene().getWindow());
-        stage.setTitle("Notifications");
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        showError("Erreur lors de l'affichage des notifications.");
+            Stage notificationStage = new Stage();
+            notificationStage.initModality(Modality.APPLICATION_MODAL);
+            notificationStage.initStyle(StageStyle.UNDECORATED);
+            notificationStage.setTitle("Notifications");
+
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/com/academiahub/schoolmanagement/Styles/notifications.css").toExternalForm());
+
+            notificationStage.setScene(scene);
+            notificationStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-}
 
 
 
 
 
-@FXML
+
+
+    @FXML
 private void showProfileDialog() {
     try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Views/Base/user_profile_dialog.fxml"));

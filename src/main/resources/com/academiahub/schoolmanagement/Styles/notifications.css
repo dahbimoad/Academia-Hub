@@ -1,0 +1,141 @@
+/* Style du conteneur principal */
+.notifications-container {
+    -fx-background-color: linear-gradient(to bottom right, #2980b9, #3498db, #2c3e50);
+    -fx-min-width: 400px;
+    -fx-min-height: 500px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+
+/* Style de l'en-tête */
+.notifications-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 5 0 5 10;
+}
+
+/* Style du bouton de fermeture */
+.close-button {
+    -fx-background-color: transparent;
+    -fx-padding: 8;
+    -fx-cursor: hand;
+    -fx-background-radius: 50%;
+}
+
+.close-button:hover {
+    -fx-background-color: #ff00001a;
+}
+
+.close-button .ikonli-font-icon {
+    -fx-fill: #e74c3c;
+}
+
+/* Style de la ListView */
+.list-view {
+
+    -fx-padding: 5;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 5;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 10 5;
+}
+
+/* Style des cellules de notification */
+.notification-cell {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 1);
+    -fx-padding: 15;
+    -fx-spacing: 8;
+}
+
+.notification-cell:hover {
+    -fx-background-color: #f1f3f5;
+}
+
+/* Style pour les notifications non lues */
+.unread-notification {
+    -fx-background-color: #e7f5ff;
+    -fx-border-color: #74c0fc;
+    -fx-border-width: 0 0 0 4;
+    -fx-border-radius: 8;
+}
+
+.unread-notification:hover {
+    -fx-background-color: #d0ebff;
+}
+
+/* Style des labels de type de notification */
+.alert-label {
+    -fx-background-color: #fff5f5;
+    -fx-text-fill: #e03131;
+    -fx-padding: 5 10;
+    -fx-background-radius: 4;
+    -fx-border-color: #ffc9c9;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.reminder-label {
+    -fx-background-color: #fff9db;
+    -fx-text-fill: #f08c00;
+    -fx-padding: 5 10;
+    -fx-background-radius: 4;
+    -fx-border-color: #ffe066;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+/* Style de la date */
+.date-label {
+    -fx-text-fill: #868e96;
+    -fx-font-size: 11px;
+    -fx-font-style: italic;
+}
+
+/* Style du message */
+.message-label {
+    -fx-text-fill: #495057;
+    -fx-font-size: 13px;
+    -fx-wrap-text: true;
+}
+
+/* Style pour le label "aucune notification" */
+.no-notifications-label {
+    -fx-alignment: center;
+
+    -fx-font-style: italic;
+    -fx-font-size: 14px;
+    -fx-padding: 20;
+    -fx-text-fill: white;
+    -fx-opacity: 0.8;
+}
+
+/* Scrollbar styling */
+.list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 10;
+    -fx-padding: 0 2;
+}
+
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #dee2e6;
+    -fx-background-radius: 5;
+}
+
+.list-view .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: #adb5bd;
+}
