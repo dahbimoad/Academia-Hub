@@ -1,27 +1,83 @@
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.academiahub.schoolmanagement.Controllers.EditStudentDialogController"
-          >
-    <Label text="Matricule:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-    <TextField fx:id="matriculeField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.academiahub.schoolmanagement.Controllers.EditStudentDialogController"
+          hgap="10" vgap="10"
+          style="-fx-background-color: white; -fx-padding: 20;">
 
-    <Label text="Nom:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-    <TextField fx:id="nomField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+    <!-- En-tête -->
+    <Label text="Informations de l'étudiant"
+           style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 0 0 10 0;"
+           GridPane.columnSpan="2"
+           GridPane.rowIndex="0"/>
 
-    <Label text="Prénom:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-    <TextField fx:id="prenomField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+    <!-- Champs du formulaire -->
+    <Label text="Matricule:"
+           style="-fx-font-weight: bold;"
+           GridPane.rowIndex="1" GridPane.columnIndex="0" />
+    <TextField fx:id="matriculeField"
+               promptText="Entrez le matricule"
+               style="-fx-padding: 5; -fx-background-radius: 4;"
+               GridPane.rowIndex="1" GridPane.columnIndex="1"
+               maxWidth="250"/>
 
-    <Label text="Date de Naissance:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-    <DatePicker fx:id="dateNaissancePicker" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+    <Label text="Nom:"
+           style="-fx-font-weight: bold;"
+           GridPane.rowIndex="2" GridPane.columnIndex="0" />
+    <TextField fx:id="nomField"
+               promptText="Entrez le nom"
+               style="-fx-padding: 5; -fx-background-radius: 4;"
+               GridPane.rowIndex="2" GridPane.columnIndex="1"
+               maxWidth="250"/>
 
-    <Label text="Email:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
-    <TextField fx:id="emailField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+    <Label text="Prénom:"
+           style="-fx-font-weight: bold;"
+           GridPane.rowIndex="3" GridPane.columnIndex="0" />
+    <TextField fx:id="prenomField"
+               promptText="Entrez le prénom"
+               style="-fx-padding: 5; -fx-background-radius: 4;"
+               GridPane.rowIndex="3" GridPane.columnIndex="1"
+               maxWidth="250"/>
 
-    <Label text="Promotion:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
-    <TextField fx:id="promotionField" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+    <Label text="Date de Naissance:"
+           style="-fx-font-weight: bold;"
+           GridPane.rowIndex="4" GridPane.columnIndex="0" />
+    <DatePicker fx:id="dateNaissancePicker"
+                promptText="Sélectionnez une date"
+                style="-fx-background-radius: 4;"
+                GridPane.rowIndex="4" GridPane.columnIndex="1"
+                maxWidth="250"/>
 
-    <Button text="Enregistrer" onAction="#handleSave" GridPane.rowIndex="6" GridPane.columnIndex="0" />
-    <Button text="Annuler" onAction="#handleCancel" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+    <Label text="Email:"
+           style="-fx-font-weight: bold;"
+           GridPane.rowIndex="5" GridPane.columnIndex="0" />
+    <TextField fx:id="emailField"
+               promptText="Entrez l'email"
+               style="-fx-padding: 5; -fx-background-radius: 4;"
+               GridPane.rowIndex="5" GridPane.columnIndex="1"
+               maxWidth="250"/>
+
+    <Label text="Promotion:"
+           style="-fx-font-weight: bold;"
+           GridPane.rowIndex="6" GridPane.columnIndex="0" />
+    <TextField fx:id="promotionField"
+               promptText="Entrez la promotion"
+               style="-fx-padding: 5; -fx-background-radius: 4;"
+               GridPane.rowIndex="6" GridPane.columnIndex="1"
+               maxWidth="250"/>
+
+    <!-- Boutons d'action -->
+    <HBox spacing="10" alignment="CENTER_RIGHT"
+          style="-fx-padding: 20 0 0 0;"
+          GridPane.rowIndex="7" GridPane.columnSpan="2">
+        <Button text="Enregistrer"
+                onAction="#handleSave"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-padding: 7 15; -fx-background-radius: 4; -fx-cursor: hand;"/>
+        <Button text="Annuler"
+                onAction="#handleCancel"
+                style="-fx-background-color: #757575; -fx-text-fill: white; -fx-padding: 7 15; -fx-background-radius: 4; -fx-cursor: hand;"/>
+    </HBox>
+
 </GridPane>
