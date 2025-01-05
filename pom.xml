@@ -116,6 +116,12 @@
             <version>2.2.224</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>17</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

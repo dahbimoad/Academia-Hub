@@ -1,5 +1,6 @@
 package com.academiahub.schoolmanagement.Controllers.Base;
 
+import com.academiahub.schoolmanagement.Controllers.Admin.ModuleController;
 import com.academiahub.schoolmanagement.Controllers.Admin.MyModulesController;
 import com.academiahub.schoolmanagement.Controllers.Admin.ProfesseurController;
 import com.academiahub.schoolmanagement.Controllers.Admin.UtilisateurController;
@@ -133,8 +134,28 @@ public class DashboardController {
 
 
     @FXML private void handleModuleManagement() {
-        loadContent("ModuleManagement");
+        try {
+            // Load the EnrollmentManagement.fxml file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Views/Admin/Module.fxml"));
+            Parent content = loader.load();
+
+            // Get the controller for EnrollmentManagement.fxml
+            ModuleController controller = loader.getController();
+
+            // Initialize the controller
+            controller.initialize();
+
+            // Clear existing content and display the new content in the content area
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(content);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Une erreur est survenue lors du chargement de la gestion des inscriptions : " + e.getMessage());
+        }
     }
+
 
 
     @FXML private void handleUserManagement() {

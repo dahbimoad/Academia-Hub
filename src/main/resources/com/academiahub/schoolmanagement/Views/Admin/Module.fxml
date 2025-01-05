@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.academiahub.schoolmanagement.Controllers.Admin.ModuleController"
+           stylesheets="@../../Styles/userprof.css">
+
+    <!-- Contenu Principal -->
+    <VBox spacing="10" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <!-- Barre de recherche et boutons principaux -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <TextField fx:id="searchField" promptText="Rechercher par nom ou code du module ou professeur..." HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnAjouter" text="Ajouter" onAction="#handleAjouterButton" styleClass="button-primary">
+                <tooltip>
+                    <Tooltip text="Ajouter un nouveau module"/>
+                </tooltip>
+            </Button>
+            <Button fx:id="btnModifier" text="Modifier" onAction="#handleModifierButton" styleClass="button-warning">
+                <tooltip>
+                    <Tooltip text="Modifier le module sélectionné"/>
+                </tooltip>
+            </Button>
+            <Button fx:id="btnSupprimer" text="Supprimer" onAction="#handleSupprimerButton" styleClass="button-danger">
+                <tooltip>
+                    <Tooltip text="Supprimer le module sélectionné"/>
+                </tooltip>
+            </Button>
+            <Button fx:id="btnExporter" text="Exporter" onAction="#handleExporterButton" styleClass="button-secondary">
+                <tooltip>
+                    <Tooltip text="Exporter les modules en fichier Excel"/>
+                </tooltip>
+            </Button>
+        </HBox>
+
+        <!-- TableView des Modules -->
+        <TableView fx:id="moduleTable" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" minWidth="50" maxWidth="100"/>
+                <TableColumn fx:id="colNomModule" text="Nom du Module" minWidth="150"/>
+                <TableColumn fx:id="colCodeModule" text="Code du Module" minWidth="150"/>
+                <TableColumn fx:id="colProfesseur" text="Professeur" minWidth="150"/>
+                <TableColumn fx:id="colNbEtudiants" text="Nb. Étudiants" minWidth="100"/>
+
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+
+        <!-- Formulaire (visible uniquement en mode édition) -->
+        <VBox fx:id="formContainer" spacing="10" styleClass="form-container" visible="false" managed="false">
+            <Label text="Formulaire Module" styleClass="form-title"/>
+
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="100" prefWidth="150"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+
+                <Label text="Nom du Module:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="nomModuleField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Code du Module:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="codeModuleField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="Professeur:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <ComboBox fx:id="professeurComboBox"
+                          GridPane.columnIndex="1"
+                          GridPane.rowIndex="2"
+                          maxWidth="Infinity"
+                          promptText="Sélectionner un professeur"/>
+            </GridPane>
+
+            <!-- Label d'erreur de validation -->
+            <Label fx:id="errorLabel" textFill="red" visible="false"/>
+
+            <!-- Boutons du formulaire -->
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="btnAnnuler"
+                        text="Annuler"
+                        onAction="#handleAnnulerButton"
+                        styleClass="button-secondary">
+                    <tooltip>
+                        <Tooltip text="Annuler l'opération en cours"/>
+                    </tooltip>
+                </Button>
+                <Button fx:id="btnValider"
+                        text="Valider"
+                        onAction="#handleValiderButton"
+                        styleClass="button-success">
+                    <tooltip>
+                        <Tooltip text="Valider l'ajout ou la modification du module"/>
+                    </tooltip>
+                </Button>
+            </HBox>
+        </VBox>
+    </VBox>
+
+    <!-- Progress Indicator pour les opérations longues -->
+    <ProgressIndicator fx:id="progressIndicator" visible="false"/>
+</StackPane>

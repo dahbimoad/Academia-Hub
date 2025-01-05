@@ -3,14 +3,19 @@ package com.academiahub.schoolmanagement.DAO;
 import com.academiahub.schoolmanagement.Models.Inscription;
 import com.academiahub.schoolmanagement.Models.Etudiant;
 import com.academiahub.schoolmanagement.Models.Module;
+import com.academiahub.schoolmanagement.utils.DatabaseConnection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class InscriptionDAO {
     private Connection connection;
-
+    private static final Logger logger = LoggerFactory.getLogger(InscriptionDAO.class);
     public InscriptionDAO(Connection connection) {
         this.connection = connection;
     }
@@ -77,6 +82,8 @@ public class InscriptionDAO {
             connection.setAutoCommit(true); // Reset auto-commit
         }
     }
+
+
 
    /* private Inscription mapRowToInscription(ResultSet rs) throws SQLException {
         Inscription inscription = new Inscription();

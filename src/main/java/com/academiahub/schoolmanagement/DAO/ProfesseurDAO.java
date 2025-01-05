@@ -1,18 +1,22 @@
 package com.academiahub.schoolmanagement.DAO;
 
 import com.academiahub.schoolmanagement.Models.Etudiant;
+import com.academiahub.schoolmanagement.Models.Inscription;
 import com.academiahub.schoolmanagement.Models.Module;
 import com.academiahub.schoolmanagement.Models.Professeur;
 import com.academiahub.schoolmanagement.utils.DatabaseConnection;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProfesseurDAO {
     private Connection connection;
-
+    private static final Logger logger = LoggerFactory.getLogger(ProfesseurDAO.class);
     public ProfesseurDAO(Connection connection) {
         this.connection = connection;
     }
@@ -22,6 +26,90 @@ public class ProfesseurDAO {
     }
 
 
+    private Set<Inscription> loadInscriptions(int moduleId) {
+        logger.info("Loading inscriptions for module ID: {}", moduleId);
+        Set<Inscription> inscriptions = new HashSet<>();
+
+        String sql = "SELECT i.*, e.nom as etudiant_nom, e.prenom as etudiant_prenom, " +
+                "m.nom_module as module_nom " +
+                "FROM inscriptions i " +
+                "JOIN etudiants e ON i.etudiant_id = e.id " +
+                "JOIN modules m ON i.module_id = m.id " +
+                "WHERE i.module_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, moduleId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Inscription inscription = new Inscription();
+                    inscription.setId(rs.getInt("id"));
+                    inscription.setEtudiantId(rs.getInt("etudiant_id"));
+                    inscription.setEtudiantNom(rs.getString("etudiant_nom"));
+                    inscription.setEtudiantPrenom(rs.getString("etudiant_prenom"));
+                    inscription.setModuleId(rs.getInt("module_id"));
+                    inscription.setModuleNom(rs.getString("module_nom"));
+                    inscription.setDateInscription(rs.getDate("date_inscription"));
+
+                    inscriptions.add(inscription);
+                }
+                logger.info("Loaded {} inscriptions for module ID: {}", inscriptions.size(), moduleId);
+            }
+        } catch (SQLException e) {
+            logger.error("Error loading inscriptions for module ID: {}", moduleId, e);
+        }
+
+        return inscriptions;
+    }
+
+
+    public Module read(int id) {
+        logger.info("Fetching module with ID: {}", id);
+        String sql = "SELECT m.*, p.id as prof_id, p.nom as prof_nom, p.prenom as prof_prenom, " +
+                "p.specialite as prof_specialite, p.user_id as prof_user_id " +
+                "FROM modules m " +
+                "LEFT JOIN professeurs p ON m.professeur_id = p.id " +
+                "WHERE m.id = ?";
+        Module module = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Créer et remplir l'objet Professeur
+                    Professeur professeur = new Professeur();
+                    professeur.setId(rs.getInt("prof_id"));
+                    professeur.setNom(rs.getString("prof_nom"));
+                    professeur.setPrenom(rs.getString("prof_prenom"));
+                    professeur.setSpecialite(rs.getString("prof_specialite"));
+                    professeur.setUserId(rs.getInt("prof_user_id"));
+
+                    // Créer et remplir l'objet Module
+                    module = new Module();
+                    module.setId(rs.getInt("id"));
+                    module.setNomModule(rs.getString("nom_module"));
+                    module.setCodeModule(rs.getString("code_module"));
+                    module.setProfesseur(professeur);
+
+                    // Charger les inscriptions
+                    Set<Inscription> inscriptions = loadInscriptions(id);
+                    module.setInscriptions(inscriptions);
+                    module.setNbEtudiants(inscriptions.size());
+
+                    logger.info("Successfully retrieved module with ID: {}", id);
+                } else {
+                    logger.warn("No module found with ID: {}", id);
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Error fetching module with ID: {}", id, e);
+        }
+        return module;
+    }
     // Get modules for a professor using professor ID (not user_id)
     public List<Module> getProfesseurModules(String username) {
         List<Module> modules = new ArrayList<>();

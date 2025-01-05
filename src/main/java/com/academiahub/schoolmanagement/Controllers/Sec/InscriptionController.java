@@ -2,7 +2,7 @@ package com.academiahub.schoolmanagement.Controllers.Sec;
 
 import com.academiahub.schoolmanagement.DAO.EtudiantDAO;
 import com.academiahub.schoolmanagement.DAO.InscriptionDAO;
-import com.academiahub.schoolmanagement.DAO.ModuleDOA;
+import com.academiahub.schoolmanagement.DAO.ModuleDAO;
 import com.academiahub.schoolmanagement.Models.Etudiant;
 import com.academiahub.schoolmanagement.Models.Inscription;
 import com.academiahub.schoolmanagement.Models.Module;
@@ -231,7 +231,7 @@ public class InscriptionController {
     }
 
     private void loadModules() throws SQLException {
-        ModuleDOA moduleDAO = new ModuleDOA(DatabaseConnection.getConnection());
+        ModuleDAO moduleDAO = new ModuleDAO(DatabaseConnection.getConnection());
         List<Module> modules = moduleDAO.getAllModules(); // Fetch from DAO
         moduleComboBox.setItems(FXCollections.observableArrayList(modules));
     }
