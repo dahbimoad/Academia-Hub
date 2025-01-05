@@ -7,6 +7,7 @@ import com.academiahub.schoolmanagement.Controllers.Admin.UtilisateurController;
 import com.academiahub.schoolmanagement.Controllers.Sec.InscriptionController;
 import com.academiahub.schoolmanagement.Controllers.Sec.EtudiantController;
 import com.academiahub.schoolmanagement.Controllers.Prof.StudentListController;
+import com.academiahub.schoolmanagement.Controllers.Sec.ModuleListController;
 import com.academiahub.schoolmanagement.DAO.NotificationDAO;
 import com.academiahub.schoolmanagement.Models.Utilisateur;
 import javafx.fxml.FXML;
@@ -213,7 +214,22 @@ public class DashboardController {
 
 
     @FXML private void handleModuleList() {
-        loadContent("ModuleList");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/academiahub/schoolmanagement/Views/Sec/ModuleList.fxml"));
+            Parent content = loader.load();
+
+            ModuleListController controller = loader.getController();
+            // Create a Utilisateur object with the current user's information
+            Utilisateur currentUser = new Utilisateur();
+            currentUser.setUsername(currentUsername);
+            currentUser.setRole(currentRole);
+
+
+            contentArea.getChildren().setAll(content);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Erreur lors du chargement des modules");
+        }
     }
 
     // Professor functions

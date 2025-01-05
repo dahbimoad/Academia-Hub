@@ -1,140 +1,279 @@
 package com.academiahub.schoolmanagement.Controllers.Sec;
 
 import com.academiahub.schoolmanagement.DAO.ModuleDAO;
+import com.academiahub.schoolmanagement.DAO.ProfesseurDAO;
 import com.academiahub.schoolmanagement.Models.Module;
+import com.academiahub.schoolmanagement.Models.Professeur;
+import com.academiahub.schoolmanagement.utils.AlertUtils;
+import com.academiahub.schoolmanagement.utils.ExcelExporter;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class ModuleController {
+public class ModuleListController {
+
+    private static final Logger LOGGER = Logger.getLogger(ModuleListController.class.getName());
 
     @FXML private TableView<Module> moduleTable;
-    @FXML private TableColumn<Module, Integer> idColumn;
-    @FXML private TableColumn<Module, String> nameColumn;
-    @FXML private TableColumn<Module, String> descriptionColumn;
-    @FXML private TableColumn<Module, Void> actionsColumn;
+    @FXML private TableColumn<Module, Integer> colId;
+    @FXML private TableColumn<Module, String> colNomModule;
+    @FXML private TableColumn<Module, String> colCodeModule;
+    @FXML private TableColumn<Module, String> colProfesseur;
+    @FXML private TableColumn<Module, Integer> colNbEtudiants;
+
+    @FXML private VBox formContainer;
+    @FXML private TextField nomModuleField;
+    @FXML private TextField codeModuleField;
+    @FXML private ComboBox<String> professeurComboBox;
     @FXML private TextField searchField;
 
-    private ObservableList<Module> moduleList;
+    @FXML private Button btnValider;
+    @FXML private Button btnAnnuler;
+    @FXML private Button btnExporter;
 
-    private ModuleDAO moduleDAO;
+    private final ModuleDAO moduleDAO = new ModuleDAO();
+    private final ProfesseurDAO professeurDAO = new ProfesseurDAO();
+    private final ObservableList<Module> masterData = FXCollections.observableArrayList();
+    private final ObservableList<Professeur> allProfesseurs = FXCollections.observableArrayList();
+    private FilteredList<Module> filteredData;
+    private SortedList<Module> sortedData;
 
-    public ModuleController() {
-        // Initialisation du DAO (Assurez-vous d'initialiser la connexion correctement)
-        moduleDAO = new ModuleDAO();
+    private Mode currentMode = Mode.NORMAL;
+
+    private enum Mode {
+        NORMAL, AJOUT, MODIFICATION
     }
 
     @FXML
-    private void initialize() {
-        // Configurer les colonnes de la table
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        // Ajouter les boutons Modifier et Supprimer désactivés
-        actionsColumn.setCellFactory(new ActionsCellFactory());
-
-        // Charger les données des modules
-        loadModules();
+    public void initialize() {
+        setupTableColumns();
+        setupSearch();
+        loadProfesseurs();
+        setupTableSelection();
+        loadData();
+        initializeFormVisibility();
     }
 
-    private void loadModules() {
-        List<Module> modules = moduleDAO.getAllModules();
-        moduleList = FXCollections.observableArrayList(modules);
-        moduleTable.setItems(moduleList);
+    private void initializeFormVisibility() {
+        formContainer.setVisible(false);
+        formContainer.setManaged(false);
+        btnValider.setVisible(false);
+        btnAnnuler.setVisible(false);
     }
 
-    @FXML
-    private void handleSearch() {
-        String keyword = searchField.getText().trim().toLowerCase();
-        if (keyword.isEmpty()) {
-            moduleTable.setItems(moduleList);
-        } else {
-            ObservableList<Module> filteredList = FXCollections.observableArrayList(
-                    moduleList.stream()
-                            .filter(module -> module.getName().toLowerCase().contains(keyword) ||
-                                    module.getDescription().toLowerCase().contains(keyword))
-                            .collect(Collectors.toList())
-            );
-            moduleTable.setItems(filteredList);
-        }
+    private void setupTableColumns() {
+        colId.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+        colNomModule.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNomModule()));
+        colCodeModule.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCodeModule()));
+        colProfesseur.setCellValueFactory(cellData ->
+                cellData.getValue().getProfesseur() != null ?
+                        new SimpleStringProperty(cellData.getValue().getProfesseur().getNom() + " " + cellData.getValue().getProfesseur().getPrenom()) :
+                        new SimpleStringProperty(""));
+        colNbEtudiants.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getNbEtudiants()).asObject());
     }
 
-    @FXML
-    private void handleExport(ActionEvent event) {
-        List<Module> modulesToExport = moduleTable.getItems();
-        try (FileWriter writer = new FileWriter("modules_export.csv")) {
-            writer.append("ID,Nom du Module,Description\n");
-            for (Module module : modulesToExport) {
-                writer.append(String.format("%d,\"%s\",\"%s\"\n",
-                        module.getId(),
-                        module.getName().replace("\"", "\"\""),
-                        module.getDescription().replace("\"", "\"\"")));
-            }
-            showInformation("Export réussi", "Les modules ont été exportés avec succès.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            showError("Erreur lors de l'exportation des modules: " + e.getMessage());
-        }
-    }
-
-    // Méthode pour afficher des messages d'information
-    private void showInformation(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    // Méthode pour afficher des messages d'erreur
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    // Classe interne pour créer les cellules d'actions
-    public static class ActionsCellFactory implements Callback<TableColumn<Module, Void>, TableCell<Module, Void>> {
-
-        @Override
-        public TableCell<Module, Void> call(final TableColumn<Module, Void> param) {
-            return new TableCell<Module, Void>() {
-                private final Button editButton = new Button("Modifier");
-                private final Button deleteButton = new Button("Supprimer");
-
-                {
-                    // Désactiver les boutons
-                    editButton.setDisable(true);
-                    deleteButton.setDisable(true);
-
-                    // Optionnel: Ajouter des tooltips pour indiquer que les fonctionnalités ne sont pas disponibles
-                    editButton.setTooltip(new Tooltip("Modification désactivée"));
-                    deleteButton.setTooltip(new Tooltip("Suppression désactivée"));
+    private void setupSearch() {
+        filteredData = new FilteredList<>(masterData, p -> true);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(module -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
                 }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return module.getNomModule().toLowerCase().contains(lowerCaseFilter) ||
+                        module.getCodeModule().toLowerCase().contains(lowerCaseFilter) ||
+                        (module.getProfesseur() != null &&
+                                (module.getProfesseur().getNom().toLowerCase().contains(lowerCaseFilter) ||
+                                        module.getProfesseur().getPrenom().toLowerCase().contains(lowerCaseFilter)));
+            });
+        });
 
-                @Override
-                public void updateItem(Void item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                    } else {
-                        HBox container = new HBox(5, editButton, deleteButton);
-                        setGraphic(container);
+        sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(moduleTable.comparatorProperty());
+        moduleTable.setItems(sortedData);
+    }
+
+    private void loadProfesseurs() {
+        try {
+            List<Professeur> professeurs = professeurDAO.findAll();
+            allProfesseurs.setAll(professeurs);
+            ObservableList<String> professeurNames = professeurs.stream()
+                    .map(p -> p.getNom() + " " + p.getPrenom())
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
+            professeurComboBox.setItems(professeurNames);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Erreur lors du chargement des professeurs.", e);
+            AlertUtils.showError("Erreur", "Impossible de charger les professeurs.");
+        }
+    }
+
+    private void setupTableSelection() {
+        moduleTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (currentMode == Mode.NORMAL && newSelection != null) {
+                populateFields(newSelection);
+            }
+        });
+    }
+
+    private void loadData() {
+        try {
+            Module selectedModule = moduleTable.getSelectionModel().getSelectedItem();
+            masterData.clear();
+            List<Module> modules = moduleDAO.findAll();
+            masterData.addAll(modules);
+            if (selectedModule != null) {
+                for (Module module : masterData) {
+                    if (module.getId() == selectedModule.getId()) {
+                        moduleTable.getSelectionModel().select(module);
+                        break;
                     }
                 }
-            };
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Erreur lors du chargement des modules.", e);
+            AlertUtils.showError("Erreur", "Impossible de charger les modules.");
         }
+    }
+
+
+
+
+
+    @FXML
+    private void handleValiderButton() {
+        if (currentMode == Mode.AJOUT) {
+            ajouterModule();
+        } else if (currentMode == Mode.MODIFICATION) {
+            modifierModule();
+        }
+        showForm(false);
+    }
+
+    @FXML
+    private void handleAnnulerButton() {
+        showForm(false);
+        clearFields();
+        currentMode = Mode.NORMAL;
+    }
+
+    @FXML
+    private void handleExporterButton() {
+        try {
+            ExcelExporter.exportModules(masterData, ((Stage) btnExporter.getScene().getWindow()));
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Erreur lors de l'exportation des modules.", e);
+            AlertUtils.showError("Erreur", "Impossible d'exporter les modules.");
+        }
+    }
+
+    private void showForm(boolean show) {
+        formContainer.setVisible(show);
+        formContainer.setManaged(show);
+        moduleTable.setDisable(show);
+        btnValider.setVisible(show);
+        btnAnnuler.setVisible(show);
+    }
+
+    private void ajouterModule() {
+        if (!validateFields()) return;
+
+        Module module = new Module();
+        module.setNomModule(nomModuleField.getText().trim());
+        module.setCodeModule(codeModuleField.getText().trim());
+        module.setProfesseur(getSelectedProfesseur());
+
+        try {
+            if (moduleDAO.create(module)) {
+                AlertUtils.showInformation("Succès", "Module ajouté avec succès.");
+                loadData();
+                clearFields();
+            } else {
+                LOGGER.log(Level.SEVERE, "Échec de l'ajout du module : " + module);
+                AlertUtils.showError("Erreur", "Erreur lors de l'ajout du module.");
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Exception lors de l'ajout du module : " + module, e);
+            AlertUtils.showError("Erreur", "Erreur lors de l'ajout du module.");
+        }
+    }
+
+    private void modifierModule() {
+        Module selected = moduleTable.getSelectionModel().getSelectedItem();
+        if (selected == null || !validateFields()) return;
+
+        selected.setNomModule(nomModuleField.getText().trim());
+        selected.setCodeModule(codeModuleField.getText().trim());
+        selected.setProfesseur(getSelectedProfesseur());
+
+        try {
+            if (moduleDAO.update(selected)) {
+                AlertUtils.showInformation("Succès", "Module modifié avec succès.");
+                loadData();
+                clearFields();
+            } else {
+                LOGGER.log(Level.SEVERE, "Échec de la modification du module : " + selected);
+                AlertUtils.showError("Erreur", "Erreur lors de la modification du module.");
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Exception lors de la modification du module : " + selected, e);
+            AlertUtils.showError("Erreur", "Erreur lors de la modification du module.");
+        }
+    }
+
+    private boolean validateFields() {
+        String nomModule = nomModuleField.getText().trim();
+        String codeModule = codeModuleField.getText().trim();
+        String professeur = professeurComboBox.getValue();
+
+        if (nomModule.isEmpty() || codeModule.isEmpty() || professeur == null) {
+            AlertUtils.showWarning("Champs obligatoires", "Veuillez remplir tous les champs.");
+            return false;
+        }
+        return true;
+    }
+
+    private void clearFields() {
+        nomModuleField.clear();
+        codeModuleField.clear();
+        professeurComboBox.getSelectionModel().clearSelection();
+        moduleTable.getSelectionModel().clearSelection();
+    }
+
+    private void populateFields(Module module) {
+        nomModuleField.setText(module.getNomModule());
+        codeModuleField.setText(module.getCodeModule());
+        if (module.getProfesseur() != null) {
+            professeurComboBox.setValue(module.getProfesseur().getNom() + " " + module.getProfesseur().getPrenom());
+        } else {
+            professeurComboBox.setValue(null);
+        }
+    }
+
+    private Professeur getSelectedProfesseur() {
+        String selectedProfesseurName = professeurComboBox.getValue();
+        if (selectedProfesseurName == null) return null;
+
+        return allProfesseurs.stream()
+                .filter(p -> (p.getNom() + " " + p.getPrenom()).equals(selectedProfesseurName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @FXML
+    private void actualiserTable() {
+        loadData();
     }
 }
