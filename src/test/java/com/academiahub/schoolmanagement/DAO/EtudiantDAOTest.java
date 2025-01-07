@@ -47,15 +47,22 @@ class EtudiantDAOTest {
 
     @Test
     void testUpdateEtudiant() throws SQLException {
+        // 1. Création et ajout d'un étudiant de test
         Etudiant etudiant = createTestEtudiant();
         etudiantDAO.addEtudiant(etudiant);
 
+        // 2. Récupération de l'étudiant depuis la base de données
         List<Etudiant> etudiants = etudiantDAO.getAllEtudiants();
         Etudiant savedEtudiant = etudiants.get(0);
-        savedEtudiant.setNom("Martin");
-        savedEtudiant.setDateNaissance(new Date(System.currentTimeMillis()));
+
+        // 3. Modification des informations de l'étudiant
+        savedEtudiant.setNom("Martin");  // Changement du nom
+        savedEtudiant.setDateNaissance(new Date(System.currentTimeMillis())); // Mise à jour de la date
+
+        // 4. Sauvegarde des modifications
         etudiantDAO.updateEtudiant(savedEtudiant);
 
+        // 5. Vérification que la modification a bien été effectuée
         etudiants = etudiantDAO.getAllEtudiants();
         assertEquals("Martin", etudiants.get(0).getNom());
     }

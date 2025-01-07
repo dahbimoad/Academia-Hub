@@ -42,17 +42,6 @@ CREATE TABLE inscriptions (
     UNIQUE(etudiant_id, module_id)
 );
 
-CREATE TABLE notifications (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    message TEXT NOT NULL,
-    type VARCHAR(50) NOT NULL, -- 'INFO', 'WARNING', 'ERROR'
-    recipient_role VARCHAR(50), -- 'ALL', 'ADMIN', 'PROFESSEUR', 'SECRETAIRE'
-    read_status BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
 
 
 -- Insert Users
