@@ -23,12 +23,11 @@
     -fx-background-radius: 5;
 }
 
-/* Focused input field */
 .input-field:focused {
     -fx-border-color: #1abc9c;
 }
 
-/* Login button */
+/* Common Button Styles */
 .login-button {
     -fx-background-color: #1abc9c;
     -fx-text-fill: white;
@@ -43,38 +42,98 @@
     -fx-background-color: #16a085;
 }
 
-/* Error message */
+/* Error and Role Labels */
 .error-label {
     -fx-text-fill: red;
     -fx-font-size: 12px;
 }
 
-/* Role label */
 .role-label {
     -fx-font-size: 16px;
-    -fx-text-fill: rgba(255, 255, 255, 0.8); /* Slightly transparent white */
+    -fx-text-fill: rgba(255, 255, 255, 0.8);
 }
 
-/* Dashboard styles */
+/* Dashboard Layout */
 .dashboard-pane {
     -fx-background-color: #f5f5f5;
 }
 
+/* Header Styles */
 .header-pane {
-    -fx-background-color: linear-gradient(to right, #1abc9c, #16a085); /* Gradient background */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 2); /* Subtle shadow */
-    -fx-padding: 15 25; /* Padding for spacing */
-    -fx-spacing: 20; /* Spacing between elements */
-    -fx-alignment: CENTER_LEFT; /* Align content to the left */
-    -fx-border-width: 0 0 1 0; /* Bottom border */
-    -fx-border-color: rgba(0, 0, 0, 0.1); /* Light border color */
+    -fx-background-color: linear-gradient(to right, #2c3e50, #3498db);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
+    -fx-padding: 15 25;
+    -fx-spacing: 20;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
 }
+
+.app-name-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.app-version-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #ecf0f1;
+    -fx-opacity: 0.8;
+}
+
 .app-info-label {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: white; /* White text for contrast */
+    -fx-text-fill: white;
 }
 
+/* User Profile Section */
+.user-profile-section {
+    -fx-padding: 0 10;
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-radius: 8;
+}
+
+.user-name-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.user-role-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #ecf0f1;
+    -fx-opacity: 0.9;
+}
+
+.avatar-icon {
+    -fx-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.user-avatar {
+    -fx-background-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+/* Header Action Buttons */
+.header-action-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-min-width: 35px;
+    -fx-min-height: 35px;
+    -fx-padding: 5;
+}
+
+.header-action-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-action-button .glyph-icon {
+    -fx-fill: white;
+}
+
+/* Sidebar Navigation */
 .sidebar {
     -fx-background-color: white;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 2, 0);
@@ -97,27 +156,44 @@
     -fx-text-fill: white;
 }
 
+.menu-button .glyph-icon {
+    -fx-fill: #34495e;
+}
+
+.menu-button:hover .glyph-icon {
+    -fx-fill: white;
+}
+
+/* Content Area */
 .content-area {
     -fx-background-color: white;
     -fx-padding: 20;
 }
 
+/* Logout Button */
 .logout-button {
-    -fx-background-color: #e74c3c;
+    -fx-background-color: rgba(231, 76, 60, 0.9);
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 5;
+    -fx-background-radius: 20;
     -fx-padding: 8 15;
+    -fx-font-size: 12px;
 }
 
 .logout-button:hover {
     -fx-background-color: #c0392b;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
 }
 
+.logout-button .glyph-icon {
+    -fx-fill: white;
+}
+
+/* Welcome Messages */
 .welcome-title {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: white; /* White text for contrast */
+    -fx-text-fill: white;
 }
 
 .welcome-subtitle {
@@ -126,6 +202,7 @@
     -fx-font-style: italic;
 }
 
+/* Section Headers */
 .section-title {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
@@ -133,6 +210,7 @@
     -fx-padding: 10 0 5 0;
 }
 
+/* Table Styles */
 .table-view {
     -fx-background-color: white;
     -fx-border-color: #dcdcdc;
@@ -144,17 +222,7 @@
     -fx-text-fill: white;
 }
 
-.glyph-icon {
-    -fx-fill: white; /* Default icon color */
-}
-
-.menu-button .glyph-icon {
-    -fx-fill: #34495e; /* Icon color for menu buttons */
-}
-
-.menu-button:hover .glyph-icon {
-    -fx-fill: white; /* Icon color on menu button hover */
-}
+/* Statistics and Dashboard Cards */
 .dashboard-stats {
     -fx-background-color: #f5f5f5;
 }
@@ -190,65 +258,8 @@
     -fx-font-weight: bold;
     -fx-padding: 0 0 10 0;
 }
-/* Enhanced Header Styles */
-.header-pane {
-    -fx-background-color: linear-gradient(to right, #2c3e50, #3498db);
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 2);
-    -fx-padding: 10 25;
-}
 
-.app-name-label {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
-.app-version-label {
-    -fx-font-size: 12px;
-    -fx-text-fill: #ecf0f1;
-    -fx-opacity: 0.8;
-}
-
-/* Header Action Buttons */
-.header-action-button {
-    -fx-background-color: transparent;
-    -fx-background-radius: 50%;
-    -fx-min-width: 35px;
-    -fx-min-height: 35px;
-    -fx-padding: 5;
-}
-
-.header-action-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
-}
-
-.header-action-button .glyph-icon {
-    -fx-fill: white;
-}
-
-/* User Profile Section */
-.user-profile-section {
-    -fx-padding: 0 10;
-}
-
-.user-name-label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-}
-
-.user-role-label {
-    -fx-font-size: 12px;
-    -fx-text-fill: #ecf0f1;
-    -fx-opacity: 0.9;
-}
-
-.user-avatar {
-    -fx-background-radius: 50%;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
-}
-
-/* Breadcrumb Bar */
+/* Breadcrumb Navigation */
 .breadcrumb-bar {
     -fx-background-color: white;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 1);
@@ -263,28 +274,7 @@
     -fx-fill: #34495e;
 }
 
-/* Separator */
-.header-separator {
-    -fx-background-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Enhanced Logout Button */
-.logout-button {
-    -fx-background-color: rgba(231, 76, 60, 0.9);
-    -fx-background-radius: 20;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-padding: 8 15;
-}
-
-.logout-button:hover {
-    -fx-background-color: #c0392b;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
-}
-
-.logout-button .glyph-icon {
-    -fx-fill: white;
-}
+/* Search Components */
 .search-section {
     -fx-background-color: white;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);
@@ -306,28 +296,32 @@
     -fx-fill: #666666;
 }
 
+/* Modern Input Components */
 .modern-input {
     -fx-background-color: transparent;
     -fx-prompt-text-fill: #999999;
     -fx-font-size: 13px;
 }
 
+/* ComboBox Styling */
 .modern-combo {
     -fx-background-color: #f5f5f5;
     -fx-background-radius: 20;
     -fx-padding: 5 10;
     -fx-font-size: 13px;
-    /*-fx-pref-width: 150;*/
 }
+
 .modern-combo > .list-cell {
     -fx-padding: 5 10;
     -fx-text-fill: #333333;
 }
+
 .modern-combo > .list-view {
     -fx-background-color: white;
     -fx-background-radius: 5;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);
 }
+
 .modern-combo > .list-view > .list-cell {
     -fx-padding: 8 15;
     -fx-background-color: transparent;
@@ -345,6 +339,7 @@
     -fx-background-color: #eeeeee;
 }
 
+/* Export Button */
 .export-button {
     -fx-background-color: #1abc9c;
     -fx-text-fill: white;
@@ -363,6 +358,8 @@
 .export-button .glyph-icon {
     -fx-fill: white;
 }
+
+/* Statistics Section */
 .statistics-section {
     -fx-background-color: #f8f9fa;
     -fx-background-radius: 8;
@@ -386,40 +383,16 @@
     -fx-fill: #1abc9c;
 }
 
-/* Optional hover effect */
 .stats-container:hover {
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0, 0, 2);
 }
-.avatar-icon {
-    -fx-fill: white;  /* Makes the icon white to match header theme */
-    -fx-opacity: 0.9;
-}
-.avatar-icon {
-    -fx-fill: #2c3e50;
-    -fx-opacity: 0.8;
+
+/* Separators */
+.header-separator {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
 }
 
-.user-avatar {
-    -fx-background-radius: 50%;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
-}
-
-.header-action-button {
-    -fx-background-color: transparent;
-    -fx-background-radius: 50%;
-    -fx-min-width: 35px;
-    -fx-min-height: 35px;
-    -fx-padding: 5;
-}
-
-.header-action-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
-}
-
-.header-action-button .glyph-icon {
+/* Global Icon Styles */
+.glyph-icon {
     -fx-fill: white;
-}
-
-.menu-button {
-    -fx-padding: 10 15;
 }

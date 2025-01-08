@@ -28,7 +28,7 @@
                         </image>
                     </ImageView>
                     <VBox alignment="CENTER_LEFT">
-                        <Label text="School Management System" styleClass="app-name-label"/>
+                        <Label text="Système de Gestion Scolaire" styleClass="app-name-label"/>
                         <Label text="v1.0" styleClass="app-version-label"/>
                     </VBox>
                 </HBox>
